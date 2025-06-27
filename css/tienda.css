@@ -1,0 +1,466 @@
+/**
+ * ESTILOS ESPECÍFICOS - PÁGINA TIENDA
+ * Siguiendo el principio: "El terracota llama a la acción, el verde informa y educa, los neutros dan respiro"
+ */
+
+/* ========================================
+   HERO TIENDA
+   ======================================== */
+.tienda-hero {
+    background-color: var(--arcatierra-crema-principal);
+    padding: 80px 0;
+}
+
+.tienda-hero h1 {
+    color: var(--arcatierra-verde-tipografia);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    line-height: 1.3;
+}
+
+.hero-text {
+    font-size: 1.125rem;
+    color: var(--arcatierra-verde-principal);
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+}
+
+/* ========================================
+   VERIFICADOR CÓDIGO POSTAL
+   ======================================== */
+.codigo-postal {
+    background-color: var(--arcatierra-beige-medio);
+    padding: 60px 0;
+    text-align: center;
+}
+
+.codigo-postal h3 {
+    color: var(--arcatierra-verde-tipografia);
+    margin-bottom: 2rem;
+}
+
+.cp-form {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.cp-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid var(--arcatierra-beige-calido);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    background: white;
+    transition: border-color var(--transition-fast);
+}
+
+.cp-input:focus {
+    outline: none;
+    border-color: var(--arcatierra-verde-principal);
+}
+
+.cp-button {
+    background-color: var(--arcatierra-terracota-principal);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.cp-button:hover {
+    background-color: var(--arcatierra-terracota-oscuro);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.cp-message {
+    margin-top: 1rem;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    display: none;
+}
+
+.cp-message.success {
+    background-color: #d4edda;
+    color: var(--arcatierra-verde-principal);
+    border: 1px solid #c3e6cb;
+    display: block;
+}
+
+.cp-message.error {
+    background-color: #f8d7da;
+    color: var(--arcatierra-terracota-oscuro);
+    border: 1px solid #f5c6cb;
+    display: block;
+}
+
+/* ========================================
+   ENLACE A TIENDA
+   ======================================== */
+.enlace-tienda {
+    padding: 40px 0;
+    text-align: center;
+    background: white;
+}
+
+.tienda-link {
+    display: inline-block;
+    background-color: var(--arcatierra-terracota-principal);
+    color: white;
+    padding: 14px 32px;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: all var(--transition-fast);
+    margin-top: 1rem;
+}
+
+.tienda-link:hover {
+    background-color: var(--arcatierra-terracota-oscuro);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ========================================
+   SECCIÓN POR QUÉ COMPRAR
+   ======================================== */
+.por-que-comprar {
+    background-color: var(--arcatierra-crema-principal);
+    padding: 80px 0;
+}
+
+.por-que-comprar h2 {
+    color: var(--arcatierra-verde-tipografia);
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.por-que-comprar strong {
+    color: var(--arcatierra-verde-principal);
+    font-size: 1.125rem;
+}
+
+/* ========================================
+   CANASTAS DE TEMPORADA
+   ======================================== */
+.canastas-temporada {
+    background: white;
+    padding: 80px 0;
+}
+
+.canastas-opciones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.canasta-opcion {
+    background: var(--arcatierra-crema-principal);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.canasta-opcion:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.canasta-destacada {
+    border: 2px solid var(--arcatierra-terracota-principal);
+}
+
+.badge-popular {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background: var(--arcatierra-terracota-principal);
+    color: white;
+    padding: 4px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.canasta-opcion h4 {
+    color: var(--arcatierra-verde-tipografia);
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.canasta-descripcion {
+    color: var(--arcatierra-verde-suave);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.canasta-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
+}
+
+.precio {
+    color: var(--arcatierra-terracota-principal);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.canasta-botones {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.btn-suscripcion {
+    background-color: var(--arcatierra-terracota-principal);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: center;
+}
+
+.btn-suscripcion:hover {
+    background-color: var(--arcatierra-terracota-oscuro);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-compra-directa {
+    background-color: transparent;
+    color: var(--arcatierra-verde-principal);
+    padding: 12px 24px;
+    border: 2px solid var(--arcatierra-verde-principal);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: center;
+}
+
+.btn-compra-directa:hover {
+    background-color: var(--arcatierra-verde-principal);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ========================================
+   BENEFICIOS SUSCRIPCIÓN
+   ======================================== */
+.beneficios-suscripcion {
+    background-color: var(--arcatierra-gris-azulado);
+    padding: 80px 0;
+}
+
+.beneficios-suscripcion h2 {
+    text-align: center;
+    color: var(--arcatierra-verde-tipografia);
+    margin-bottom: 3rem;
+}
+
+.beneficios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.beneficio {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    transition: all var(--transition-fast);
+}
+
+.beneficio:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.beneficio-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.beneficio h3 {
+    color: var(--arcatierra-verde-tipografia);
+    margin-bottom: 0.5rem;
+}
+
+.beneficio p {
+    color: var(--arcatierra-verde-suave);
+    line-height: 1.6;
+}
+
+/* ========================================
+   CTA TIENDA
+   ======================================== */
+.cta-tienda {
+    background-color: var(--arcatierra-beige-calido);
+    padding: 80px 0;
+    text-align: center;
+}
+
+.cta-tienda h2 {
+    color: var(--arcatierra-verde-tipografia);
+    margin-bottom: 1rem;
+}
+
+.cta-tienda p {
+    color: var(--arcatierra-verde-principal);
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 14px 32px;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: all var(--transition-fast);
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: var(--arcatierra-terracota-principal);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--arcatierra-terracota-oscuro);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+    background-color: var(--arcatierra-verde-principal);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: var(--arcatierra-verde-claro);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ========================================
+   CARRITO ICON
+   ======================================== */
+.user-cart-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.cart-icon {
+    position: relative;
+}
+
+.cart-icon a {
+    color: var(--arcatierra-verde-tipografia);
+    transition: color var(--transition-fast);
+}
+
+.cart-icon a:hover {
+    color: var(--arcatierra-terracota-principal);
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--arcatierra-terracota-principal);
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+    .tienda-hero h1 {
+        font-size: 1.75rem;
+    }
+    
+    .cp-form {
+        flex-direction: column;
+        width: 100%;
+        padding: 0 1rem;
+    }
+    
+    .cp-input {
+        width: 100%;
+    }
+    
+    .canastas-opciones {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+    }
+    
+    .beneficios-grid {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn-primary, .btn-secondary {
+        width: 80%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tienda-hero {
+        padding: 60px 0;
+    }
+    
+    .canasta-opcion {
+        padding: 1.5rem;
+    }
+    
+    .precio {
+        font-size: 1.25rem;
+    }
+}

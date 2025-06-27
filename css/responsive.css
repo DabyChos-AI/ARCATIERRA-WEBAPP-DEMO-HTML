@@ -1,0 +1,388 @@
+/**
+ * CSS RESPONSIVE - ARCA TIERRA
+ * Media queries y diseño adaptativo para todos los dispositivos
+ */
+
+/* ========================================
+   TABLET LANDSCAPE (1024px)
+   ======================================== */
+@media (max-width: 1024px) {
+    /* Navegación */
+    .nav-links {
+        gap: var(--spacing-md);
+    }
+    
+    /* Grid ajustes */
+    .valores-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Padding general */
+    section {
+        padding: 60px 20px;
+    }
+}
+
+/* ========================================
+   TABLET PORTRAIT (768px)
+   ======================================== */
+@media (max-width: 768px) {
+    /* Header y navegación móvil */
+    header {
+        position: fixed;
+        width: 100%;
+    }
+    
+    body {
+        padding-top: 80px; /* Compensar header fijo */
+    }
+    
+    nav {
+        padding: var(--spacing-sm) var(--spacing-md);
+        flex-wrap: wrap;
+    }
+    
+    .logo img {
+        height: 50px;
+    }
+    
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: var(--spacing-lg) var(--spacing-md);
+        box-shadow: var(--shadow-xl);
+        gap: var(--spacing-sm);
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
+    }
+    
+    .nav-links.active {
+        display: flex;
+    }
+    
+    .nav-links a {
+        padding: var(--spacing-sm) 0;
+        width: 100%;
+        text-align: center;
+        font-size: var(--text-lg);
+    }
+    
+    .menu-toggle {
+        display: flex;
+        order: 3;
+    }
+    
+    .user-cart-section {
+        order: 2;
+        margin-left: auto;
+    }
+    
+    /* Tipografía responsive */
+    h1 {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+    }
+    
+    /* Hero sections */
+    .hero, .tienda-hero, .experiencias-hero {
+        padding: 60px 0;
+        text-align: center;
+    }
+    
+    .hero-image {
+        margin: var(--spacing-md) auto;
+    }
+    
+    /* Grid layouts */
+    .valores-grid,
+    .canastas-opciones,
+    .beneficios-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    /* Footer responsive */
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: var(--spacing-lg);
+    }
+    
+    .footer-section:not(:last-child) {
+        padding-bottom: var(--spacing-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Formularios */
+    .cp-form {
+        flex-direction: column;
+        max-width: 100%;
+    }
+    
+    .cp-input {
+        width: 100%;
+    }
+    
+    /* Botones */
+    .cta-buttons {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-md);
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+    
+    /* Canastas */
+    .canasta-botones {
+        gap: var(--spacing-md);
+    }
+    
+    .canasta-opcion {
+        padding: var(--spacing-lg);
+    }
+    
+    /* Experiencias */
+    .experiencia-detalles {
+        text-align: center;
+    }
+    
+    .experiencia-detalles p {
+        margin-bottom: var(--spacing-sm);
+    }
+}
+
+/* ========================================
+   MÓVIL GRANDE (480px)
+   ======================================== */
+@media (max-width: 480px) {
+    /* Reducir espaciados */
+    :root {
+        --spacing-xs: 0.25rem;
+        --spacing-sm: 0.375rem;
+        --spacing-md: 0.75rem;
+        --spacing-lg: 1.5rem;
+        --spacing-xl: 2rem;
+        --spacing-2xl: 3rem;
+    }
+    
+    /* Container móvil */
+    .container {
+        padding: 0 var(--spacing-md);
+    }
+    
+    /* Header móvil */
+    nav {
+        padding: var(--spacing-sm);
+    }
+    
+    .logo img {
+        height: 40px;
+    }
+    
+    /* Tipografía móvil */
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.25rem;
+    }
+    
+    h3 {
+        font-size: 1.125rem;
+    }
+    
+    p {
+        font-size: 0.9375rem;
+    }
+    
+    /* Secciones */
+    section {
+        padding: 40px 0;
+    }
+    
+    .hero,
+    .tienda-hero,
+    .experiencias-hero {
+        padding: 40px 0;
+    }
+    
+    /* Imágenes */
+    .hero-image,
+    .section-image {
+        border-radius: var(--radius-sm);
+    }
+    
+    /* Canastas móvil */
+    .canasta-opcion {
+        padding: var(--spacing-md);
+    }
+    
+    .precio {
+        font-size: 1.25rem;
+    }
+    
+    .canasta-image {
+        height: 150px;
+    }
+    
+    /* Botones móvil */
+    .btn-suscripcion,
+    .btn-compra-directa {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--text-sm);
+    }
+    
+    /* Footer móvil */
+    footer {
+        padding: var(--spacing-xl) 0 var(--spacing-md);
+    }
+    
+    .footer-logo {
+        height: 40px;
+    }
+    
+    .social-links {
+        gap: var(--spacing-sm);
+    }
+    
+    /* Toast móvil */
+    .toast {
+        left: var(--spacing-md);
+        right: var(--spacing-md);
+        bottom: var(--spacing-md);
+        max-width: none;
+        text-align: center;
+    }
+    
+    /* User section */
+    .user-account-btn span:not(.user-avatar) {
+        display: none; /* Ocultar texto, solo mostrar avatar */
+    }
+    
+    .login-btn {
+        padding: var(--spacing-sm);
+        font-size: var(--text-sm);
+    }
+}
+
+/* ========================================
+   MÓVIL PEQUEÑO (320px)
+   ======================================== */
+@media (max-width: 320px) {
+    /* Ajustes extremos para dispositivos muy pequeños */
+    h1 {
+        font-size: 1.25rem;
+    }
+    
+    h2 {
+        font-size: 1.125rem;
+    }
+    
+    h3 {
+        font-size: 1rem;
+    }
+    
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
+    
+    .canasta-opcion {
+        padding: var(--spacing-sm);
+    }
+    
+    .badge-popular {
+        font-size: 0.75rem;
+        padding: 2px 8px;
+    }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+@media print {
+    /* Ocultar elementos innecesarios para impresión */
+    header,
+    footer,
+    .menu-toggle,
+    .user-cart-section,
+    .cta-buttons,
+    .btn-suscripcion,
+    .btn-compra-directa,
+    .social-links {
+        display: none !important;
+    }
+    
+    /* Ajustar colores para impresión */
+    body {
+        background: white;
+        color: black;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        color: black;
+        page-break-after: avoid;
+    }
+    
+    img {
+        page-break-inside: avoid;
+        max-width: 100% !important;
+    }
+    
+    .container {
+        max-width: 100%;
+        padding: 0;
+    }
+    
+    /* Mostrar URLs de enlaces */
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+}
+
+/* ========================================
+   ACCESIBILIDAD - MOTION REDUCIDO
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ========================================
+   MODO OSCURO
+   ======================================== */
+@media (prefers-color-scheme: dark) {
+    /* El modo oscuro se maneja con data-theme en variables.css */
+}
+
+/* ========================================
+   HIGH DPI SCREENS
+   ======================================== */
+@media (-webkit-min-device-pixel-ratio: 2),
+       (min-resolution: 192dpi) {
+    /* Optimizaciones para pantallas de alta densidad */
+    .logo img {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}

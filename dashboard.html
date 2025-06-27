@@ -1,0 +1,2890 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Cuenta - ArcaTierra | Dashboard</title>
+    
+    <style>
+        /* VARIABLES CSS - COLORES OFICIALES */
+        :root {
+            /* TERRACOTA (40% - Elementos de Acción) */
+            --arcatierra-terracota-principal: #B15543;
+            --arcatierra-terracota-medio: #BA6440;
+            --arcatierra-terracota-oscuro: #975543;
+            
+            /* VERDE (30% - Información/Educación) */
+            --arcatierra-verde-tipografia: #3A4741;
+            --arcatierra-verde-principal: #33503E;
+            --arcatierra-verde-claro: #475A52;
+            --arcatierra-verde-suave: #748880;
+            
+            /* NEUTROS (30% - Fondos/Base) */
+            --arcatierra-crema-principal: #E3DBCB;
+            --arcatierra-beige-medio: #CCBB9A;
+            --arcatierra-beige-calido: #DCB584;
+            --arcatierra-gris-azulado: #C1CCCE;
+            
+            /* TRANSICIONES */
+            --transition-fast: 0.3s ease;
+            --transition-medium: 0.5s ease;
+        }
+        
+        /* MODO OSCURO */
+        [data-theme="dark"] {
+            --arcatierra-crema-principal: #2A2825;
+            --arcatierra-beige-medio: #3D3A35;
+            --arcatierra-beige-calido: #4A4540;
+            --arcatierra-gris-azulado: #3A4042;
+            
+            --bg-primary: #1A1815;
+            --text-primary: #E3DBCB;
+            --card-bg: #2A2825;
+            --border-color: #4A4540;
+        }
+        
+        /* RESET Y BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--arcatierra-crema-principal);
+            color: var(--arcatierra-verde-tipografia);
+            line-height: 1.6;
+            transition: background-color var(--transition-medium), color var(--transition-medium);
+        }
+        
+        [data-theme="dark"] body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        /* ANIMACIONES */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes checkmark {
+            0% { stroke-dashoffset: 50; opacity: 0; }
+            50% { opacity: 1; }
+            100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        /* HEADER */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all var(--transition-fast);
+        }
+        
+        [data-theme="dark"] header {
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo img {
+            height: 60px;
+            transition: transform var(--transition-fast);
+        }
+        
+        .logo img:hover {
+            transform: scale(1.05);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--arcatierra-verde-tipografia);
+            font-weight: 500;
+            position: relative;
+            transition: color var(--transition-fast);
+        }
+        
+        [data-theme="dark"] .nav-links a {
+            color: var(--text-primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--arcatierra-terracota-principal);
+            transition: width var(--transition-fast);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: var(--arcatierra-terracota-principal);
+        }
+        
+        /* MENÚ HAMBURGUESA */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--arcatierra-verde-tipografia);
+            transition: all var(--transition-fast);
+        }
+        
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+        
+        /* MODO OSCURO TOGGLE */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.25rem;
+            padding: 0.25rem;
+            transition: transform var(--transition-fast);
+        }
+        
+        .theme-toggle:hover {
+            transform: rotate(180deg);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .user-avatar:active {
+            transform: scale(0.95);
+        }
+        
+        .logout-btn {
+            background-color: var(--arcatierra-beige-medio);
+            color: var(--arcatierra-verde-tipografia);
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all var(--transition-fast);
+        }
+        
+        .logout-btn:hover {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+        }
+        
+        /* DASHBOARD PRINCIPAL */
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        /* TOUR GUIADO */
+        .tour-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9998;
+            display: none;
+        }
+        
+        .tour-highlight {
+            position: relative;
+            z-index: 9999;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+        }
+        
+        .tour-tooltip {
+            position: absolute;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 300px;
+            z-index: 10000;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .tour-tooltip h3 {
+            color: var(--arcatierra-verde-tipografia);
+            margin-bottom: 0.5rem;
+        }
+        
+        .tour-tooltip p {
+            color: var(--arcatierra-verde-suave);
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .tour-btn {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+        }
+        
+        .tour-btn:hover {
+            background-color: var(--arcatierra-terracota-oscuro);
+        }
+        
+        /* DASHBOARD HEADER */
+        .dashboard-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            transition: all var(--transition-fast);
+        }
+        
+        [data-theme="dark"] .dashboard-header {
+            background: var(--card-bg);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .welcome-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .welcome-text h1 {
+            font-size: 2rem;
+            color: var(--arcatierra-verde-tipografia);
+            margin-bottom: 0.5rem;
+        }
+        
+        [data-theme="dark"] .welcome-text h1 {
+            color: var(--text-primary);
+        }
+        
+        .welcome-text p {
+            color: var(--arcatierra-verde-suave);
+        }
+        
+        /* ESTADÍSTICAS RÁPIDAS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        [data-theme="dark"] .stat-card {
+            background: var(--card-bg);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(177, 85, 67, 0.1), transparent);
+            transition: left 0.8s;
+        }
+        
+        .stat-card:hover::before {
+            left: 100%;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--arcatierra-terracota-principal);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--arcatierra-verde-suave);
+            font-size: 0.875rem;
+        }
+        
+        /* TABS DE NAVEGACIÓN */
+        .dashboard-tabs {
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            transition: all var(--transition-fast);
+        }
+        
+        [data-theme="dark"] .dashboard-tabs {
+            background: var(--card-bg);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .tabs-nav {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--arcatierra-beige-medio);
+            position: relative;
+        }
+        
+        .tabs-indicator {
+            position: absolute;
+            bottom: -2px;
+            height: 3px;
+            background-color: var(--arcatierra-terracota-principal);
+            transition: all var(--transition-fast);
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            color: var(--arcatierra-verde-suave);
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all var(--transition-fast);
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            position: relative;
+        }
+        
+        .tab-btn:hover {
+            color: var(--arcatierra-verde-tipografia);
+        }
+        
+        .tab-btn.active {
+            color: var(--arcatierra-terracota-principal);
+            border-bottom-color: var(--arcatierra-terracota-principal);
+        }
+        
+        .tab-icon {
+            margin-right: 0.5rem;
+            transition: transform var(--transition-fast);
+        }
+        
+        .tab-btn:hover .tab-icon {
+            transform: translateY(-2px);
+        }
+        
+        /* CONTENIDO DE TABS */
+        .tab-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all var(--transition-fast);
+            min-height: 400px;
+            overflow: hidden;
+        }
+        
+        [data-theme="dark"] .tab-content {
+            background: var(--card-bg);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .tab-panel.active {
+            display: block;
+        }
+        
+        /* BUSCADOR EN TABS */
+        .tab-search {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .tab-search input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 2px solid var(--arcatierra-beige-medio);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+        }
+        
+        .tab-search input:focus {
+            outline: none;
+            border-color: var(--arcatierra-terracota-principal);
+        }
+        
+        .tab-search::before {
+            content: '🔍';
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        /* RESUMEN (Overview) */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .overview-card {
+            border: 1px solid var(--arcatierra-beige-medio);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        [data-theme="dark"] .overview-card {
+            border-color: var(--border-color);
+        }
+        
+        .overview-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            background: var(--arcatierra-terracota-principal);
+            opacity: 0.1;
+            border-radius: 50%;
+            transform: translate(20px, -20px);
+            transition: all var(--transition-fast);
+        }
+        
+        .overview-card:hover::after {
+            transform: translate(10px, -10px) scale(1.2);
+        }
+        
+        .overview-card:hover {
+            border-color: var(--arcatierra-terracota-principal);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .overview-card h3 {
+            color: var(--arcatierra-verde-tipografia);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        
+        [data-theme="dark"] .overview-card h3 {
+            color: var(--text-primary);
+        }
+        
+        /* MIS ÓRDENES */
+        .orders-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--arcatierra-beige-medio);
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: 0.875rem;
+        }
+        
+        [data-theme="dark"] .filter-btn {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+        
+        .filter-btn.active {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            border-color: var(--arcatierra-terracota-principal);
+        }
+        
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .order-item {
+            border: 1px solid var(--arcatierra-beige-medio);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        [data-theme="dark"] .order-item {
+            border-color: var(--border-color);
+        }
+        
+        .order-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background-color: var(--arcatierra-terracota-principal);
+            transform: translateX(-100%);
+            transition: transform var(--transition-fast);
+        }
+        
+        .order-item:hover::before {
+            transform: translateX(0);
+        }
+        
+        .order-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateX(4px);
+        }
+        
+        .order-info h4 {
+            color: var(--arcatierra-verde-tipografia);
+            margin-bottom: 0.5rem;
+        }
+        
+        [data-theme="dark"] .order-info h4 {
+            color: var(--text-primary);
+        }
+        
+        .order-date {
+            color: var(--arcatierra-verde-suave);
+            font-size: 0.875rem;
+        }
+        
+        .order-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .status-delivered {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+        
+        .status-processing {
+            background-color: #FFF3E0;
+            color: #F57C00;
+        }
+        
+        .order-total {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--arcatierra-terracota-principal);
+        }
+        
+        /* SUSCRIPCIONES */
+        .subscriptions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .subscription-card {
+            border: 2px solid var(--arcatierra-verde-principal);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            transition: all var(--transition-fast);
+            background: white;
+        }
+        
+        [data-theme="dark"] .subscription-card {
+            background: var(--card-bg);
+        }
+        
+        .subscription-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .subscription-active {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .subscription-title {
+            font-size: 1.25rem;
+            color: var(--arcatierra-verde-tipografia);
+            margin-bottom: 1rem;
+        }
+        
+        [data-theme="dark"] .subscription-title {
+            color: var(--text-primary);
+        }
+        
+        .subscription-details {
+            color: var(--arcatierra-verde-suave);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        .subscription-progress {
+            background: var(--arcatierra-beige-medio);
+            height: 8px;
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--arcatierra-terracota-principal);
+            border-radius: 4px;
+            transition: width var(--transition-medium);
+            animation: slideIn 1s ease-out;
+        }
+        
+        .subscription-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn-manage, .btn-pause {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-manage {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            border: none;
+        }
+        
+        .btn-manage:hover {
+            background-color: var(--arcatierra-terracota-oscuro);
+            transform: translateY(-2px);
+        }
+        
+        .btn-pause {
+            background-color: white;
+            color: var(--arcatierra-verde-tipografia);
+            border: 2px solid var(--arcatierra-beige-medio);
+        }
+        
+        [data-theme="dark"] .btn-pause {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+        }
+        
+        .btn-pause:hover {
+            border-color: var(--arcatierra-terracota-principal);
+            color: var(--arcatierra-terracota-principal);
+        }
+        
+        /* EXPERIENCIAS */
+        .experiences-calendar {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .calendar-view {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--arcatierra-beige-medio);
+            border-radius: 12px;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+        
+        .calendar-day:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+        
+        .calendar-day.has-event {
+            background: var(--arcatierra-terracota-principal);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .calendar-day.has-event::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+        }
+        
+        .experience-item {
+            border: 1px solid var(--arcatierra-beige-medio);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        [data-theme="dark"] .experience-item {
+            border-color: var(--border-color);
+        }
+        
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(51, 80, 62, 0.1), transparent);
+            transition: left 0.8s;
+        }
+        
+        .experience-item:hover::before {
+            left: 100%;
+        }
+        
+        .experience-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .experience-date {
+            background: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 80px;
+            transition: all var(--transition-fast);
+        }
+        
+        .experience-item:hover .experience-date {
+            background: var(--arcatierra-terracota-principal);
+            transform: scale(1.05);
+        }
+        
+        .experience-date-day {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .experience-date-month {
+            font-size: 0.875rem;
+        }
+        
+        .experience-info h4 {
+            color: var(--arcatierra-verde-tipografia);
+            margin-bottom: 0.5rem;
+        }
+        
+        [data-theme="dark"] .experience-info h4 {
+            color: var(--text-primary);
+        }
+        
+        .experience-details {
+            color: var(--arcatierra-verde-suave);
+            font-size: 0.875rem;
+        }
+        
+        /* PREFERENCIAS */
+        .preferences-section {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .preference-group {
+            border: 1px solid var(--arcatierra-beige-medio);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all var(--transition-fast);
+        }
+        
+        [data-theme="dark"] .preference-group {
+            border-color: var(--border-color);
+        }
+        
+        .preference-group:hover {
+            border-color: var(--arcatierra-terracota-principal);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .preference-group h3 {
+            color: var(--arcatierra-verde-tipografia);
+            margin-bottom: 1rem;
+        }
+        
+        [data-theme="dark"] .preference-group h3 {
+            color: var(--text-primary);
+        }
+        
+        .preference-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .preference-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all var(--transition-fast);
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+        
+        .preference-item:hover {
+            background: var(--arcatierra-beige-medio);
+        }
+        
+        .preference-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--arcatierra-terracota-principal);
+        }
+        
+        .preference-item label {
+            cursor: pointer;
+            color: var(--arcatierra-verde-tipografia);
+        }
+        
+        [data-theme="dark"] .preference-item label {
+            color: var(--text-primary);
+        }
+        
+        /* COMUNICACIÓN PREFERENCES */
+        .communication-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .comm-option {
+            text-align: center;
+            padding: 1rem;
+            border: 2px solid var(--arcatierra-beige-medio);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .comm-option.selected {
+            background: var(--arcatierra-terracota-principal);
+            color: white;
+            border-color: var(--arcatierra-terracota-principal);
+        }
+        
+        .comm-option:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .comm-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* OBJETIVOS NUTRICIONALES */
+        .nutrition-goals {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .goal-card {
+            padding: 1rem;
+            border: 2px solid var(--arcatierra-beige-medio);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: center;
+        }
+        
+        .goal-card.selected {
+            background: var(--arcatierra-verde-principal);
+            color: white;
+            border-color: var(--arcatierra-verde-principal);
+        }
+        
+        .goal-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .goal-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .save-preferences-btn {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .save-preferences-btn:hover {
+            background-color: var(--arcatierra-terracota-oscuro);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(177, 85, 67, 0.3);
+        }
+        
+        /* FORMULARIO DE DIRECCIÓN */
+        .address-form {
+            display: grid;
+            gap: 1rem;
+            max-width: 600px;
+        }
+        
+        .addresses-list {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .address-card {
+            border: 2px solid var(--arcatierra-beige-medio);
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+        
+        .address-card.selected {
+            border-color: var(--arcatierra-terracota-principal);
+            background: rgba(177, 85, 67, 0.05);
+        }
+        
+        .address-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .address-type {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            color: var(--arcatierra-verde-tipografia);
+        }
+        
+        [data-theme="dark"] .form-group label {
+            color: var(--text-primary);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 0.75rem;
+            border: 2px solid var(--arcatierra-beige-medio);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+            background: white;
+        }
+        
+        [data-theme="dark"] .form-group input,
+        [data-theme="dark"] .form-group textarea,
+        [data-theme="dark"] .form-group select {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--arcatierra-terracota-principal);
+        }
+        
+        .postal-code-validation {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .validation-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .validation-valid {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .validation-invalid {
+            background: #F44336;
+            color: white;
+        }
+        
+        /* MAPA INTERACTIVO */
+        .map-container {
+            height: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 1rem;
+            position: relative;
+            background: var(--arcatierra-gris-azulado);
+        }
+        
+        .map-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--arcatierra-verde-suave);
+            font-size: 1.125rem;
+        }
+        
+        /* CHECKMARK ANIMATION */
+        .checkmark-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+        }
+        
+        .checkmark-circle {
+            width: 100px;
+            height: 100px;
+            background: var(--arcatierra-verde-principal);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleIn 0.5s ease-out;
+        }
+        
+        .checkmark {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .checkmark-path {
+            fill: none;
+            stroke: white;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 50;
+            stroke-dashoffset: 50;
+            animation: checkmark 0.6s ease-out 0.3s forwards;
+        }
+        
+        /* FOOTER */
+        footer {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            margin-top: 4rem;
+            transition: all var(--transition-fast);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            transition: opacity var(--transition-fast);
+        }
+        
+        .footer-section a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            opacity: 0.8;
+        }
+        
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all var(--transition-fast);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .toast.success {
+            background-color: #4CAF50;
+        }
+        
+        .toast.error {
+            background-color: #F44336;
+        }
+        
+        /* PRODUCTOS MÁS COMPRADOS */
+        .top-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .product-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            background: var(--arcatierra-beige-medio);
+            border-radius: 8px;
+            transition: all var(--transition-fast);
+        }
+        
+        .product-item:hover {
+            background: var(--arcatierra-beige-calido);
+            transform: translateX(4px);
+        }
+        
+        .product-count {
+            background: var(--arcatierra-terracota-principal);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        /* GRÁFICA DE IMPACTO */
+        .impact-chart {
+            height: 200px;
+            background: var(--arcatierra-beige-medio);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            align-items: flex-end;
+            gap: 0.5rem;
+            position: relative;
+            padding-bottom: 2rem;
+        }
+        
+        .month-bar {
+            flex: 1;
+            background: var(--arcatierra-verde-principal);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            min-height: 20px;
+        }
+        
+        .month-bar:hover {
+            background: var(--arcatierra-terracota-principal);
+            transform: scaleY(1.05);
+        }
+        
+        .month-bar::after {
+            content: attr(data-month);
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--arcatierra-verde-suave);
+        }
+        
+        .month-bar::before {
+            content: attr(data-value);
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--arcatierra-verde-tipografia);
+        }
+        
+        .month-bar:hover .tree-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -10px);
+        }
+        
+        .tree-tooltip {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            background: var(--arcatierra-verde-tipografia);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-fast);
+            pointer-events: none;
+        }
+        
+        .tree-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid var(--arcatierra-verde-tipografia);
+        }
+        
+        /* PÁGINA DE PERFIL */
+        .profile-page {
+            display: none;
+            min-height: 100vh;
+            background-color: var(--arcatierra-crema-principal);
+            padding: 2rem;
+        }
+        
+        .profile-header {
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        [data-theme="dark"] .profile-header {
+            background: var(--card-bg);
+        }
+        
+        .profile-avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 600;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .profile-avatar-large:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .change-photo-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--arcatierra-terracota-principal);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 3px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .change-photo-btn:hover {
+            background: var(--arcatierra-terracota-oscuro);
+            transform: scale(1.1);
+        }
+        
+        .profile-info {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .profile-name {
+            font-size: 2rem;
+            color: var(--arcatierra-verde-tipografia);
+            margin-bottom: 0.5rem;
+        }
+        
+        [data-theme="dark"] .profile-name {
+            color: var(--text-primary);
+        }
+        
+        .profile-email {
+            color: var(--arcatierra-verde-suave);
+            margin-bottom: 1rem;
+        }
+        
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+        
+        .profile-stat {
+            text-align: center;
+        }
+        
+        .profile-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--arcatierra-terracota-principal);
+        }
+        
+        .profile-stat-label {
+            color: var(--arcatierra-verde-suave);
+            font-size: 0.875rem;
+        }
+        
+        .profile-sections {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .profile-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        [data-theme="dark"] .profile-section {
+            background: var(--card-bg);
+        }
+        
+        .profile-section h3 {
+            color: var(--arcatierra-verde-tipografia);
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+        
+        [data-theme="dark"] .profile-section h3 {
+            color: var(--text-primary);
+        }
+        
+        .profile-form {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .profile-form-group {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .profile-form-group label {
+            font-weight: 600;
+            color: var(--arcatierra-verde-tipografia);
+        }
+        
+        [data-theme="dark"] .profile-form-group label {
+            color: var(--text-primary);
+        }
+        
+        .profile-form-group input {
+            padding: 0.75rem;
+            border: 2px solid var(--arcatierra-beige-medio);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+        }
+        
+        [data-theme="dark"] .profile-form-group input {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        
+        .profile-form-group input:focus {
+            outline: none;
+            border-color: var(--arcatierra-terracota-principal);
+        }
+        
+        .profile-back-btn {
+            background: var(--arcatierra-beige-medio);
+            color: var(--arcatierra-verde-tipografia);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+            margin-bottom: 2rem;
+        }
+        
+        .profile-back-btn:hover {
+            background: var(--arcatierra-beige-calido);
+            transform: translateX(-4px);
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                width: 250px;
+                height: calc(100vh - 80px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+                transition: right var(--transition-fast);
+                z-index: 999;
+                overflow-y: auto;
+            }
+            
+            [data-theme="dark"] .nav-links {
+                background: var(--card-bg);
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .tabs-nav {
+                flex-wrap: wrap;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .welcome-section {
+                text-align: center;
+            }
+            
+            .overview-grid,
+            .subscriptions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .toast {
+                right: 1rem;
+                left: 1rem;
+            }
+            
+            .logout-btn {
+                display: none;
+            }
+        }
+        
+        /* SWIPE SUPPORT */
+        .swipeable {
+            touch-action: pan-y;
+        }
+    </style>
+</head>
+<body>
+    <!-- CHECKMARK ANIMATION -->
+    <div class="checkmark-container" id="checkmarkAnimation">
+        <div class="checkmark-circle">
+            <svg class="checkmark" viewBox="0 0 52 52">
+                <path class="checkmark-path" d="M14 27l10 10l20-20"></path>
+            </svg>
+        </div>
+    </div>
+
+    <!-- TOUR GUIADO OVERLAY -->
+    <div class="tour-overlay" id="tourOverlay"></div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboardPage">
+        <!-- HEADER -->
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="images/logo-arcatierra.png" alt="ArcaTierra">
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="1-inicio.html">Inicio</a></li>
+                    <li><a href="3-catalogo.html">Productos</a></li>
+                    <li><a href="4-experiencias.html">Experiencias</a></li>
+                    <li><a href="5-nosotros.html">Nosotros</a></li>
+                    <li><a href="6-contacto.html">Contacto</a></li>
+                </ul>
+                <div class="user-menu">
+                    <button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">
+                        <span id="themeIcon">🌙</span>
+                    </button>
+                    <div class="user-avatar" id="userAvatar" onclick="showProfile()" title="Ver perfil">
+                        <span id="userInitials">JD</span>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <span>Cerrar Sesión</span>
+                    </button>
+                    <button class="menu-toggle" onclick="toggleMenu()" id="menuToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <!-- DASHBOARD CONTAINER -->
+        <main class="dashboard-container">
+            <!-- HEADER DE BIENVENIDA -->
+            <div class="dashboard-header animate-fadeIn">
+                <div class="welcome-section">
+                    <div class="welcome-text">
+                        <h1>Bienvenido, <span id="userName">Juan</span></h1>
+                        <p>Gestiona tus compras, suscripciones y experiencias culinarias</p>
+                    </div>
+                    <button class="tour-btn" onclick="startTour()">
+                        🎯 Tour Guiado
+                    </button>
+                </div>
+            </div>
+
+            <!-- ESTADÍSTICAS RÁPIDAS -->
+            <div class="stats-grid">
+                <div class="stat-card animate-fadeIn" style="animation-delay: 0.1s">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Órdenes este mes</div>
+                </div>
+                <div class="stat-card animate-fadeIn" style="animation-delay: 0.2s">
+                    <div class="stat-icon">🔄</div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Suscripciones activas</div>
+                </div>
+                <div class="stat-card animate-fadeIn" style="animation-delay: 0.3s">
+                    <div class="stat-icon">👨‍🍳</div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Experiencias reservadas</div>
+                </div>
+                <div class="stat-card animate-fadeIn" style="animation-delay: 0.4s" onclick="showImpactDetails()">
+                    <div class="stat-icon">🌱</div>
+                    <div class="stat-value">45kg</div>
+                    <div class="stat-label">CO₂ ahorrado</div>
+                </div>
+                <div class="stat-card animate-fadeIn" style="animation-delay: 0.5s" onclick="showImpactDetails()">
+                    <div class="stat-icon">💧</div>
+                    <div class="stat-value">8,350L</div>
+                    <div class="stat-label">Agua conservada</div>
+                </div>
+                <div class="stat-card animate-fadeIn" style="animation-delay: 0.6s" onclick="showImpactDetails()">
+                    <div class="stat-icon">♻️</div>
+                    <div class="stat-value">85kg</div>
+                    <div class="stat-label">Plástico evitado</div>
+                </div>
+            </div>
+
+            <!-- TABS DE NAVEGACIÓN -->
+            <div class="dashboard-tabs animate-fadeIn" style="animation-delay: 0.5s">
+                <div class="tabs-nav swipeable" id="tabsNav">
+                    <div class="tabs-indicator" id="tabsIndicator"></div>
+                    <button class="tab-btn active" onclick="switchTab('overview', this)">
+                        <span class="tab-icon">📊</span>Resumen
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('orders', this)">
+                        <span class="tab-icon">📦</span>Mis Órdenes
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('subscriptions', this)">
+                        <span class="tab-icon">🔄</span>Suscripciones
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('experiences', this)">
+                        <span class="tab-icon">👨‍🍳</span>Experiencias
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('preferences', this)">
+                        <span class="tab-icon">⚙️</span>Preferencias
+                    </button>
+                </div>
+            </div>
+
+            <!-- CONTENIDO DE TABS -->
+            <div class="tab-content animate-fadeIn" style="animation-delay: 0.6s">
+                <!-- TAB: RESUMEN -->
+                <div id="overview" class="tab-panel active">
+                    <div class="overview-grid">
+                        <div class="overview-card">
+                            <h3>Última Orden</h3>
+                            <p><strong>Orden #1234</strong></p>
+                            <p>Canasta Familiar - $550</p>
+                            <p>Entregada el 15 de junio, 2025</p>
+                        </div>
+                        <div class="overview-card">
+                            <h3>Próxima Entrega</h3>
+                            <p><strong>Canasta Semanal</strong></p>
+                            <p>Llegará el 22 de junio, 2025</p>
+                            <p>Entre 9:00 AM - 1:00 PM</p>
+                        </div>
+                        <div class="overview-card">
+                            <h3>Próxima Experiencia</h3>
+                            <p><strong>Amanecer Chinampero</strong></p>
+                            <p>28 de junio, 2025</p>
+                            <p>5:30 AM - 9:00 AM</p>
+                        </div>
+                        <div class="overview-card">
+                            <h3>Productos Más Comprados</h3>
+                            <div class="top-products">
+                                <div class="product-item">
+                                    <span class="product-count">15</span>
+                                    <span>Jitomate Orgánico</span>
+                                </div>
+                                <div class="product-item">
+                                    <span class="product-count">12</span>
+                                    <span>Lechuga Romana</span>
+                                </div>
+                                <div class="product-item">
+                                    <span class="product-count">8</span>
+                                    <span>Cilantro Fresco</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="overview-card" style="grid-column: span 2">
+                            <h3>Impacto Ambiental Mensual</h3>
+                            <!-- Selector de métrica -->
+                            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                                <button class="filter-btn active" onclick="switchMetric('co2', this)" style="padding: 0.5rem 1rem;">🌱 CO₂</button>
+                                <button class="filter-btn" onclick="switchMetric('water', this)" style="padding: 0.5rem 1rem;">💧 Agua</button>
+                                <button class="filter-btn" onclick="switchMetric('plastic', this)" style="padding: 0.5rem 1rem;">♻️ Plástico</button>
+                            </div>
+                            <div class="impact-chart" id="impactChart">
+                                <!-- CO2 Chart (default) -->
+                                <div class="month-bar" style="height: 30%" data-month="Ene" data-value="5kg">
+                                    <span class="tree-tooltip">🌳 Equivale a 1 árbol plantado</span>
+                                </div>
+                                <div class="month-bar" style="height: 40%" data-month="Feb" data-value="7kg">
+                                    <span class="tree-tooltip">🌳 Equivale a 1.5 árboles plantados</span>
+                                </div>
+                                <div class="month-bar" style="height: 50%" data-month="Mar" data-value="9kg">
+                                    <span class="tree-tooltip">🌳 Equivale a 2 árboles plantados</span>
+                                </div>
+                                <div class="month-bar" style="height: 45%" data-month="Abr" data-value="8kg">
+                                    <span class="tree-tooltip">🌳 Equivale a 1.8 árboles plantados</span>
+                                </div>
+                                <div class="month-bar" style="height: 60%" data-month="May" data-value="11kg">
+                                    <span class="tree-tooltip">🌳 Equivale a 2.5 árboles plantados</span>
+                                </div>
+                                <div class="month-bar" style="height: 55%" data-month="Jun" data-value="10kg">
+                                    <span class="tree-tooltip">🌳 Equivale a 2.2 árboles plantados</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: MIS ÓRDENES -->
+                <div id="orders" class="tab-panel">
+                    <h2 style="margin-bottom: 1.5rem;">Historial de Órdenes</h2>
+                    
+                    <div class="tab-search">
+                        <input type="text" placeholder="Buscar en órdenes..." onkeyup="searchOrders(this.value)">
+                    </div>
+                    
+                    <div class="orders-filters">
+                        <button class="filter-btn active" onclick="filterOrders('all', this)">Todas</button>
+                        <button class="filter-btn" onclick="filterOrders('delivered', this)">Entregadas</button>
+                        <button class="filter-btn" onclick="filterOrders('processing', this)">En proceso</button>
+                        <button class="filter-btn" onclick="filterOrders('last30', this)">Últimos 30 días</button>
+                    </div>
+                    
+                    <div class="orders-list" id="ordersList">
+                        <div class="order-item" onclick="viewOrderDetails('1234')">
+                            <div class="order-info">
+                                <h4>Orden #1234</h4>
+                                <p class="order-date">15 de junio, 2025</p>
+                            </div>
+                            <span class="order-status status-delivered">Entregada</span>
+                            <span class="order-total">$550.00</span>
+                        </div>
+                        <div class="order-item" onclick="viewOrderDetails('1233')">
+                            <div class="order-info">
+                                <h4>Orden #1233</h4>
+                                <p class="order-date">8 de junio, 2025</p>
+                            </div>
+                            <span class="order-status status-delivered">Entregada</span>
+                            <span class="order-total">$385.00</span>
+                        </div>
+                        <div class="order-item" onclick="viewOrderDetails('1232')">
+                            <div class="order-info">
+                                <h4>Orden #1232</h4>
+                                <p class="order-date">1 de junio, 2025</p>
+                            </div>
+                            <span class="order-status status-delivered">Entregada</span>
+                            <span class="order-total">$720.00</span>
+                        </div>
+                        <div class="order-item" onclick="viewOrderDetails('1231')">
+                            <div class="order-info">
+                                <h4>Orden #1231</h4>
+                                <p class="order-date">25 de mayo, 2025</p>
+                            </div>
+                            <span class="order-status status-processing">En proceso</span>
+                            <span class="order-total">$445.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: SUSCRIPCIONES -->
+                <div id="subscriptions" class="tab-panel">
+                    <h2 style="margin-bottom: 1.5rem;">Mis Suscripciones</h2>
+                    <div class="subscriptions-grid">
+                        <div class="subscription-card">
+                            <span class="subscription-active">ACTIVA</span>
+                            <h3 class="subscription-title">Canasta Familiar</h3>
+                            <div class="subscription-details">
+                                <p>📅 Entrega: Semanal (Sábados)</p>
+                                <p>💰 Precio: $550/semana</p>
+                                <p>📦 Próxima entrega: 22 de junio</p>
+                            </div>
+                            <div class="subscription-progress">
+                                <div class="progress-bar" style="width: 75%"></div>
+                            </div>
+                            <p style="font-size: 0.875rem; color: var(--arcatierra-verde-suave); margin-top: 0.5rem;">
+                                15 de 20 entregas completadas
+                            </p>
+                            <div class="subscription-actions">
+                                <button class="btn-manage" onclick="manageSubscription('familiar')">Gestionar</button>
+                                <button class="btn-pause" onclick="pauseSubscription('familiar')">Pausar</button>
+                            </div>
+                        </div>
+                        <div class="subscription-card">
+                            <span class="subscription-active">ACTIVA</span>
+                            <h3 class="subscription-title">Hierbas Aromáticas</h3>
+                            <div class="subscription-details">
+                                <p>📅 Entrega: Quincenal</p>
+                                <p>💰 Precio: $120/entrega</p>
+                                <p>📦 Próxima entrega: 29 de junio</p>
+                            </div>
+                            <div class="subscription-progress">
+                                <div class="progress-bar" style="width: 40%"></div>
+                            </div>
+                            <p style="font-size: 0.875rem; color: var(--arcatierra-verde-suave); margin-top: 0.5rem;">
+                                4 de 10 entregas completadas
+                            </p>
+                            <div class="subscription-actions">
+                                <button class="btn-manage" onclick="manageSubscription('hierbas')">Gestionar</button>
+                                <button class="btn-pause" onclick="pauseSubscription('hierbas')">Pausar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: EXPERIENCIAS -->
+                <div id="experiences" class="tab-panel">
+                    <h2 style="margin-bottom: 1.5rem;">Mis Experiencias</h2>
+                    
+                    <!-- Mini Calendario -->
+                    <div class="calendar-view">
+                        <div class="calendar-day">L</div>
+                        <div class="calendar-day">M</div>
+                        <div class="calendar-day">M</div>
+                        <div class="calendar-day">J</div>
+                        <div class="calendar-day">V</div>
+                        <div class="calendar-day">S</div>
+                        <div class="calendar-day">D</div>
+                        <!-- Días del mes -->
+                        <div class="calendar-day">26</div>
+                        <div class="calendar-day">27</div>
+                        <div class="calendar-day has-event">28</div>
+                        <div class="calendar-day">29</div>
+                        <div class="calendar-day">30</div>
+                        <div class="calendar-day">31</div>
+                        <div class="calendar-day">1</div>
+                    </div>
+                    
+                    <div class="experiences-calendar">
+                        <div class="experience-item" onclick="viewExperienceDetails('amanecer-1')">
+                            <div class="experience-date">
+                                <div class="experience-date-day">28</div>
+                                <div class="experience-date-month">JUN</div>
+                            </div>
+                            <div class="experience-info">
+                                <h4>Amanecer Chinampero</h4>
+                                <p class="experience-details">5:30 AM - 9:00 AM | 2 personas | Xochimilco</p>
+                            </div>
+                        </div>
+                        <div class="experience-item" onclick="viewExperienceDetails('brunch-1')">
+                            <div class="experience-date">
+                                <div class="experience-date-day">15</div>
+                                <div class="experience-date-month">JUL</div>
+                            </div>
+                            <div class="experience-info">
+                                <h4>Brunch Tradicional</h4>
+                                <p class="experience-details">10:00 AM - 2:00 PM | 4 personas | Xochimilco</p>
+                            </div>
+                        </div>
+                        <div class="experience-item" onclick="viewExperienceDetails('cocina-1')">
+                            <div class="experience-date">
+                                <div class="experience-date-day">2</div>
+                                <div class="experience-date-month">AGO</div>
+                            </div>
+                            <div class="experience-info">
+                                <h4>Cocina de Temporada</h4>
+                                <p class="experience-details">11:00 AM - 4:00 PM | 2 personas | Chef Mariana</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: PREFERENCIAS -->
+                <div id="preferences" class="tab-panel">
+                    <h2 style="margin-bottom: 1.5rem;">Mis Preferencias</h2>
+                    <div class="preferences-section">
+                        <!-- Preferencias Dietéticas -->
+                        <div class="preference-group">
+                            <h3>Preferencias Dietéticas</h3>
+                            <div class="preference-options">
+                                <div class="preference-item">
+                                    <input type="checkbox" id="pref-organic" checked>
+                                    <label for="pref-organic">Solo orgánico certificado</label>
+                                </div>
+                                <div class="preference-item">
+                                    <input type="checkbox" id="pref-vegan">
+                                    <label for="pref-vegan">Vegano</label>
+                                </div>
+                                <div class="preference-item">
+                                    <input type="checkbox" id="pref-vegetarian">
+                                    <label for="pref-vegetarian">Vegetariano</label>
+                                </div>
+                                <div class="preference-item">
+                                    <input type="checkbox" id="pref-gluten-free">
+                                    <label for="pref-gluten-free">Sin gluten</label>
+                                </div>
+                                <div class="preference-item">
+                                    <input type="checkbox" id="pref-lactose-free">
+                                    <label for="pref-lactose-free">Sin lactosa</label>
+                                </div>
+                                <div class="preference-item">
+                                    <input type="checkbox" id="pref-nuts-free">
+                                    <label for="pref-nuts-free">Sin nueces</label>
+                                </div>
+                                <div class="preference-item">
+                                    <input type="checkbox" id="pref-seasonal" checked>
+                                    <label for="pref-seasonal">Productos de temporada</label>
+                                </div>
+                                <div class="preference-item">
+                                    <input type="checkbox" id="pref-local" checked>
+                                    <label for="pref-local">Local (CDMX)</label>
+                                </div>
+                                <div class="preference-item">
+                                    <input type="checkbox" id="pref-kosher">
+                                    <label for="pref-kosher">Kosher</label>
+                                </div>
+                                <div class="preference-item">
+                                    <input type="checkbox" id="pref-halal">
+                                    <label for="pref-halal">Halal</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Objetivos Nutricionales -->
+                        <div class="preference-group">
+                            <h3>Objetivos Nutricionales</h3>
+                            <div class="nutrition-goals">
+                                <div class="goal-card" onclick="selectGoal(this, 'weight-loss')">
+                                    <div class="goal-icon">⚖️</div>
+                                    <h4>Pérdida de Peso</h4>
+                                    <p>Bajo en calorías, alto en fibra</p>
+                                </div>
+                                <div class="goal-card" onclick="selectGoal(this, 'muscle-gain')">
+                                    <div class="goal-icon">💪</div>
+                                    <h4>Ganancia Muscular</h4>
+                                    <p>Alto en proteína y nutrientes</p>
+                                </div>
+                                <div class="goal-card" onclick="selectGoal(this, 'energy')">
+                                    <div class="goal-icon">⚡</div>
+                                    <h4>Más Energía</h4>
+                                    <p>Carbohidratos complejos</p>
+                                </div>
+                                <div class="goal-card selected" onclick="selectGoal(this, 'balanced')">
+                                    <div class="goal-icon">🌱</div>
+                                    <h4>Dieta Balanceada</h4>
+                                    <p>Variedad nutricional</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preferencias de Comunicación -->
+                        <div class="preference-group">
+                            <h3>Preferencias de Comunicación</h3>
+                            <div class="communication-options">
+                                <div class="comm-option selected" onclick="toggleComm(this, 'email')">
+                                    <div class="comm-icon">📧</div>
+                                    <p>Email</p>
+                                </div>
+                                <div class="comm-option selected" onclick="toggleComm(this, 'sms')">
+                                    <div class="comm-icon">💬</div>
+                                    <p>SMS</p>
+                                </div>
+                                <div class="comm-option" onclick="toggleComm(this, 'whatsapp')">
+                                    <div class="comm-icon">📱</div>
+                                    <p>WhatsApp</p>
+                                </div>
+                                <div class="comm-option" onclick="toggleComm(this, 'push')">
+                                    <div class="comm-icon">🔔</div>
+                                    <p>Notificaciones</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preferencias de Entrega -->
+                        <div class="preference-group">
+                            <h3>Preferencias de Entrega</h3>
+                            <div class="preference-options">
+                                <div class="preference-item">
+                                    <input type="checkbox" id="delivery-morning" checked>
+                                    <label for="delivery-morning">Mañana (9:00 AM - 1:00 PM)</label>
+                                </div>
+                                <div class="preference-item">
+                                    <input type="checkbox" id="delivery-afternoon">
+                                    <label for="delivery-afternoon">Tarde (2:00 PM - 6:00 PM)</label>
+                                </div>
+                                <div class="preference-item">
+                                    <input type="checkbox" id="delivery-evening">
+                                    <label for="delivery-evening">Noche (6:00 PM - 9:00 PM)</label>
+                                </div>
+                                <div class="preference-item">
+                                    <input type="checkbox" id="delivery-saturday" checked>
+                                    <label for="delivery-saturday">Sábados</label>
+                                </div>
+                                <div class="preference-item">
+                                    <input type="checkbox" id="delivery-sunday">
+                                    <label for="delivery-sunday">Domingos</label>
+                                </div>
+                                <div class="preference-item">
+                                    <input type="checkbox" id="delivery-sustainable" checked>
+                                    <label for="delivery-sustainable">Empaque sustentable</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Direcciones de Entrega -->
+                        <div class="preference-group">
+                            <h3>Direcciones de Entrega</h3>
+                            
+                            <div class="addresses-list">
+                                <div class="address-card selected" onclick="selectAddress(this, 'home')">
+                                    <span class="address-type">Casa</span>
+                                    <h4>Av. Universidad 3000</h4>
+                                    <p>Coyoacán, CDMX 04510</p>
+                                    <p style="font-size: 0.875rem; color: var(--arcatierra-verde-suave);">
+                                        Edificio A, Departamento 301. Tocar el timbre.
+                                    </p>
+                                </div>
+                                <div class="address-card" onclick="selectAddress(this, 'office')">
+                                    <span class="address-type">Oficina</span>
+                                    <h4>Insurgentes Sur 1602</h4>
+                                    <p>Benito Juárez, CDMX 03900</p>
+                                    <p style="font-size: 0.875rem; color: var(--arcatierra-verde-suave);">
+                                        Piso 5, Recepción. Horario: 9AM-6PM
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <h4 style="margin-top: 1.5rem; margin-bottom: 1rem;">Agregar Nueva Dirección</h4>
+                            <form class="address-form">
+                                <div class="form-group">
+                                    <label for="address-type">Tipo de Dirección</label>
+                                    <select id="address-type">
+                                        <option value="home">Casa</option>
+                                        <option value="office">Oficina</option>
+                                        <option value="other">Otro</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="street">Calle y Número</label>
+                                    <input type="text" id="street" placeholder="Ej: Av. Reforma 123">
+                                </div>
+                                <div class="form-group">
+                                    <label for="neighborhood">Colonia</label>
+                                    <input type="text" id="neighborhood" placeholder="Ej: Polanco">
+                                </div>
+                                <div class="form-group">
+                                    <label for="postal-code">Código Postal</label>
+                                    <input type="text" id="postal-code" placeholder="Ej: 11560" maxlength="5" onkeyup="validatePostalCode(this.value)">
+                                    <div class="postal-code-validation" id="postalValidation" style="display: none;">
+                                        <span class="validation-icon" id="validationIcon"></span>
+                                        <span id="validationMessage"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="instructions">Instrucciones de Entrega</label>
+                                    <textarea id="instructions" rows="3" placeholder="Ej: Tocar el timbre del departamento 301"></textarea>
+                                </div>
+                            </form>
+                            
+                            <div class="map-container">
+                                <div class="map-placeholder">
+                                    🗺️ Mapa interactivo (requiere Google Maps API)
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="save-preferences-btn" onclick="savePreferences()">
+                            Guardar Preferencias
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <img src="images/logo-arcatierra-white.png" alt="ArcaTierra" style="height: 60px; margin-bottom: 1rem;">
+                    <p>Conectando las chinampas de Xochimilco con tu mesa. Productos orgánicos, frescos y sustentables.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#productos">Productos</a></li>
+                        <li><a href="#experiencias">Experiencias</a></li>
+                        <li><a href="#nosotros">Nosotros</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Mi Cuenta</h3>
+                    <ul>
+                        <li><a href="#orders">Mis Órdenes</a></li>
+                        <li><a href="#subscriptions">Suscripciones</a></li>
+                        <li><a href="#preferences">Preferencias</a></li>
+                        <li><a href="#addresses">Direcciones</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <ul>
+                        <li>📧 info@arcatierra.com</li>
+                        <li>📱 +52 55 1234 5678</li>
+                        <li>📍 Xochimilco, CDMX</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ArcaTierra. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+        
+        <!-- PÁGINA DE PERFIL -->
+        <div class="profile-page" id="profilePage">
+            <button class="profile-back-btn" onclick="hideProfile()">
+                ← Volver al Dashboard
+            </button>
+            
+            <div class="profile-header">
+                <div class="profile-avatar-large">
+                    <span id="profileInitials">JP</span>
+                    <div class="change-photo-btn">📷</div>
+                </div>
+                <h1 class="profile-name" id="profileName">Juan Pérez</h1>
+                <p class="profile-email" id="profileEmail">juan.perez@gmail.com</p>
+                
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">156</div>
+                        <div class="profile-stat-label">Compras totales</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">2.3</div>
+                        <div class="profile-stat-label">Años con nosotros</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">540kg</div>
+                        <div class="profile-stat-label">CO₂ ahorrado total</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-sections">
+                <div class="profile-section">
+                    <h3>Información Personal</h3>
+                    <form class="profile-form">
+                        <div class="profile-form-group">
+                            <label>Nombre completo</label>
+                            <input type="text" id="profileFullName" value="Juan Pérez">
+                        </div>
+                        <div class="profile-form-group">
+                            <label>Email</label>
+                            <input type="email" id="profileEmailInput" value="juan.perez@gmail.com">
+                        </div>
+                        <div class="profile-form-group">
+                            <label>Teléfono</label>
+                            <input type="tel" id="profilePhone" placeholder="+52 55 1234 5678">
+                        </div>
+                        <div class="profile-form-group">
+                            <label>Fecha de nacimiento</label>
+                            <input type="date" id="profileBirthdate">
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="profile-section">
+                    <h3>Impacto Ambiental Acumulado</h3>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; text-align: center;">
+                        <div>
+                            <div style="font-size: 3rem;">🌱</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--arcatierra-terracota-principal);">540kg</div>
+                            <div style="color: var(--arcatierra-verde-suave);">CO₂ ahorrado</div>
+                            <div style="font-size: 0.875rem; color: var(--arcatierra-verde-suave);">= 120 árboles</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 3rem;">💧</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--arcatierra-terracota-principal);">8,500L</div>
+                            <div style="color: var(--arcatierra-verde-suave);">Agua conservada</div>
+                            <div style="font-size: 0.875rem; color: var(--arcatierra-verde-suave);">= 85 duchas</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 3rem;">♻️</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--arcatierra-terracota-principal);">1,020kg</div>
+                            <div style="color: var(--arcatierra-verde-suave);">Plástico evitado</div>
+                            <div style="font-size: 0.875rem; color: var(--arcatierra-verde-suave);">= 40,800 botellas PET</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-section">
+                    <h3>Configuración de Cuenta</h3>
+                    <div style="display: grid; gap: 1rem;">
+                        <button class="btn-manage" onclick="changePassword()">Cambiar Contraseña</button>
+                        <button class="btn-manage" onclick="downloadData()">Descargar mis Datos</button>
+                        <button class="btn-pause" style="border-color: #F44336; color: #F44336;" onclick="deleteAccount()">Eliminar Cuenta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ESTADO
+        let currentUser = null;
+        let selectedGoals = new Set(['balanced']);
+        let selectedComm = new Set(['email', 'sms']);
+        let selectedAddress = 'home';
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let currentTabIndex = 0;
+        const tabs = ['overview', 'orders', 'subscriptions', 'experiences', 'preferences'];
+
+        // INICIALIZAR
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar autenticación
+            if (localStorage.getItem('arcatierraAuth') !== 'true') {
+                window.location.href = 'autenticacion.html';
+                return;
+            }
+            
+            // Cargar datos del usuario
+            currentUser = JSON.parse(localStorage.getItem('arcatierraUser'));
+            if (!currentUser) {
+                window.location.href = 'autenticacion.html';
+                return;
+            }
+            
+            // Actualizar UI con datos del usuario
+            updateUserInfo();
+            initializeTheme();
+            initializeSwipe();
+            updateTabIndicator();
+            checkFirstVisit();
+        });
+
+        // ACTUALIZAR INFO DEL USUARIO
+        function updateUserInfo() {
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userInitials').textContent = getInitials(currentUser.name);
+            
+            // Actualizar página de perfil
+            document.getElementById('profileName').textContent = currentUser.name;
+            document.getElementById('profileEmail').textContent = currentUser.email;
+            document.getElementById('profileInitials').textContent = getInitials(currentUser.name);
+            document.getElementById('profileFullName').value = currentUser.name;
+            document.getElementById('profileEmailInput').value = currentUser.email;
+        }
+
+        // OBTENER INICIALES
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase();
+        }
+
+        // TEMA
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('arcatierraTheme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('arcatierraTheme', newTheme);
+            updateThemeIcon(newTheme);
+            showToast(`Tema ${newTheme === 'dark' ? 'oscuro' : 'claro'} activado`);
+        }
+
+        function updateThemeIcon(theme) {
+            document.getElementById('themeIcon').textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // MENÚ MÓVIL
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const menuToggle = document.getElementById('menuToggle');
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
+
+        // LOGOUT
+        function logout() {
+            localStorage.removeItem('arcatierraAuth');
+            localStorage.removeItem('arcatierraUser');
+            showToast('Sesión cerrada correctamente');
+            setTimeout(() => {
+                window.location.href = 'autenticacion.html';
+            }, 1000);
+        }
+
+        // TOUR GUIADO
+        function checkFirstVisit() {
+            if (!localStorage.getItem('arcatierraTourCompleted')) {
+                setTimeout(() => {
+                    showToast('¿Primera vez aquí? Inicia el tour guiado 🎯', 'success');
+                }, 1000);
+            }
+        }
+
+        function startTour() {
+            const tourSteps = [
+                {
+                    element: '.stats-grid',
+                    title: 'Tus Estadísticas',
+                    description: 'Aquí puedes ver un resumen rápido de tu actividad: órdenes, suscripciones y tu impacto ambiental.',
+                    position: 'bottom'
+                },
+                {
+                    element: '.tabs-nav',
+                    title: 'Navegación Principal',
+                    description: 'Usa estas pestañas para moverte entre las diferentes secciones de tu cuenta.',
+                    position: 'bottom'
+                },
+                {
+                    element: '.theme-toggle',
+                    title: 'Modo Oscuro',
+                    description: 'Cambia entre tema claro y oscuro según tu preferencia.',
+                    position: 'left'
+                }
+            ];
+            
+            let currentStep = 0;
+            const overlay = document.getElementById('tourOverlay');
+            
+            function showStep(step) {
+                if (step >= tourSteps.length) {
+                    endTour();
+                    return;
+                }
+                
+                overlay.style.display = 'block';
+                const element = document.querySelector(tourSteps[step].element);
+                element.classList.add('tour-highlight');
+                
+                // Crear tooltip
+                const tooltip = document.createElement('div');
+                tooltip.className = 'tour-tooltip';
+                tooltip.innerHTML = `
+                    <h3>${tourSteps[step].title}</h3>
+                    <p>${tourSteps[step].description}</p>
+                    <button class="tour-btn" onclick="nextTourStep()">
+                        ${step < tourSteps.length - 1 ? 'Siguiente' : 'Finalizar'}
+                    </button>
+                `;
+                
+                // Posicionar tooltip
+                const rect = element.getBoundingClientRect();
+                tooltip.style.top = rect.bottom + 20 + 'px';
+                tooltip.style.left = rect.left + 'px';
+                
+                document.body.appendChild(tooltip);
+                
+                window.nextTourStep = function() {
+                    element.classList.remove('tour-highlight');
+                    tooltip.remove();
+                    showStep(++currentStep);
+                };
+            }
+            
+            function endTour() {
+                overlay.style.display = 'none';
+                localStorage.setItem('arcatierraTourCompleted', 'true');
+                showToast('¡Tour completado! Ahora conoces tu dashboard', 'success');
+            }
+            
+            showStep(0);
+        }
+
+        // CAMBIAR TAB
+        function switchTab(tabName, button) {
+            // Remover active de todos
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Activar el seleccionado
+            button.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            // Actualizar índice actual
+            currentTabIndex = tabs.indexOf(tabName);
+            
+            // Actualizar indicador
+            updateTabIndicator();
+        }
+
+        // ACTUALIZAR INDICADOR DE TAB
+        function updateTabIndicator() {
+            const activeTab = document.querySelector('.tab-btn.active');
+            const indicator = document.getElementById('tabsIndicator');
+            
+            if (activeTab && indicator) {
+                const tabsNav = document.getElementById('tabsNav');
+                const navRect = tabsNav.getBoundingClientRect();
+                const tabRect = activeTab.getBoundingClientRect();
+                
+                indicator.style.width = tabRect.width + 'px';
+                indicator.style.left = (tabRect.left - navRect.left + tabsNav.scrollLeft) + 'px';
+            }
+        }
+
+        // SWIPE SUPPORT
+        function initializeSwipe() {
+            const tabContent = document.querySelector('.tab-content');
+            
+            tabContent.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            tabContent.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+        }
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) { // Swipe left
+                if (currentTabIndex < tabs.length - 1) {
+                    const nextTab = tabs[currentTabIndex + 1];
+                    const nextButton = Array.from(document.querySelectorAll('.tab-btn')).find(btn => 
+                        btn.textContent.toLowerCase().includes(nextTab.substring(0, 3))
+                    );
+                    if (nextButton) switchTab(nextTab, nextButton);
+                }
+            }
+            
+            if (touchEndX > touchStartX + 50) { // Swipe right
+                if (currentTabIndex > 0) {
+                    const prevTab = tabs[currentTabIndex - 1];
+                    const prevButton = Array.from(document.querySelectorAll('.tab-btn')).find(btn => 
+                        btn.textContent.toLowerCase().includes(prevTab.substring(0, 3))
+                    );
+                    if (prevButton) switchTab(prevTab, prevButton);
+                }
+            }
+        }
+
+        // BÚSQUEDA EN ÓRDENES
+        function searchOrders(query) {
+            const orders = document.querySelectorAll('.order-item');
+            orders.forEach(order => {
+                const text = order.textContent.toLowerCase();
+                order.style.display = text.includes(query.toLowerCase()) ? 'flex' : 'none';
+            });
+        }
+
+        // FILTRAR ÓRDENES
+        function filterOrders(filter, button) {
+            // Actualizar botones
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Filtrar órdenes (simulado)
+            showToast(`Filtrando por: ${filter}`);
+        }
+
+        // VALIDAR CÓDIGO POSTAL CDMX
+        function validatePostalCode(value) {
+            const validation = document.getElementById('postalValidation');
+            const icon = document.getElementById('validationIcon');
+            const message = document.getElementById('validationMessage');
+            
+            if (value.length === 5) {
+                const cp = parseInt(value);
+                const isValid = cp >= 1000 && cp <= 16999;
+                
+                validation.style.display = 'flex';
+                
+                if (isValid) {
+                    icon.className = 'validation-icon validation-valid';
+                    icon.textContent = '✓';
+                    message.textContent = 'Código postal válido en CDMX';
+                    message.style.color = '#4CAF50';
+                } else {
+                    icon.className = 'validation-icon validation-invalid';
+                    icon.textContent = '✗';
+                    message.textContent = 'Solo entregamos en CDMX (01000-16999)';
+                    message.style.color = '#F44336';
+                }
+            } else {
+                validation.style.display = 'none';
+            }
+        }
+
+        // SELECCIONAR OBJETIVO NUTRICIONAL
+        function selectGoal(element, goal) {
+            element.classList.toggle('selected');
+            
+            if (selectedGoals.has(goal)) {
+                selectedGoals.delete(goal);
+            } else {
+                selectedGoals.add(goal);
+            }
+        }
+
+        // TOGGLE COMUNICACIÓN
+        function toggleComm(element, type) {
+            element.classList.toggle('selected');
+            
+            if (selectedComm.has(type)) {
+                selectedComm.delete(type);
+            } else {
+                selectedComm.add(type);
+            }
+        }
+
+        // SELECCIONAR DIRECCIÓN
+        function selectAddress(element, type) {
+            document.querySelectorAll('.address-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedAddress = type;
+        }
+
+        // GUARDAR PREFERENCIAS
+        function savePreferences() {
+            // Recopilar todas las preferencias
+            const preferences = {
+                dietary: [],
+                delivery: [],
+                nutritionalGoals: Array.from(selectedGoals),
+                communication: Array.from(selectedComm),
+                address: {
+                    type: selectedAddress,
+                    street: document.getElementById('street').value,
+                    neighborhood: document.getElementById('neighborhood').value,
+                    postalCode: document.getElementById('postal-code').value,
+                    instructions: document.getElementById('instructions').value
+                }
+            };
+            
+            // Obtener preferencias dietéticas
+            document.querySelectorAll('#preferences input[type="checkbox"]:checked').forEach(checkbox => {
+                if (checkbox.id.startsWith('pref-')) {
+                    preferences.dietary.push(checkbox.id.replace('pref-', ''));
+                } else if (checkbox.id.startsWith('delivery-')) {
+                    preferences.delivery.push(checkbox.id.replace('delivery-', ''));
+                }
+            });
+            
+            // Mostrar animación de checkmark
+            const checkmark = document.getElementById('checkmarkAnimation');
+            checkmark.style.display = 'block';
+            
+            setTimeout(() => {
+                checkmark.style.display = 'none';
+                showToast('Preferencias guardadas correctamente', 'success');
+            }, 2000);
+        }
+
+        // MOSTRAR TOAST
+        function showToast(message, type = 'default') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show';
+            
+            if (type === 'success') {
+                toast.classList.add('success');
+            } else if (type === 'error') {
+                toast.classList.add('error');
+            }
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // MOSTRAR PERFIL
+        function showProfile() {
+            document.getElementById('dashboardPage').style.display = 'none';
+            document.getElementById('profilePage').style.display = 'block';
+            showToast('Perfil de usuario');
+        }
+        
+        // OCULTAR PERFIL
+        function hideProfile() {
+            document.getElementById('profilePage').style.display = 'none';
+            document.getElementById('dashboardPage').style.display = 'block';
+        }
+        
+        // CAMBIAR MÉTRICA DE IMPACTO
+        function switchMetric(metric, button) {
+            // Actualizar botones
+            document.querySelectorAll('.overview-card .filter-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            const chart = document.getElementById('impactChart');
+            chart.innerHTML = '';
+            
+            // Datos para cada métrica
+            const metrics = {
+                co2: {
+                    data: [
+                        { height: 30, month: 'Ene', value: '5kg', tooltip: '🌳 Equivale a 1 árbol plantado' },
+                        { height: 40, month: 'Feb', value: '7kg', tooltip: '🌳 Equivale a 1.5 árboles plantados' },
+                        { height: 50, month: 'Mar', value: '9kg', tooltip: '🌳 Equivale a 2 árboles plantados' },
+                        { height: 45, month: 'Abr', value: '8kg', tooltip: '🌳 Equivale a 1.8 árboles plantados' },
+                        { height: 60, month: 'May', value: '11kg', tooltip: '🌳 Equivale a 2.5 árboles plantados' },
+                        { height: 55, month: 'Jun', value: '10kg', tooltip: '🌳 Equivale a 2.2 árboles plantados' }
+                    ]
+                },
+                water: {
+                    data: [
+                        { height: 25, month: 'Ene', value: '850L', tooltip: '💧 Equivale a 8.5 duchas' },
+                        { height: 35, month: 'Feb', value: '1,200L', tooltip: '💧 Equivale a 12 duchas' },
+                        { height: 45, month: 'Mar', value: '1,500L', tooltip: '💧 Equivale a 15 duchas' },
+                        { height: 40, month: 'Abr', value: '1,350L', tooltip: '💧 Equivale a 13.5 duchas' },
+                        { height: 55, month: 'May', value: '1,800L', tooltip: '💧 Equivale a 18 duchas' },
+                        { height: 50, month: 'Jun', value: '1,650L', tooltip: '💧 Equivale a 16.5 duchas' }
+                    ]
+                },
+                plastic: {
+                    data: [
+                        { height: 35, month: 'Ene', value: '12kg', tooltip: '♻️ Equivale a 480 botellas PET' },
+                        { height: 45, month: 'Feb', value: '15kg', tooltip: '♻️ Equivale a 600 botellas PET' },
+                        { height: 55, month: 'Mar', value: '18kg', tooltip: '♻️ Equivale a 720 botellas PET' },
+                        { height: 50, month: 'Abr', value: '16kg', tooltip: '♻️ Equivale a 640 botellas PET' },
+                        { height: 65, month: 'May', value: '21kg', tooltip: '♻️ Equivale a 840 botellas PET' },
+                        { height: 60, month: 'Jun', value: '19kg', tooltip: '♻️ Equivale a 760 botellas PET' }
+                    ]
+                }
+            };
+            
+            // Crear nuevas barras
+            metrics[metric].data.forEach(item => {
+                const bar = document.createElement('div');
+                bar.className = 'month-bar';
+                bar.style.height = item.height + '%';
+                bar.setAttribute('data-month', item.month);
+                bar.setAttribute('data-value', item.value);
+                
+                const tooltip = document.createElement('span');
+                tooltip.className = 'tree-tooltip';
+                tooltip.textContent = item.tooltip;
+                bar.appendChild(tooltip);
+                
+                chart.appendChild(bar);
+            });
+        }
+        
+        // FUNCIONES DEL PERFIL
+        function changePassword() {
+            showToast('Función de cambio de contraseña en desarrollo');
+        }
+        
+        function downloadData() {
+            showToast('Descargando tus datos...', 'success');
+        }
+        
+        function deleteAccount() {
+            if (confirm('¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.')) {
+                showToast('Por tu seguridad, contacta a soporte para eliminar tu cuenta', 'error');
+            }
+        }
+        
+        // MOSTRAR DETALLES DE IMPACTO
+        function showImpactDetails() {
+            showToast('🌳 45kg CO₂ = 10 árboles | 💧 8,350L agua = 83 duchas | ♻️ 85kg plástico = 3,400 botellas', 'success');
+        }
+
+        // FUNCIONES SIMULADAS
+        function pauseSubscription(subscriptionId) {
+            showToast('Función de pausa de suscripción en desarrollo');
+        }
+
+        function manageSubscription(subscriptionId) {
+            showToast('Gestión de suscripciones próximamente');
+        }
+
+        function viewOrderDetails(orderId) {
+            showToast(`Viendo detalles de orden #${orderId}`);
+        }
+
+        function viewExperienceDetails(experienceId) {
+            showToast('Detalles de experiencia próximamente');
+        }
+
+        // RESIZE LISTENER PARA INDICADOR
+        window.addEventListener('resize', updateTabIndicator);
+    </script>
+</body>
+</html>
