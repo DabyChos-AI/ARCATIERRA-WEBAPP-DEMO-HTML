@@ -1,0 +1,210 @@
+/* ==========================================
+   ESTILOS DEL SISTEMA DE AUTENTICACIÓN
+   ========================================== */
+
+/* USER MENU */
+.user-menu-container {
+    position: relative;
+}
+
+.user-account-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--arcatierra-beige-medio);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--arcatierra-verde-tipografia);
+}
+
+.user-account-btn:hover {
+    background: var(--arcatierra-beige-calido);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    background: var(--arcatierra-terracota-principal);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.user-name {
+    font-weight: 500;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dropdown-arrow {
+    transition: transform 0.3s ease;
+}
+
+.user-account-btn:hover .dropdown-arrow {
+    transform: translateY(2px);
+}
+
+/* DROPDOWN MENU */
+.user-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.user-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: var(--arcatierra-verde-tipografia);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.dropdown-item:first-child {
+    border-radius: 12px 12px 0 0;
+}
+
+.dropdown-item:last-child {
+    border-radius: 0 0 12px 12px;
+}
+
+.dropdown-item:hover {
+    background: var(--arcatierra-crema-principal);
+    color: var(--arcatierra-terracota-principal);
+}
+
+.dropdown-item svg {
+    opacity: 0.7;
+}
+
+.dropdown-divider {
+    margin: 0.5rem 1rem;
+    border: none;
+    border-top: 1px solid var(--arcatierra-beige-medio);
+}
+
+.logout-item {
+    color: var(--arcatierra-terracota-principal);
+}
+
+.logout-item:hover {
+    background: rgba(177, 85, 67, 0.1);
+}
+
+/* LOGIN BUTTON */
+.login-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--arcatierra-terracota-principal);
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 25px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+    background: var(--arcatierra-terracota-oscuro);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(177, 85, 67, 0.3);
+}
+
+/* AUTH TOAST */
+.auth-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--arcatierra-verde-principal);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    z-index: 10000;
+    max-width: 300px;
+}
+
+.auth-toast.show {
+    transform: translateX(0);
+}
+
+.auth-toast.success {
+    background: #4CAF50;
+}
+
+.auth-toast.error {
+    background: #F44336;
+}
+
+.auth-toast.warning {
+    background: #FF9800;
+}
+
+.auth-toast.info {
+    background: var(--arcatierra-verde-principal);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .user-name {
+        display: none;
+    }
+    
+    .user-account-btn {
+        padding: 0.5rem;
+    }
+    
+    .user-dropdown {
+        right: -50px;
+    }
+    
+    .auth-toast {
+        left: 20px;
+        right: 20px;
+        transform: translateY(100px);
+    }
+    
+    .auth-toast.show {
+        transform: translateY(0);
+    }
+}

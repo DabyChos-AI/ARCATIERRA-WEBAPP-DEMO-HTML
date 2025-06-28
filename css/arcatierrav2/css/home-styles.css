@@ -1,0 +1,419 @@
+/**
+ * HOME STYLES - ARCA TIERRA
+ * Estilos específicos para completar la página principal al 100%
+ * Fecha: Diciembre 2024
+ * Principio: "El terracota llama a la acción, el verde informa y educa, los neutros dan respiro"
+ */
+
+/* ========================================
+   MEJORAS PARA SECCIÓN HERO - HOME
+   ======================================== */
+.hero {
+    background: linear-gradient(135deg, var(--arcatierra-crema-principal) 0%, rgba(227, 219, 203, 0.5) 100%);
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--arcatierra-terracota-principal) 0%, transparent 70%);
+    opacity: 0.05;
+    border-radius: 50%;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    color: var(--arcatierra-terracota-principal);
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-image {
+    width: 100%;
+    max-width: 900px;
+    height: 450px;
+    object-fit: cover;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+/* ========================================
+   MEJORAS CARDS DE VALORES
+   ======================================== */
+.valores {
+    background: linear-gradient(to bottom, white 0%, var(--arcatierra-crema-principal) 100%);
+    padding: 100px 0;
+}
+
+.valores h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--arcatierra-verde-principal);
+}
+
+.valores > p {
+    font-size: 1.25rem;
+    max-width: 900px;
+    margin: 0 auto 3rem;
+    color: var(--arcatierra-verde-tipografia);
+}
+
+.valores-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.valor {
+    background: white;
+    border: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+    overflow: visible;
+}
+
+.valor::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--arcatierra-terracota-principal) 0%, var(--arcatierra-terracota-medio) 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.valor:hover::before {
+    transform: scaleX(1);
+}
+
+.valor h3 {
+    color: var(--arcatierra-terracota-principal);
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.valor p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--arcatierra-verde-tipografia);
+}
+
+.valor .keywords {
+    background: var(--arcatierra-crema-principal);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--arcatierra-verde-suave);
+    border-left: 3px solid var(--arcatierra-terracota-principal);
+}
+
+/* ========================================
+   SECCIÓN FUTURO ABUNDANTE MEJORADA
+   ======================================== */
+.futuro-abundante {
+    position: relative;
+    padding: 100px 0;
+}
+
+.futuro-abundante h2 {
+    color: var(--arcatierra-verde-principal);
+    font-size: 3rem;
+    margin-bottom: 3rem;
+    position: relative;
+    display: inline-block;
+}
+
+.futuro-abundante h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: var(--arcatierra-terracota-principal);
+}
+
+/* ========================================
+   SECCIÓN QUÉ HACEMOS MEJORADA
+   ======================================== */
+.que-hacemos {
+    background: var(--arcatierra-crema-principal);
+}
+
+.que-hacemos ul {
+    list-style: none;
+    padding: 0;
+    max-width: 900px;
+    margin: 3rem auto;
+}
+
+.que-hacemos ul li {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.125rem;
+    line-height: 1.8;
+}
+
+.que-hacemos ul li::before {
+    content: '🌱';
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.que-hacemos ul li a {
+    color: var(--arcatierra-terracota-principal);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+.que-hacemos ul li a:hover {
+    color: var(--arcatierra-terracota-oscuro);
+}
+
+/* ========================================
+   CTA FINAL MEJORADA
+   ======================================== */
+.cta-final {
+    background: var(--arcatierra-verde-principal);
+    color: white;
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-final::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.cta-final h2 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.cta-final p {
+    font-size: 1.25rem;
+    margin-bottom: 3rem;
+    opacity: 0.95;
+}
+
+.cta-buttons {
+    gap: 1.5rem;
+}
+
+.cta-buttons .btn-primary,
+.cta-buttons .btn-secondary {
+    padding: 1rem 3rem;
+    font-size: 1.125rem;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    min-width: 200px;
+}
+
+.cta-buttons .btn-primary {
+    background: var(--arcatierra-terracota-principal);
+    box-shadow: 0 4px 20px rgba(177, 85, 67, 0.3);
+}
+
+.cta-buttons .btn-primary:hover {
+    background: var(--arcatierra-terracota-oscuro);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(177, 85, 67, 0.4);
+}
+
+.cta-buttons .btn-secondary {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.cta-buttons .btn-secondary:hover {
+    background: white;
+    color: var(--arcatierra-verde-principal);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(255, 255, 255, 0.3);
+}
+
+/* ========================================
+   ANIMACIONES ADICIONALES
+   ======================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Aplicar animación a elementos cuando entran en viewport */
+.hero h1,
+.hero p,
+.section-image,
+.valor {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.valor:nth-child(1) { animation-delay: 0.1s; }
+.valor:nth-child(2) { animation-delay: 0.2s; }
+.valor:nth-child(3) { animation-delay: 0.3s; }
+.valor:nth-child(4) { animation-delay: 0.4s; }
+.valor:nth-child(5) { animation-delay: 0.5s; }
+
+/* ========================================
+   REGENERAR TIERRA SECTION
+   ======================================== */
+.regenerar-tierra {
+    background: linear-gradient(135deg, var(--arcatierra-crema-principal) 0%, var(--arcatierra-beige-medio) 100%);
+    padding: 60px 0;
+}
+
+.regenerar-tierra h2 {
+    color: var(--arcatierra-verde-principal);
+    font-size: 2.5rem;
+}
+
+.regenerar-tierra p {
+    font-size: 1.25rem;
+    color: var(--arcatierra-verde-tipografia);
+}
+
+/* ========================================
+   RESPONSIVE MEJORADO
+   ======================================== */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-image {
+        height: 300px;
+    }
+    
+    .valores h2,
+    .futuro-abundante h2 {
+        font-size: 2rem;
+    }
+    
+    .valores-grid {
+        padding: 0 1rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-buttons .btn-primary,
+    .cta-buttons .btn-secondary {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero {
+        padding: 60px 0;
+    }
+    
+    .valores h2 {
+        font-size: 1.75rem;
+    }
+    
+    .valor h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* ========================================
+   MICRO INTERACCIONES
+   ======================================== */
+.section-image {
+    transition: all 0.3s ease;
+    cursor: zoom-in;
+}
+
+.section-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+/* Efecto de enfoque suave en imágenes */
+.hero-image,
+.section-image,
+.valor-image {
+    filter: brightness(0.98);
+    transition: filter 0.3s ease;
+}
+
+.hero-image:hover,
+.section-image:hover,
+.valor-image:hover {
+    filter: brightness(1);
+}
+
+/* ========================================
+   AJUSTES FINALES PARA INTEGRACIÓN
+   ======================================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Asegurar que los párrafos dentro de contenedores se centren */
+.hero .container p,
+.futuro-abundante .container p,
+.que-hacemos .container > p,
+.valores .container > p,
+.regenerar-tierra .container p {
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Mejora visual para la lista de qué hacemos */
+.que-hacemos ul {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+/* ========================================
+   FIN DE ESTILOS HOME
+   ======================================== */

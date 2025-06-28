@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- METADATOS SEO EXACTOS DE LA GUÍA -->
+    <title>Arca Tierra | Agricultura regenerativa, chinampas y alimentos agroecológicos</title>
+    <meta name="description" content="En Arca Tierra regeneramos suelos, conservamos chinampas y producimos alimentos agroecológicos con más de 50 familias campesinas. Conoce quiénes somos.">
+    <link rel="canonical" href="https://www.arcatierra.com/">
+    <meta name="keywords" content="arca tierra, alimentos mexicanos, alimentos mexicanos naturales, chinampas de xochimilco, agricultura campesina">
+    
+    <!-- SCHEMA.ORG ESPECÍFICO DE LA GUÍA -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Arca Tierra",
+      "description": "Red local de agricultura regenerativa y comercio justo de alimentos mexicanos naturales",
+      "url": "https://www.arcatierra.com",
+      "logo": "https://www.arcatierra.com/logo.png",
+      "foundingDate": "2009",
+      "founder": {
+        "@type": "Person",
+        "name": "Lucio Usobiaga"
+      },
+      "location": {
+        "@type": "Place",
+        "name": "Chinampas de Xochimilco",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Xochimilco",
+          "addressRegion": "CDMX",
+          "addressCountry": "MX"
+        }
+      },
+      "sameAs": [
+        "https://www.facebook.com/arcatierra",
+        "https://www.instagram.com/arcatierra"
+      ]
+    }
+    </script>
+    
+    <!-- CSS UNIFICADOS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/header-footer-styles.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home-styles.css">
+    
+    <style>
+        /* CORRECCIONES RESPONSIVE CRÍTICAS */
+        @media (max-width: 768px) {
+            /* Arreglar header en móvil */
+            .header .nav-container {
+                padding: 1rem;
+                gap: 1rem;
+            }
+            
+            .header .logo img {
+                height: 40px;
+            }
+            
+            .user-cart-section {
+                flex-direction: row !important;
+                gap: 0.5rem !important;
+            }
+            
+            #userSection {
+                font-size: 0.9rem;
+            }
+            
+            .login-btn {
+                padding: 0.4rem 0.8rem !important;
+                font-size: 0.9rem !important;
+            }
+            
+            .cart-icon {
+                margin-left: 0.5rem;
+            }
+            
+            /* Asegurar que el menú móvil funcione */
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 60px;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                transition: left 0.3s ease;
+                z-index: 999;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .menu-toggle {
+                display: flex !important;
+                flex-direction: column;
+                background: none;
+                border: none;
+                padding: 0.5rem;
+                cursor: pointer;
+            }
+            
+            .menu-toggle span {
+                width: 25px;
+                height: 3px;
+                background: var(--arcatierra-verde-tipografia);
+                margin: 3px 0;
+                transition: 0.3s;
+                display: block;
+            }
+            
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+        }
+        
+        /* Estilos para usuario logueado */
+        .user-account-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--arcatierra-verde-tipografia);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background: var(--arcatierra-terracota-principal);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .user-dropdown {
+            position: relative;
+        }
+        
+        .user-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid var(--arcatierra-gris-azulado);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            min-width: 200px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1000;
+        }
+        
+        .user-menu.show {
+            display: block;
+        }
+        
+        .user-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--arcatierra-verde-tipografia);
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        
+        .user-menu a:hover {
+            background: var(--arcatierra-crema-principal);
+        }
+        
+        .user-menu .divider {
+            height: 1px;
+            background: var(--arcatierra-gris-azulado);
+            margin: 0.5rem 0;
+        }
+        
+        .logout-btn {
+            color: var(--arcatierra-terracota-principal) !important;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- SCRIPT DE VERIFICACIÓN DE SESIÓN AL INICIO -->
+    <script>
+        // Verificar sesión inmediatamente al cargar
+        (function() {
+            // Verificar si hay usuario guardado con "recuérdame"
+            const rememberMe = localStorage.getItem('arcaTierraRememberMe');
+            const savedUser = localStorage.getItem('arcaTierraSavedUser');
+            
+            if (rememberMe === 'true' && savedUser) {
+                // Restaurar sesión automáticamente
+                localStorage.setItem('arcaTierraCurrentUser', savedUser);
+            }
+        })();
+    </script>
+    
+    <!-- EL HEADER SE INSERTA AUTOMÁTICAMENTE CON MEJORAS -->
+    
+    <main>
+        <!-- SECCIÓN HERO - H1 PRINCIPAL EXACTO DE LA GUÍA -->
+        <section class="hero">
+            <div class="container">
+                <h1>Arca Tierra, alimentos mexicanos naturales a tu mesa</h1>
+                
+                <img src="images/home/chinampas_xochimilco.png" 
+                     alt="Vista aérea de chinampas flotantes en los canales de Xochimilco en el amanecer" 
+                     class="section-image">
+                
+                <!-- PÁRRAFOS INTRODUCTORIOS EXACTOS DE LA GUÍA -->
+                <p>Arca tierra lleva alimentos mexicanos naturales a tu mesa. Somos una red local de personas expertas en promover la buena alimentación a través de la agricultura regenerativa y el comercio justo.</p>
+                
+                <p>Estamos conformados por especialistas en agricultura campesina, cultura alimentaria local, impacto social, naturaleza y diferentes manifestaciones gastronómicas. Nacimos en las chinampas de Xochimilco: ahí tenemos producción propia y parcelas demostrativas, trabajamos en 18 chinampas.</p>
+                
+                <p>Desde 2009, nuestro equipo promueve la sostenibilidad y la agricultura campesina en términos productivos, sociales, ecológicos y económicos. Lucio Usobiaga es el director de nuestra iniciativa.</p>
+            </div>
+        </section>
+        
+        <!-- SECCIÓN: SEMBRAMOS UN FUTURO ABUNDANTE -->
+        <section class="section">
+            <div class="container">
+                <h2>Sembramos un futuro abundante</h2>
+                
+                <img src="images/home/agricultura_campesina_mexico.jpg" 
+                     alt="Agricultor trabajando en parcela de cultivo con herramientas tradicionales" 
+                     class="section-image">
+                
+                <p>El corazón de Arca Tierra son más de 50 familias campesinas de comunidades de Milpa Alta (CDMX), Huasca de Ocampo (Hidalgo), Amanalco y Polvillos (Estado de México) y Pahuatlán (Puebla), entre otros.</p>
+                
+                <p>Estas familias cultivan sin agrotóxicos, rescatan semillas locales y producen alimentos mexicanos de temporada con un sabor y una calidad que solo la agricultura campesina puede ofrecer.</p>
+                
+                <img src="images/home/arca_tierra_alimentos_naturales.JPG" 
+                     alt="Variedad de vegetales frescos y coloridos dispuestos sobre una mesa de madera" 
+                     class="section-image">
+                
+                <p>Nuestra red se basa en la confianza, la amistad y el reconocimiento del valor del trabajo rural. Más allá de los acuerdos comerciales, nos guiamos por principios de comercio justo, prácticas de agricultura regenerativa y un compromiso real con la tierra y la biodiversidad.</p>
+            </div>
+        </section>
+        
+        <!-- SECCIÓN: QUÉ HACEMOS -->
+        <section class="section" style="background-color: var(--arcatierra-crema-principal);">
+            <div class="container">
+                <h2>¿Qué hacemos en arca tierra?</h2>
+                
+                <p>Nuestro proyecto opera bajo tres pilares centrales:</p>
+                
+                <ul style="margin: 2rem 0; padding-left: 2rem; line-height: 2;">
+                    <li>Vendemos alimentos mexicanos naturales en nuestra tienda en línea y canastas con la cosecha de la semana a través de suscripciones. ¿Quieres hacernos un pedido?</li>
+                    
+                    <li>También tenemos a la venta vegetales, frutas y productos de temporada en tiendas y restaurantes en la CDMX. Si quieres saber dónde o hacernos solicitudes, contáctanos.</li>
+                    
+                    <li>Organizamos experiencias privadas y públicas de turismo rural y gastronómico en las chinampas de Xochimilco. ¿Quieres organizar algún evento o se te antoja asistir a alguna de nuestras actividades programadas?</li>
+                </ul>
+                
+                <img src="images/home/alimentos_mexicanos_maiz.JPG" 
+                     alt="Mazorcas de maíz criollo de diferentes colores en una canasta tradicional" 
+                     class="section-image">
+            </div>
+        </section>
+        
+        <!-- SECCIÓN: NUESTROS VALORES -->
+        <section class="section">
+            <div class="container">
+                <h2>Nuestros valores</h2>
+                
+                <p>En Arca Tierra trabajamos con un propósito claro: regenerar suelos, conservar chinampas y producir alimentos agroecológicos con impacto positivo para las comunidades campesinas y la tierra. Estos son los valores que guían cada decisión y acción dentro de nuestra red de agricultura regenerativa:</p>
+                
+                <div class="valores-grid">
+                    <!-- VALOR 1: RAÍCES VIVAS -->
+                    <div class="valor">
+                        <h3>Raíces Vivas</h3>
+                        <p>Colocamos a las familias campesinas en el centro de lo que hacemos. Valoramos su trabajo, protegemos su dignidad y fortalecemos su economía, pues son la raíz de cada alimento que llevamos hasta tu mesa.</p>
+                        <p class="keywords">Palabras clave: familias campesinas, agricultura regenerativa</p>
+                    </div>
+                    
+                    <!-- VALOR 2: SABIDURÍA ANCESTRAL -->
+                    <div class="valor">
+                        <h3>Sabiduría Ancestral</h3>
+                        <p>Aplicamos y honramos prácticas agrícolas tradicionales para regenerar suelos, recuperar semillas y producir alimentos de temporada que nutren a las personas y respetan la tierra.</p>
+                        <p class="keywords">Palabras clave: prácticas agrícolas ancestrales, regenerar suelos</p>
+                        
+                        <img src="images/home/alimentos_mexicanos_naturales_arca_tierra.jpg" 
+                             alt="Manos sosteniendo vegetales recién cosechados con tierra en las raíces" 
+                             class="section-image">
+                    </div>
+                    
+                    <!-- VALOR 3: GUARDIANES DE LA TIERRA -->
+                    <div class="valor">
+                        <h3>🌍 Guardianes de la Tierra</h3>
+                        <p>Consideramos la tierra como un ser vivo y nuestro hogar común. Protegemos su fertilidad y biodiversidad, convencidos de que todas y todos podemos convertirnos en guardianes de la tierra a través de decisiones conscientes todos los días.</p>
+                        <p class="keywords">Palabras clave: biodiversidad, conservación de la tierra</p>
+                    </div>
+                    
+                    <!-- VALOR 4: COSECHA CONSCIENTE -->
+                    <div class="valor">
+                        <h3>🍃 Cosecha Consciente</h3>
+                        <p>Optimizamos recursos, cultivamos sin agrotóxicos y reducimos el desperdicio en cada etapa, desde la siembra hasta la entrega a domicilio de alimentos frescos y agroecológicos.</p>
+                        <p class="keywords">Palabras clave: alimentos agroecológicos, minimizar desperdicio alimentario</p>
+                        
+                        <img src="images/home/alimentos_mexicanos_naturales_cdmx(1).JPG" 
+                             alt="Productos orgánicos frescos de la Ciudad de México listos para entrega" 
+                             class="section-image">
+                    </div>
+                    
+                    <!-- VALOR 5: ELECCIÓN RESPONSABLE -->
+                    <div class="valor">
+                        <h3>Elección Responsable</h3>
+                        <p>Creemos que cada persona tiene el poder de transformar el sistema alimentario a través de sus decisiones de consumo. Promovemos hábitos de compra que regeneran la tierra, respaldan el trabajo campesino y alimentan familias de forma saludable.</p>
+                        <p class="keywords">Palabras clave: consumo responsable, alimentos sostenibles</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SECCIÓN: REGENERAR LA TIERRA -->
+        <section class="section" style="background-color: var(--arcatierra-crema-principal);">
+            <div class="container">
+                <h2>Regenerar la tierra, regenerar la vida</h2>
+                <p style="text-align: center; font-size: 1.125rem;">Cada valor refuerza nuestra misión de ofrecer alimentos agroecológicos, apoyar comunidades rurales y conservar uno de los paisajes agrícolas más antiguos: las chinampas de Xochimilco.</p>
+            </div>
+        </section>
+        
+        <!-- CTA FINAL -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>CTA final</h2>
+                <p style="font-size: 1.25rem; margin-bottom: 2rem;">Únete a Arca Tierra y sé parte de la regeneración: cada alimento cuenta para sembrar un futuro abundante.</p>
+                <a href="tienda-canastas-con-alimentos-de-temporada-mexico.html" class="btn-primary">
+                    Conoce Nuestros Productos
+                </a>
+            </div>
+        </section>
+    </main>
+    
+    <!-- EL FOOTER SE INSERTA AUTOMÁTICAMENTE -->
+    
+    <!-- SCRIPT UNIFICADO CON MEJORAS -->
+    <script src="js/header-footer-unified.js"></script>
+    
+    <!-- SCRIPT ADICIONAL PARA MANEJO DE SESIÓN MEJORADO -->
+    <script>
+        // Mejorar el sistema de autenticación
+        document.addEventListener('DOMContentLoaded', function() {
+            // Función para mostrar menú de usuario
+            function setupUserMenu() {
+                const userSection = document.getElementById('userSection');
+                if (!userSection) return;
+                
+                // Si hay un botón de usuario, agregar funcionalidad de menú
+                const userBtn = userSection.querySelector('.user-account-btn');
+                if (userBtn) {
+                    // Crear estructura de dropdown mejorada
+                    const currentUser = JSON.parse(localStorage.getItem('arcaTierraCurrentUser'));
+                    const userDropdown = document.createElement('div');
+                    userDropdown.className = 'user-dropdown';
+                    
+                    userDropdown.innerHTML = `
+                        <button class="user-account-btn" onclick="toggleUserMenu(event)">
+                            <span class="user-avatar">${currentUser.name.charAt(0).toUpperCase()}</span>
+                            <span class="user-name">${currentUser.name.split(' ')[0]}</span>
+                            <svg width="12" height="12" viewBox="0 0 12 12" style="margin-left: 4px;">
+                                <path d="M3 5L6 8L9 5" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                        </button>
+                        <div class="user-menu" id="userMenu">
+                            <a href="cuenta/mi-cuenta.html">Mi Cuenta</a>
+                            <a href="cuenta/mis-pedidos.html">Mis Pedidos</a>
+                            <a href="cuenta/mis-suscripciones.html">Suscripciones</a>
+                            <div class="divider"></div>
+                            <a href="#" onclick="logout(event)" class="logout-btn">Cerrar Sesión</a>
+                        </div>
+                    `;
+                    
+                    userSection.innerHTML = '';
+                    userSection.appendChild(userDropdown);
+                }
+            }
+            
+            // Configurar menú de usuario si está logueado
+            setTimeout(setupUserMenu, 100);
+            
+            // Cerrar menú al hacer clic fuera
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.user-dropdown')) {
+                    const userMenu = document.getElementById('userMenu');
+                    if (userMenu) userMenu.classList.remove('show');
+                }
+            });
+        });
+        
+        // Función para toggle del menú de usuario
+        function toggleUserMenu(event) {
+            event.stopPropagation();
+            const userMenu = document.getElementById('userMenu');
+            if (userMenu) {
+                userMenu.classList.toggle('show');
+            }
+        }
+        
+        // Función mejorada de logout
+        function logout(event) {
+            event.preventDefault();
+            
+            // Limpiar toda la información de sesión
+            localStorage.removeItem('arcaTierraCurrentUser');
+            localStorage.removeItem('arcaTierraRememberMe');
+            localStorage.removeItem('arcaTierraSavedUser');
+            
+            // Mostrar mensaje de despedida
+            if (window.showToast) {
+                showToast('¡Hasta pronto! Has cerrado sesión correctamente', 'success');
+            }
+            
+            // Esperar un momento y recargar
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+        
+        // Función para verificar el estado del menú móvil
+        function checkMobileMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                    menuToggle.classList.toggle('active');
+                });
+            }
+        }
+        
+        // Verificar menú móvil cuando el DOM esté listo
+        setTimeout(checkMobileMenu, 500);
+    </script>
+</body>
+</html>

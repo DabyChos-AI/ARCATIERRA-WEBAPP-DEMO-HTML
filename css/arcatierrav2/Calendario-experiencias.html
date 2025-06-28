@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiencias - Arca Tierra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Colores del manual de identidad */
+            --terracota-principal: #B15543;
+            --verde-principal: #33503E;
+            --marron-oscuro: #562E26;
+            --verde-secundario: #67795F;
+            --verde-claro: #ABC59E;
+            --beige: #EAD8B6;
+            --crema: #F9F4E8;
+            --blanco: #FFFFFF;
+            --negro: #1A1A1A;
+            --gris-oscuro: #4A4A4A;
+            --gris-medio: #7A7A7A;
+            --gris-claro: #CACACA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--crema);
+            color: var(--negro);
+            overflow-x: hidden;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--crema);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loader-circles {
+            display: flex;
+            gap: 12px;
+        }
+
+        .loader-circle {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .loader-circle:nth-child(1) {
+            background: var(--terracota-principal);
+            animation-delay: -0.32s;
+        }
+
+        .loader-circle:nth-child(2) {
+            background: var(--verde-principal);
+            animation-delay: -0.16s;
+        }
+
+        .loader-circle:nth-child(3) {
+            background: var(--verde-secundario);
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        header {
+            background: var(--blanco);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--terracota-principal);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gris-oscuro);
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--terracota-principal);
+        }
+
+        .btn-reservar {
+            background: var(--terracota-principal);
+            color: var(--blanco);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-reservar:hover {
+            background: #9A4A3A;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--terracota-principal);
+            color: var(--blanco);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .hero {
+            height: 300px;
+            background: linear-gradient(135deg, var(--verde-principal) 0%, var(--verde-secundario) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-pattern {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.05) 35px, rgba(255,255,255,.05) 70px);
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--blanco);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 2rem auto;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .calendar-section {
+            flex: 1;
+        }
+
+        /* Experience List */
+        .experiences-list {
+            background: var(--blanco);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .experiences-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .experience-tab {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: var(--beige);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .experience-tab:hover,
+        .experience-tab.highlight {
+            transform: scale(1.05);
+            border-color: var(--verde-principal);
+            background: var(--verde-claro);
+        }
+
+        .experience-dates-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--marron-oscuro);
+            color: var(--blanco);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 10;
+            margin-bottom: 5px;
+        }
+
+        .experience-tab:hover .experience-dates-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .day-cell.highlight-date {
+            border-color: var(--terracota-principal);
+            background: rgba(177, 85, 67, 0.1);
+            animation: pulse-highlight 2s infinite;
+        }
+
+        @keyframes pulse-highlight {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .experience-tab .icon {
+            font-size: 1.5rem;
+        }
+
+        .experience-tab .info {
+            flex: 1;
+        }
+
+        .experience-tab .name {
+            font-weight: 600;
+            color: var(--verde-principal);
+        }
+
+        .experience-tab .price {
+            font-size: 0.85rem;
+            color: var(--gris-medio);
+        }
+
+        .tag {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--terracota-principal);
+            color: var(--blanco);
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .tag.discount {
+            background: #4CAF50;
+        }
+
+        .tag.popular {
+            background: #FF9800;
+        }
+
+        .tag.new {
+            background: var(--terracota-principal);
+        }
+
+        .calendar-controls {
+            background: var(--blanco);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .controls-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .month-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .month-nav button {
+            background: var(--verde-principal);
+            color: var(--blanco);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .month-nav button:hover {
+            background: var(--verde-secundario);
+            transform: scale(1.1);
+        }
+
+        .current-month {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            color: var(--verde-principal);
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .view-toggles {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--verde-principal);
+            background: transparent;
+            color: var(--verde-principal);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-btn.active {
+            background: var(--verde-principal);
+            color: var(--blanco);
+        }
+
+        .calendar-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--gris-medio);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gris-claro);
+        }
+
+        .calendar-grid {
+            background: var(--blanco);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .weekday {
+            text-align: center;
+            font-weight: 600;
+            color: var(--gris-oscuro);
+            padding: 0.5rem;
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .day-cell {
+            aspect-ratio: 1;
+            border: 2px solid var(--gris-claro);
+            border-radius: 10px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .day-cell:hover {
+            border-color: var(--verde-principal);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .day-number {
+            font-weight: 600;
+            color: var(--negro);
+            margin-bottom: 0.25rem;
+        }
+
+        .day-cell.other-month .day-number {
+            color: var(--gris-claro);
+        }
+
+        .day-cell.has-events {
+            background: linear-gradient(135deg, var(--verde-claro) 0%, var(--beige) 100%);
+            border-color: var(--verde-principal);
+        }
+
+        .event-icons {
+            display: flex;
+            gap: 2px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .event-icon {
+            font-size: 1rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 350px;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .sidebar-card {
+            background: var(--blanco);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--verde-principal);
+            margin-bottom: 1rem;
+        }
+
+        .selected-date {
+            background: var(--marron-oscuro);
+            color: var(--blanco);
+            padding: 0.75rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .sidebar-experiences {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sidebar-exp-item {
+            background: var(--beige);
+            padding: 1rem;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .sidebar-exp-item:hover {
+            background: var(--verde-claro);
+            transform: translateY(-2px);
+        }
+
+        .sidebar-exp-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-exp-details {
+            font-size: 0.85rem;
+            color: var(--gris-medio);
+            margin-bottom: 0.5rem;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            background: var(--verde-principal);
+            color: var(--blanco);
+            border: none;
+            padding: 0.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--verde-secundario);
+        }
+
+        /* Week View Styles */
+        .week-view .days-grid {
+            grid-template-columns: repeat(7, 1fr);
+            gap: 15px;
+        }
+
+        .week-view .day-cell {
+            height: auto;
+            min-height: 200px;
+            aspect-ratio: unset;
+            padding: 1rem;
+        }
+
+        .week-day-header {
+            font-weight: 600;
+            color: var(--verde-principal);
+            margin-bottom: 0.5rem;
+            text-align: center;
+            border-bottom: 2px solid var(--verde-principal);
+            padding-bottom: 0.5rem;
+        }
+
+        .week-experience-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .week-experience-item {
+            background: var(--beige);
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .week-experience-item:hover {
+            background: var(--verde-claro);
+            transform: translateY(-1px);
+        }
+
+        .week-exp-icon {
+            font-size: 1.2rem;
+            margin-right: 0.25rem;
+        }
+
+        .week-exp-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.25rem;
+            font-size: 0.75rem;
+            color: var(--gris-medio);
+        }
+
+        /* Day View Styles */
+        .day-view {
+            padding: 2rem;
+        }
+
+        .time-slots {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .time-slot {
+            padding: 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid;
+        }
+
+        .time-slot.availability-high {
+            background: #E8F5E9;
+            border-color: var(--verde-secundario);
+        }
+
+        .time-slot.availability-medium {
+            background: #FFF9C4;
+            border-color: #F9A825;
+        }
+
+        .time-slot.availability-low {
+            background: #FFEBEE;
+            border-color: #E53935;
+        }
+
+        .time-slot:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .slot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .slot-info {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--gris-oscuro);
+        }
+
+        .availability-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-high {
+            background: var(--verde-secundario);
+            color: var(--blanco);
+        }
+
+        .badge-medium {
+            background: #F9A825;
+            color: var(--blanco);
+        }
+
+        .badge-low {
+            background: #E53935;
+            color: var(--blanco);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--blanco);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--verde-principal);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gris-medio);
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--negro);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--gris-oscuro);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--gris-claro);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--verde-principal);
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quantity-btn {
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--verde-principal);
+            background: transparent;
+            color: var(--verde-principal);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: var(--verde-principal);
+            color: var(--blanco);
+        }
+
+        .quantity-display {
+            min-width: 50px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .price-summary {
+            background: var(--beige);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-total {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--verde-principal);
+            border-top: 2px solid var(--verde-principal);
+            padding-top: 0.5rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary {
+            background: var(--gris-claro);
+            color: var(--gris-oscuro);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gris-medio);
+            color: var(--blanco);
+        }
+
+        .btn-primary {
+            background: var(--terracota-principal);
+            color: var(--blanco);
+        }
+
+        .btn-primary:hover {
+            background: #9A4A3A;
+            transform: translateY(-2px);
+        }
+
+        .employee-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--terracota-principal);
+            color: var(--blanco);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .employee-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .employee-dashboard {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: var(--blanco);
+            box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+            transition: right 0.3s;
+            z-index: 1500;
+            overflow-y: auto;
+        }
+
+        .employee-dashboard.active {
+            right: 0;
+        }
+
+        .dashboard-header {
+            background: var(--marron-oscuro);
+            color: var(--blanco);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-content {
+            padding: 1.5rem;
+        }
+
+        .employee-nav {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .employee-nav button {
+            flex: 1;
+            padding: 0.5rem;
+            background: var(--beige);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .employee-nav button.active {
+            background: var(--verde-principal);
+            color: var(--blanco);
+        }
+
+        .export-section {
+            background: var(--beige);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .export-btn {
+            flex: 1;
+            padding: 0.5rem;
+            background: var(--verde-secundario);
+            color: var(--blanco);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .export-btn:hover {
+            background: var(--verde-principal);
+        }
+
+        .schedule-view {
+            background: var(--crema);
+            border-radius: 10px;
+            padding: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .schedule-item {
+            background: var(--blanco);
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid var(--verde-principal);
+        }
+
+        .logout-btn {
+            background: var(--terracota-principal);
+            color: var(--blanco);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #9A4A3A;
+        }
+
+        .metric-card {
+            background: var(--beige);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--verde-principal);
+        }
+
+        .metric-label {
+            color: var(--gris-oscuro);
+            font-size: 0.9rem;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--terracota-principal);
+            position: absolute;
+            animation: fall 3s linear;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--terracota-principal);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 1200px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .experiences-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .days-grid {
+                gap: 5px;
+            }
+
+            .day-cell {
+                font-size: 0.85rem;
+            }
+
+            .employee-dashboard {
+                width: 100%;
+                right: -100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-circles">
+            <div class="loader-circle"></div>
+            <div class="loader-circle"></div>
+            <div class="loader-circle"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo">
+                Arca Tierra
+            </a>
+            <div class="nav-links">
+                <a href="#">Inicio</a>
+                <a href="#">Productos</a>
+                <a href="#">Experiencias</a>
+                <a href="#">Nosotros</a>
+                <a href="#">Contacto</a>
+                <a href="#" class="btn-reservar">Reservar</a>
+                <div class="cart-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17M17 13v8m0-8l2.293 2.293c.63.63.184 1.707-.707 1.707H5.414M17 21a2 2 0 11-4 0 2 2 0 014 0zM9 21a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-pattern"></div>
+        <div class="hero-content">
+            <h1>Experiencias en Xochimilco</h1>
+            <p>Descubre las fechas disponibles para vivir momentos únicos<br>en el corazón de Xochimilco</p>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Calendar Section -->
+        <div class="calendar-section">
+            <!-- Experience List -->
+            <div class="experiences-list">
+                <h3 style="margin-bottom: 1rem; color: var(--verde-principal);">Nuestras Experiencias</h3>
+                <div class="experiences-grid" id="experiencesGrid"></div>
+            </div>
+
+            <!-- Controls -->
+            <div class="calendar-controls">
+                <div class="controls-header">
+                    <div class="month-nav">
+                        <button onclick="changeMonth(-1)">‹</button>
+                        <h2 class="current-month" id="currentMonth">Junio 2025</h2>
+                        <button onclick="changeMonth(1)">›</button>
+                    </div>
+                    <div class="view-toggles">
+                        <button class="view-btn active" onclick="setView('month')">Vista Mensual</button>
+                        <button class="view-btn" onclick="setView('week')">Vista Semanal</button>
+                        <button class="view-btn" onclick="setView('day')">Vista Diaria</button>
+                    </div>
+                </div>
+                <div class="calendar-stats">
+                    <span id="availableCount">21 experiencias disponibles</span>
+                    <span><span class="live-dot"></span><span id="liveViewers">7 personas viendo ahora</span></span>
+                </div>
+            </div>
+
+            <!-- Calendar Grid -->
+            <div class="calendar-grid">
+                <div class="weekdays" id="weekdays">
+                    <div class="weekday">Dom</div>
+                    <div class="weekday">Lun</div>
+                    <div class="weekday">Mar</div>
+                    <div class="weekday">Mié</div>
+                    <div class="weekday">Jue</div>
+                    <div class="weekday">Vie</div>
+                    <div class="weekday">Sáb</div>
+                </div>
+                <div class="days-grid" id="daysGrid"></div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-card">
+                <h3>Fecha Seleccionada</h3>
+                <div class="selected-date" id="selectedDateSidebar">
+                    Selecciona una fecha en el calendario
+                </div>
+                <div class="sidebar-experiences" id="sidebarExperiences">
+                    <p style="text-align: center; color: var(--gris-medio);">Las experiencias aparecerán aquí</p>
+                </div>
+            </div>
+            
+            <div class="sidebar-card">
+                <h3>Tu Carrito</h3>
+                <div id="cartPreview" style="text-align: center; color: var(--gris-medio);">
+                    <p>Carrito vacío</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Completar Reserva</h2>
+                <button class="close-modal" onclick="closeModal()">×</button>
+            </div>
+
+            <h3 id="selectedExperienceModal" style="color: var(--verde-secundario); margin-bottom: 1rem;"></h3>
+
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="tel" id="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Número de Adultos</label>
+                    <div class="quantity-control">
+                        <button type="button" class="quantity-btn" onclick="updateQuantity('adults', -1)">-</button>
+                        <span class="quantity-display" id="adultsCount">1</span>
+                        <button type="button" class="quantity-btn" onclick="updateQuantity('adults', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Número de Niños</label>
+                    <div class="quantity-control">
+                        <button type="button" class="quantity-btn" onclick="updateQuantity('children', -1)">-</button>
+                        <span class="quantity-display" id="childrenCount">0</span>
+                        <button type="button" class="quantity-btn" onclick="updateQuantity('children', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="price-summary">
+                    <div class="price-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">$0</span>
+                    </div>
+                    <div class="price-row price-total">
+                        <span>Total:</span>
+                        <span id="total">$0</span>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Completar Reserva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Employee Toggle -->
+    <button class="employee-toggle" onclick="toggleEmployeeView()">Vista Empleados</button>
+
+    <!-- Employee Dashboard -->
+    <div class="employee-dashboard" id="employeeDashboard">
+        <div class="dashboard-header">
+            <h3>Panel de Empleados</h3>
+            <button class="logout-btn" onclick="logoutEmployee()">Cerrar Sesión</button>
+        </div>
+        <div class="dashboard-content">
+            <div class="employee-nav">
+                <button class="active" onclick="showEmployeeView('overview')">General</button>
+                <button onclick="showEmployeeView('schedule')">Horarios</button>
+                <button onclick="showEmployeeView('tasks')">Tareas</button>
+            </div>
+            
+            <div class="export-section">
+                <h4 style="margin-bottom: 0.5rem;">Exportar Datos</h4>
+                <div class="export-buttons">
+                    <button class="export-btn" onclick="exportData('excel')">Excel</button>
+                    <button class="export-btn" onclick="exportData('pdf')">PDF</button>
+                    <button class="export-btn" onclick="exportData('markdown')">Markdown</button>
+                </div>
+            </div>
+            
+            <div id="employeeViewContent">
+                <!-- Overview View (default) -->
+                <div id="overviewView">
+                    <div class="metric-card">
+                        <div class="metric-value" id="totalReservations">0</div>
+                        <div class="metric-label">Reservaciones Totales</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="todayReservations">0</div>
+                        <div class="metric-label">Reservaciones Hoy</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="totalRevenue">$0</div>
+                        <div class="metric-label">Ingresos Totales</div>
+                    </div>
+                </div>
+                
+                <!-- Schedule View -->
+                <div id="scheduleView" style="display: none;">
+                    <h4 style="margin-bottom: 1rem;">Horarios de la Semana</h4>
+                    <div class="schedule-view" id="scheduleContent">
+                        <!-- Schedule items will be populated here -->
+                    </div>
+                </div>
+                
+                <!-- Tasks View -->
+                <div id="tasksView" style="display: none;">
+                    <h4 style="margin-bottom: 1rem;">Tareas Asignadas</h4>
+                    <div class="schedule-view" id="tasksContent">
+                        <!-- Tasks will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global State
+        let currentDate = new Date();
+        let currentView = 'month';
+        let selectedDate = null;
+        let selectedExperience = null;
+        let quantities = { adults: 1, children: 0 };
+        let isEmployeeView = false;
+        let liveViewerCount = 7;
+
+        // Experience Data with Real Information
+        const experiences = {
+            public: [
+                {
+                    id: 'amanecer',
+                    name: 'Amanecer Chinampero',
+                    icon: '🌅',
+                    description: 'Navega al amanecer por los antiguos canales mientras el sol pinta el cielo',
+                    price: 990,
+                    duration: '4 horas',
+                    capacity: 20,
+                    available: true,
+                    schedule: '5:30 AM - 9:30 AM',
+                    tag: { type: 'popular', text: 'Más Popular' }
+                },
+                {
+                    id: 'comal',
+                    name: 'Comal a La Huerta',
+                    icon: '🍳',
+                    description: 'Experiencia culinaria tradicional con ingredientes de la chinampa',
+                    price: 1490,
+                    duration: '3.5 horas',
+                    capacity: 15,
+                    available: true,
+                    schedule: '10:00 AM - 1:30 PM',
+                    tag: { type: 'discount', text: '10% OFF' }
+                },
+                {
+                    id: 'campo-barra',
+                    name: 'Del Campo a la Barra',
+                    icon: '🍹',
+                    description: 'Crea cócteles con ingredientes frescos de la chinampa',
+                    price: 1290,
+                    duration: '3 horas',
+                    capacity: 12,
+                    available: true,
+                    schedule: '4:00 PM - 7:00 PM'
+                },
+                {
+                    id: 'brunch',
+                    name: 'Brunch Chinampero',
+                    icon: '🥘',
+                    description: 'Disfruta un delicioso brunch en las chinampas',
+                    price: 1190,
+                    duration: '3 horas',
+                    capacity: 20,
+                    available: true,
+                    schedule: '11:00 AM - 2:00 PM',
+                    tag: { type: 'new', text: 'Nuevo' }
+                },
+                {
+                    id: 'cocina-temporada',
+                    name: 'Cocina de Temporada',
+                    icon: '👨‍🍳',
+                    description: 'Aprende técnicas culinarias con productos de temporada',
+                    price: 1590,
+                    duration: '4 horas',
+                    capacity: 10,
+                    available: true,
+                    schedule: '10:00 AM - 2:00 PM'
+                },
+                {
+                    id: 'chinampa-familia',
+                    name: 'Chinampa en Familia',
+                    icon: '👨‍👩‍👧‍👦',
+                    description: 'Experiencia familiar educativa y divertida',
+                    price: 890,
+                    duration: '3 horas',
+                    capacity: 30,
+                    available: true,
+                    schedule: '10:00 AM - 1:00 PM'
+                }
+            ],
+            private: [
+                {
+                    id: 'taller-cocina',
+                    name: 'Taller de Cocina Privado',
+                    icon: '👩‍🍳',
+                    description: 'Taller personalizado de cocina tradicional',
+                    price: 4990,
+                    duration: '5 horas',
+                    capacity: 8,
+                    available: true,
+                    schedule: 'Flexible'
+                },
+                {
+                    id: 'arcano-dia',
+                    name: 'Arcano por un Día',
+                    icon: '🌾',
+                    description: 'Vive la experiencia completa de un agricultor chinampero',
+                    price: 3490,
+                    duration: '8 horas',
+                    capacity: 6,
+                    available: true,
+                    schedule: '7:00 AM - 3:00 PM'
+                }
+            ]
+        };
+
+        // Real vendor and chinampa data
+        const vendors = ['Melissa', 'Sofía', 'Sofía S', 'Joy', 'Ortega', 'Zara', 'Eli'];
+        const chinampas = ['Del Sol', 'De la Luna', 'Arcana', 'Nueva Chinampa'];
+        const guides = ['Sebastián', 'Juan', 'María', 'Carlos'];
+
+        // Experience availability by date
+        const experiencesByDate = {};
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                document.getElementById('loader').style.visibility = 'hidden';
+            }, 1500);
+
+            generateMockData();
+            renderExperiencesList();
+            loadFromLocalStorage();
+            renderCalendar();
+            updateCartCount();
+            updateLiveViewers();
+            setInterval(updateLiveViewers, 5000);
+        });
+
+        // Generate mock data
+        function generateMockData() {
+            const allExperiences = [...experiences.public, ...experiences.private];
+            const today = new Date();
+            
+            for (let i = -30; i < 60; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() + i);
+                const dateKey = date.toDateString();
+                
+                const numExperiences = Math.floor(Math.random() * 4);
+                if (numExperiences > 0) {
+                    experiencesByDate[dateKey] = [];
+                    const shuffled = allExperiences.sort(() => 0.5 - Math.random());
+                    for (let j = 0; j < numExperiences && j < 3; j++) {
+                        experiencesByDate[dateKey].push(shuffled[j]);
+                    }
+                }
+            }
+        }
+
+        // Render experiences list
+        function renderExperiencesList() {
+            const grid = document.getElementById('experiencesGrid');
+            grid.innerHTML = '';
+            
+            const experiencesToShow = isEmployeeView ? 
+                [...experiences.public, ...experiences.private] : 
+                experiences.public;
+            
+            experiencesToShow.forEach(exp => {
+                const tab = document.createElement('div');
+                tab.className = 'experience-tab';
+                tab.setAttribute('data-experience-id', exp.id);
+                
+                // Find next available dates
+                const availableDates = [];
+                for (let dateKey in experiencesByDate) {
+                    const date = new Date(dateKey);
+                    if (date >= new Date() && experiencesByDate[dateKey].some(e => e.id === exp.id)) {
+                        availableDates.push(date);
+                        if (availableDates.length >= 3) break; // Show max 3 dates
+                    }
+                }
+                
+                const dateText = availableDates.length > 0 
+                    ? availableDates.map(d => d.toLocaleDateString('es-MX', { day: 'numeric', month: 'short' })).join(', ')
+                    : 'Sin fechas disponibles';
+                
+                tab.innerHTML = `
+                    <span class="icon">${exp.icon}</span>
+                    <div class="info">
+                        <div class="name">${exp.name}</div>
+                        <div class="price">${exp.price} MXN • ${exp.schedule}</div>
+                    </div>
+                    ${exp.tag ? `<span class="tag ${exp.tag.type}">${exp.tag.text}</span>` : ''}
+                    <div class="experience-dates-tooltip">Próximas fechas: ${dateText}</div>
+                `;
+                
+                tab.addEventListener('mouseenter', () => {
+                    // Highlight available dates in calendar
+                    document.querySelectorAll('.day-cell').forEach(cell => {
+                        cell.classList.remove('highlight-date');
+                    });
+                    availableDates.forEach(date => {
+                        const cells = document.querySelectorAll('.day-cell');
+                        cells.forEach(cell => {
+                            const cellDay = parseInt(cell.querySelector('.day-number').textContent);
+                            if (cellDay === date.getDate() && !cell.classList.contains('other-month')) {
+                                cell.classList.add('highlight-date');
+                            }
+                        });
+                    });
+                });
+                
+                tab.addEventListener('mouseleave', () => {
+                    document.querySelectorAll('.day-cell').forEach(cell => {
+                        cell.classList.remove('highlight-date');
+                    });
+                });
+                
+                tab.addEventListener('click', () => {
+                    if (availableDates.length > 0) {
+                        selectDateAndShowExperiences(availableDates[0]);
+                    }
+                });
+                
+                grid.appendChild(tab);
+            });
+        }
+
+        // Calendar Functions
+        function renderCalendar() {
+            if (currentView === 'month') {
+                renderMonthView();
+            } else if (currentView === 'week') {
+                renderWeekView();
+            } else if (currentView === 'day') {
+                renderDayView();
+            }
+            updateStats();
+        }
+
+        function renderMonthView() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                              'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            document.getElementById('currentMonth').textContent = `${monthNames[month]} ${year}`;
+
+            document.getElementById('weekdays').style.display = 'grid';
+
+            const grid = document.getElementById('daysGrid');
+            grid.innerHTML = '';
+            grid.className = 'days-grid';
+
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                const cell = createDayCell(day, true, new Date(year, month - 1, day));
+                grid.appendChild(cell);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(year, month, day);
+                const cell = createDayCell(day, false, date);
+                grid.appendChild(cell);
+            }
+
+            const remainingCells = 42 - (firstDay + daysInMonth);
+            for (let day = 1; day <= remainingCells; day++) {
+                const cell = createDayCell(day, true, new Date(year, month + 1, day));
+                grid.appendChild(cell);
+            }
+        }
+
+        function renderWeekView() {
+            const grid = document.getElementById('daysGrid');
+            grid.innerHTML = '';
+            grid.className = 'days-grid week-view';
+            
+            document.getElementById('weekdays').style.display = 'grid';
+            
+            const weekStart = new Date(currentDate);
+            weekStart.setDate(currentDate.getDate() - currentDate.getDay());
+            
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                              'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekStart.getDate() + 6);
+            
+            document.getElementById('currentMonth').textContent = 
+                `${weekStart.getDate()} ${monthNames[weekStart.getMonth()]} - ${weekEnd.getDate()} ${monthNames[weekEnd.getMonth()]} ${weekEnd.getFullYear()}`;
+            
+            const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+            
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(weekStart);
+                date.setDate(weekStart.getDate() + i);
+                
+                const cell = document.createElement('div');
+                cell.className = 'day-cell';
+                
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'week-day-header';
+                dayHeader.textContent = `${date.getDate()} - ${dayNames[i]}`;
+                cell.appendChild(dayHeader);
+                
+                const dateKey = date.toDateString();
+                const experiencesForDay = experiencesByDate[dateKey] || [];
+                
+                const expList = document.createElement('div');
+                expList.className = 'week-experience-list';
+                
+                if (experiencesForDay.length === 0) {
+                    expList.innerHTML = '<p style="text-align: center; color: var(--gris-medio); font-size: 0.85rem;">Sin experiencias</p>';
+                } else {
+                    experiencesForDay.forEach(exp => {
+                        const item = document.createElement('div');
+                        item.className = 'week-experience-item';
+                        item.innerHTML = `
+                            <div>
+                                <span class="week-exp-icon">${exp.icon}</span>
+                                <strong>${exp.name}</strong>
+                            </div>
+                            <div class="week-exp-details">
+                                <span>${exp.schedule}</span>
+                                <span>${exp.duration}</span>
+                                <span style="color: var(--verde-principal); font-weight: 600;">$${exp.price}</span>
+                            </div>
+                        `;
+                        item.addEventListener('click', () => {
+                            selectDateAndShowExperiences(date);
+                            selectedExperience = exp;
+                        });
+                        expList.appendChild(item);
+                    });
+                }
+                
+                cell.appendChild(expList);
+                grid.appendChild(cell);
+            }
+        }
+
+        function renderDayView() {
+            const grid = document.getElementById('daysGrid');
+            grid.innerHTML = '';
+            grid.className = 'day-view';
+            
+            document.getElementById('weekdays').style.display = 'none';
+            
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                              'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+            
+            document.getElementById('currentMonth').textContent = 
+                `${dayNames[currentDate.getDay()]}, ${currentDate.getDate()} de ${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+            
+            const dateKey = currentDate.toDateString();
+            const experiencesForDay = experiencesByDate[dateKey] || [];
+            
+            if (experiencesForDay.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; color: var(--gris-medio); padding: 2rem;">No hay experiencias disponibles para este día</p>';
+                return;
+            }
+            
+            const timeSlots = document.createElement('div');
+            timeSlots.className = 'time-slots';
+            
+            experiencesForDay.forEach(exp => {
+                const spotsLeft = Math.floor(Math.random() * exp.capacity);
+                const availabilityPercent = (spotsLeft / exp.capacity) * 100;
+                let availabilityClass, badgeClass, badgeText;
+                
+                if (availabilityPercent > 60) {
+                    availabilityClass = 'availability-high';
+                    badgeClass = 'badge-high';
+                    badgeText = 'Disponible';
+                } else if (availabilityPercent > 20) {
+                    availabilityClass = 'availability-medium';
+                    badgeClass = 'badge-medium';
+                    badgeText = 'Medio lleno';
+                } else {
+                    availabilityClass = 'availability-low';
+                    badgeClass = 'badge-low';
+                    badgeText = 'Últimos lugares';
+                }
+                
+                const slot = document.createElement('div');
+                slot.className = `time-slot ${availabilityClass}`;
+                slot.innerHTML = `
+                    <div class="slot-header">
+                        <h3>${exp.icon} ${exp.name}</h3>
+                        <span class="availability-badge ${badgeClass}">${badgeText}</span>
+                    </div>
+                    <div class="slot-info">
+                        <span>🕐 ${exp.schedule}</span>
+                        <span>⏱️ ${exp.duration}</span>
+                        <span>💰 $${exp.price}</span>
+                        <span>👥 ${spotsLeft}/${exp.capacity} lugares</span>
+                    </div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem;">${exp.description}</p>
+                `;
+                slot.addEventListener('click', () => {
+                    selectDateAndShowExperiences(currentDate);
+                    selectedExperience = exp;
+                });
+                timeSlots.appendChild(slot);
+            });
+            
+            grid.appendChild(timeSlots);
+        }
+
+        function createDayCell(day, isOtherMonth, date) {
+            const cell = document.createElement('div');
+            cell.className = 'day-cell';
+            if (isOtherMonth) cell.classList.add('other-month');
+
+            const dateKey = date.toDateString();
+            const experiencesForDay = experiencesByDate[dateKey] || [];
+            
+            if (experiencesForDay.length > 0 && !isOtherMonth) {
+                cell.classList.add('has-events');
+                
+                const icons = document.createElement('div');
+                icons.className = 'event-icons';
+                experiencesForDay.forEach(exp => {
+                    const icon = document.createElement('span');
+                    icon.className = 'event-icon';
+                    icon.textContent = exp.icon;
+                    icons.appendChild(icon);
+                });
+                cell.appendChild(icons);
+                
+                cell.addEventListener('click', () => selectDateAndShowExperiences(date));
+                
+                cell.addEventListener('mouseenter', () => {
+                    experiencesForDay.forEach(exp => {
+                        const tab = document.querySelector(`[data-experience-id="${exp.id}"]`);
+                        if (tab) tab.classList.add('highlight');
+                    });
+                });
+                
+                cell.addEventListener('mouseleave', () => {
+                    document.querySelectorAll('.experience-tab').forEach(tab => {
+                        tab.classList.remove('highlight');
+                    });
+                });
+            }
+
+            const dayNumber = document.createElement('div');
+            dayNumber.className = 'day-number';
+            dayNumber.textContent = day;
+            cell.insertBefore(dayNumber, cell.firstChild);
+
+            return cell;
+        }
+
+        function selectDateAndShowExperiences(date) {
+            selectedDate = date;
+            const dateKey = date.toDateString();
+            const experiences = experiencesByDate[dateKey] || [];
+            
+            const sidebar = document.getElementById('selectedDateSidebar');
+            sidebar.textContent = date.toLocaleDateString('es-MX', { 
+                weekday: 'long', 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric' 
+            });
+            
+            const container = document.getElementById('sidebarExperiences');
+            container.innerHTML = '';
+            
+            if (experiences.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--gris-medio);">No hay experiencias para esta fecha</p>';
+                return;
+            }
+            
+            experiences.forEach(exp => {
+                const item = document.createElement('div');
+                item.className = 'sidebar-exp-item';
+                item.innerHTML = `
+                    <div class="sidebar-exp-header">
+                        <span style="font-size: 1.5rem;">${exp.icon}</span>
+                        <strong>${exp.name}</strong>
+                    </div>
+                    <div class="sidebar-exp-details">
+                        <span>${exp.schedule} • ${exp.duration} • $${exp.price} MXN</span>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="quickAddToCart('${exp.id}', '${dateKey}')">
+                        Agregar al Carrito
+                    </button>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function quickAddToCart(expId, dateKey) {
+            const allExperiences = [...experiences.public, ...experiences.private];
+            const experience = allExperiences.find(e => e.id === expId);
+            const date = new Date(dateKey);
+            
+            const booking = {
+                id: Date.now(),
+                date: date,
+                experience: experience,
+                quantities: { adults: 1, children: 0 },
+                total: experience.price
+            };
+            
+            addToCart(booking);
+            createConfetti();
+            updateCartPreview();
+        }
+
+        function changeMonth(direction) {
+            if (currentView === 'month') {
+                currentDate.setMonth(currentDate.getMonth() + direction);
+            } else if (currentView === 'week') {
+                currentDate.setDate(currentDate.getDate() + (direction * 7));
+            } else if (currentView === 'day') {
+                currentDate.setDate(currentDate.getDate() + direction);
+            }
+            renderCalendar();
+        }
+
+        function setView(view) {
+            currentView = view;
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            renderCalendar();
+        }
+
+        // Modal Functions
+        function openBookingModal(experience) {
+            selectedExperience = experience;
+            document.getElementById('selectedExperienceModal').textContent = 
+                `${experience.icon} ${experience.name} - ${selectedDate.toLocaleDateString('es-MX')}`;
+            document.getElementById('bookingModal').classList.add('active');
+            updatePrice();
+        }
+
+        function closeModal() {
+            document.getElementById('bookingModal').classList.remove('active');
+            resetForm();
+        }
+
+        function updateQuantity(type, change) {
+            quantities[type] = Math.max(0, quantities[type] + change);
+            document.getElementById(`${type}Count`).textContent = quantities[type];
+            updatePrice();
+        }
+
+        function updatePrice() {
+            if (!selectedExperience) return;
+            
+            const adults = quantities.adults * selectedExperience.price;
+            const children = quantities.children * (selectedExperience.price * 0.5);
+            const total = adults + children;
+            
+            document.getElementById('subtotal').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Form Handling
+        document.getElementById('bookingForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const booking = {
+                id: Date.now(),
+                date: selectedDate,
+                experience: selectedExperience,
+                customer: {
+                    name: document.getElementById('fullName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value
+                },
+                quantities: {...quantities},
+                total: parseFloat(document.getElementById('total').textContent.replace('$', ''))
+            };
+            
+            addToCart(booking);
+            saveReservation(booking);
+            createConfetti();
+            
+            setTimeout(() => {
+                closeModal();
+                updateCartPreview();
+            }, 1000);
+        });
+
+        function resetForm() {
+            document.getElementById('bookingForm').reset();
+            quantities = { adults: 1, children: 0 };
+            document.getElementById('adultsCount').textContent = '1';
+            document.getElementById('childrenCount').textContent = '0';
+            selectedExperience = null;
+        }
+
+        // Cart Functions
+        function addToCart(booking) {
+            let cart = JSON.parse(localStorage.getItem('arcaTierraCart') || '[]');
+            cart.push({
+                type: 'experience',
+                ...booking
+            });
+            localStorage.setItem('arcaTierraCart', JSON.stringify(cart));
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('arcaTierraCart') || '[]');
+            document.getElementById('cartCount').textContent = cart.length;
+        }
+
+        function updateCartPreview() {
+            const cart = JSON.parse(localStorage.getItem('arcaTierraCart') || '[]');
+            const preview = document.getElementById('cartPreview');
+            
+            if (cart.length === 0) {
+                preview.innerHTML = '<p style="text-align: center; color: var(--gris-medio);">Carrito vacío</p>';
+                return;
+            }
+            
+            const experienceItems = cart.filter(item => item.type === 'experience');
+            const total = experienceItems.reduce((sum, item) => sum + item.total, 0);
+            
+            preview.innerHTML = `
+                <p style="margin-bottom: 0.5rem;"><strong>${experienceItems.length} experiencias</strong></p>
+                <p style="color: var(--verde-principal); font-weight: 600;">Total: $${total.toFixed(2)} MXN</p>
+                <button class="add-to-cart-btn" style="margin-top: 1rem;" onclick="window.location.href='/checkout'">
+                    Ir al Checkout
+                </button>
+            `;
+        }
+
+        // Employee Functions
+        function toggleEmployeeView() {
+            const dashboard = document.getElementById('employeeDashboard');
+            if (dashboard.classList.contains('active')) {
+                dashboard.classList.remove('active');
+                isEmployeeView = false;
+            } else {
+                const password = prompt('Ingresa la contraseña de empleado:');
+                if (password === 'arcatierra2025') {
+                    isEmployeeView = true;
+                    dashboard.classList.add('active');
+                    updateEmployeeStats();
+                    renderExperiencesList();
+                    populateSchedule();
+                    populateTasks();
+                } else if (password) {
+                    alert('Contraseña incorrecta');
+                }
+            }
+        }
+
+        function logoutEmployee() {
+            document.getElementById('employeeDashboard').classList.remove('active');
+            isEmployeeView = false;
+            renderExperiencesList(); // Re-render to hide private experiences
+        }
+
+        function showEmployeeView(view) {
+            // Update nav buttons
+            document.querySelectorAll('.employee-nav button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Hide all views
+            document.getElementById('overviewView').style.display = 'none';
+            document.getElementById('scheduleView').style.display = 'none';
+            document.getElementById('tasksView').style.display = 'none';
+            
+            // Show selected view
+            document.getElementById(view + 'View').style.display = 'block';
+        }
+
+        function populateSchedule() {
+            const scheduleContent = document.getElementById('scheduleContent');
+            const reservations = JSON.parse(localStorage.getItem('arcaTierraReservations') || '[]');
+            const weekStart = new Date();
+            weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+            
+            scheduleContent.innerHTML = '';
+            
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(weekStart);
+                date.setDate(weekStart.getDate() + i);
+                const dateKey = date.toDateString();
+                
+                const dayReservations = reservations.filter(r => 
+                    new Date(r.date).toDateString() === dateKey
+                );
+                
+                if (dayReservations.length > 0) {
+                    dayReservations.forEach(res => {
+                        const item = document.createElement('div');
+                        item.className = 'schedule-item';
+                        item.innerHTML = `
+                            <strong>${date.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric' })}</strong><br>
+                            ${res.experience.icon} ${res.experience.name} - ${res.experience.schedule}<br>
+                            Cliente: ${res.customer.name}<br>
+                            ${res.quantities.adults} adultos, ${res.quantities.children} niños
+                        `;
+                        scheduleContent.appendChild(item);
+                    });
+                }
+            }
+            
+            if (scheduleContent.innerHTML === '') {
+                scheduleContent.innerHTML = '<p style="text-align: center; color: var(--gris-medio);">Sin reservaciones esta semana</p>';
+            }
+        }
+
+        function populateTasks() {
+            const tasksContent = document.getElementById('tasksContent');
+            // Simulated tasks - will be replaced with real data from Excel
+            const tasks = [
+                { title: 'Preparar trajinera #3', time: 'Hoy 5:00 AM', priority: 'alta' },
+                { title: 'Revisar equipo de seguridad', time: 'Hoy 7:00 AM', priority: 'media' },
+                { title: 'Coordinación con cocina', time: 'Hoy 11:30 AM', priority: 'alta' },
+                { title: 'Inventario semanal', time: 'Viernes', priority: 'baja' }
+            ];
+            
+            tasksContent.innerHTML = '';
+            tasks.forEach(task => {
+                const item = document.createElement('div');
+                item.className = 'schedule-item';
+                const priorityColor = task.priority === 'alta' ? '#E53935' : 
+                                     task.priority === 'media' ? '#F9A825' : '#67795F';
+                item.style.borderLeftColor = priorityColor;
+                item.innerHTML = `
+                    <strong>${task.title}</strong><br>
+                    <span style="color: var(--gris-medio); font-size: 0.85rem;">${task.time}</span>
+                `;
+                tasksContent.appendChild(item);
+            });
+        }
+
+        function exportData(format) {
+            const reservations = JSON.parse(localStorage.getItem('arcaTierraReservations') || '[]');
+            
+            if (format === 'excel') {
+                // Create CSV content
+                let csv = 'Fecha,Experiencia,Cliente,Email,Teléfono,Adultos,Niños,Total\n';
+                reservations.forEach(r => {
+                    csv += `${new Date(r.date).toLocaleDateString()},${r.experience.name},${r.customer.name},${r.customer.email},${r.customer.phone},${r.quantities.adults},${r.quantities.children},${r.total}\n`;
+                });
+                
+                // Download CSV
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `reservaciones_${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+                
+            } else if (format === 'pdf') {
+                // Generate PDF content (simplified version)
+                let content = 'REPORTE DE RESERVACIONES - ARCA TIERRA\n\n';
+                content += `Fecha: ${new Date().toLocaleDateString('es-MX')}\n\n`;
+                content += 'RESUMEN:\n';
+                content += `Total de reservaciones: ${reservations.length}\n`;
+                content += `Ingresos totales: ${reservations.reduce((sum, r) => sum + r.total, 0)}\n\n`;
+                content += 'DETALLE:\n';
+                reservations.forEach(r => {
+                    content += `\n${new Date(r.date).toLocaleDateString()} - ${r.experience.name}\n`;
+                    content += `Cliente: ${r.customer.name} (${r.customer.email})\n`;
+                    content += `Total: ${r.total}\n`;
+                });
+                
+                // For now, download as text - in production would use a PDF library
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `reporte_${new Date().toISOString().split('T')[0]}.txt`;
+                a.click();
+                
+            } else if (format === 'markdown') {
+                // Generate Markdown
+                let md = '# Reporte de Reservaciones - Arca Tierra\n\n';
+                md += `**Fecha:** ${new Date().toLocaleDateString('es-MX')}\n\n`;
+                md += '## Resumen\n\n';
+                md += `- **Total de reservaciones:** ${reservations.length}\n`;
+                md += `- **Ingresos totales:** ${reservations.reduce((sum, r) => sum + r.total, 0)}\n\n`;
+                md += '## Detalle de Reservaciones\n\n';
+                reservations.forEach(r => {
+                    md += `### ${new Date(r.date).toLocaleDateString()} - ${r.experience.name}\n\n`;
+                    md += `- **Cliente:** ${r.customer.name}\n`;
+                    md += `- **Email:** ${r.customer.email}\n`;
+                    md += `- **Teléfono:** ${r.customer.phone}\n`;
+                    md += `- **Personas:** ${r.quantities.adults} adultos, ${r.quantities.children} niños\n`;
+                    md += `- **Total:** ${r.total}\n\n`;
+                });
+                
+                const blob = new Blob([md], { type: 'text/markdown' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `reporte_${new Date().toISOString().split('T')[0]}.md`;
+                a.click();
+            }
+            
+            alert(`Datos exportados en formato ${format.toUpperCase()}`);
+        }
+
+        function saveReservation(booking) {
+            let reservations = JSON.parse(localStorage.getItem('arcaTierraReservations') || '[]');
+            reservations.push(booking);
+            localStorage.setItem('arcaTierraReservations', JSON.stringify(reservations));
+            if (isEmployeeView) updateEmployeeStats();
+        }
+
+        function updateEmployeeStats() {
+            const reservations = JSON.parse(localStorage.getItem('arcaTierraReservations') || '[]');
+            const today = new Date().toDateString();
+            
+            const todayReservations = reservations.filter(r => 
+                new Date(r.date).toDateString() === today
+            );
+            
+            const totalRevenue = reservations.reduce((sum, r) => sum + r.total, 0);
+            
+            document.getElementById('totalReservations').textContent = reservations.length;
+            document.getElementById('todayReservations').textContent = todayReservations.length;
+            document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
+        }
+
+        // Utility Functions
+        function updateStats() {
+            let count = 0;
+            for (let dateKey in experiencesByDate) {
+                count += experiencesByDate[dateKey].length;
+            }
+            document.getElementById('availableCount').textContent = 
+                `${count} experiencias disponibles`;
+        }
+
+        function updateLiveViewers() {
+            liveViewerCount += Math.floor(Math.random() * 5) - 2;
+            liveViewerCount = Math.max(1, Math.min(20, liveViewerCount));
+            document.getElementById('liveViewers').textContent = 
+                `${liveViewerCount} personas viendo ahora`;
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = 
+                    ['var(--terracota-principal)', 'var(--verde-principal)', 'var(--verde-secundario)', 'var(--beige)']
+                    [Math.floor(Math.random() * 4)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        function loadFromLocalStorage() {
+            updateCartCount();
+            updateCartPreview();
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                document.getElementById('employeeDashboard').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

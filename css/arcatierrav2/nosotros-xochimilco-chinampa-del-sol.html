@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- METADATOS SEO EXACTOS DE LA GUÍA -->
+    <title>Xochimilco: ¿por qué es importante y qué hacemos en arca tierra?</title>
+    <meta name="description" content="Hablar de Xochimilco y sus chinampas es adentrarse en múltiples significados: son un ecosistema completo y, a la vez, un oasis dentro de la CDMX, una de las más grandes del mundo.">
+    <link rel="canonical" href="https://www.arcatierra.com/nosotros-xochimilco-chinampa-del-sol">
+    <meta name="keywords" content="arca tierra, xochimilco, chinampas, chinampa del sol, agricultura campesina, alimentos mexicanos, alimentos de temporada">
+    
+    <!-- SCHEMA.ORG ESPECÍFICO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Place",
+      "name": "Xochimilco",
+      "description": "Patrimonio Cultural de la Humanidad UNESCO con chinampas de agricultura milenaria",
+      "url": "https://www.arcatierra.com/xochimilco",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "19.2647",
+        "longitude": "-99.1031"
+      },
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "UNESCO World Heritage",
+          "value": "1987"
+        }
+      ]
+    }
+    </script>
+    
+    <style>
+        /* VARIABLES DE COLORES OFICIALES */
+        :root {
+            --arcatierra-terracota-principal: #B15543;
+            --arcatierra-terracota-medio: #BA6440;
+            --arcatierra-terracota-oscuro: #975543;
+            --arcatierra-verde-tipografia: #3A4741;
+            --arcatierra-verde-principal: #33503E;
+            --arcatierra-verde-claro: #475A52;
+            --arcatierra-verde-suave: #748880;
+            --arcatierra-crema-principal: #E3DBCB;
+            --arcatierra-beige-medio: #CCBB9A;
+            --arcatierra-beige-calido: #DCB584;
+            --arcatierra-gris-azulado: #C1CCCE;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--arcatierra-crema-principal);
+            color: var(--arcatierra-verde-tipografia);
+            line-height: 1.6;
+        }
+
+        /* HEADER UNIFICADO */
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            height: 50px;
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+            max-width: 150px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--arcatierra-verde-tipografia);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        /* HERO SECTION */
+        .hero-xochimilco {
+            background: linear-gradient(135deg, var(--arcatierra-verde-principal) 0%, var(--arcatierra-verde-claro) 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero-xochimilco h1 {
+            font-size: 2.5rem;
+            max-width: 900px;
+            margin: 0 auto 2rem;
+            line-height: 1.3;
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content-section {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .content-section h2 {
+            color: var(--arcatierra-verde-principal);
+            font-size: 2rem;
+            margin: 3rem 0 1.5rem;
+        }
+
+        .content-section h3 {
+            color: var(--arcatierra-terracota-principal);
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .content-section ul {
+            margin: 1rem 0 2rem 2rem;
+        }
+
+        .content-section li {
+            margin-bottom: 1rem;
+        }
+
+        /* IMÁGENES */
+        .section-image {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            margin: 2rem auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* CTA SECTION */
+        .cta-section {
+            background-color: var(--arcatierra-beige-medio);
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--arcatierra-terracota-medio);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--arcatierra-verde-principal);
+            padding: 1rem 2rem;
+            border: 2px solid var(--arcatierra-verde-principal);
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+        }
+
+        /* DATOS DESTACADOS */
+        .highlight-box {
+            background-color: var(--arcatierra-verde-claro);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .highlight-box ul {
+            margin-left: 1rem;
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-xochimilco h1 {
+                font-size: 1.8rem;
+            }
+            
+            .content-section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logos/logo-arcatierra.png" alt="Arca Tierra">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="tienda-canastas-con-alimentos-de-temporada-mexico.html">Tienda</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="experiencias-turismo-rural-y-gastronomico-xochimilco.html">Experiencias</a></li>
+                <li><a href="nosotros-xochimilco-chinampa-del-sol.html" style="color: var(--arcatierra-terracota-principal);">Xochimilco</a></li>
+                <li><a href="nosotros-chinampas-agricultura-campesina.html">Nosotros</a></li>
+                <li><a href="kit-de-prensa-y-medios-alimentos-artesanales-mexicanos.html">Medios</a></li>
+                <li><a href="recetas-faciles-alimentos-naturales.html">Recetas</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+            <div id="userSection">
+                <!-- Se llena con JS -->
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-xochimilco">
+        <h1>Xochimilco: ¿por qué es importante para arca tierra y la sociedad?</h1>
+        <p style="max-width: 800px; margin: 0 auto; font-size: 1.2rem;">Patrimonio Cultural de la Humanidad UNESCO desde 1987</p>
+    </section>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="content-section">
+        <img src="images/xochimilco/xochimilco.png" alt="Vista aérea panorámica de Xochimilco con canales, chinampas y vegetación abundante" class="section-image">
+        
+        <p>Hablar de Xochimilco y sus chinampas es adentrarse en múltiples significados: son un ecosistema completo y, a la vez, un oasis dentro de la CDMX, una de las más grandes del mundo. Son, en esencia, islas artificiales construidas por las personas sobre el lago de Xochimilco y el de Chalco para producir alimentos.</p>
+        
+        <p>Estos lugares son tecnología agrícola milenaria y un ejemplo de cómo se puede convivir armónicamente con la naturaleza y también participar en el desarrollo y diversificación de la vida. Sus numerosos canales y chinampas fueron clave para el comercio y la alimentación desde la antigüedad mesoamericana, además de que fueron el único sistema de producción agrícola que rendía todo el año.</p>
+        
+        <img src="images/xochimilco/chinampas_xochimilco.jpg" alt="Chinampas tradicionales de Xochimilco con cultivos verdes y canales de agua cristalina" class="section-image">
+        
+        <p>"Xochimilco" es un nombre náhuatl que quiere decir "En el lugar de la sementera florida" y fue nombrado Patrimonio Cultural de la Humanidad por parte de la Unesco en 1987 y fue declarado como uno de los sitios que son Sistemas Importantes del Patrimonio Agrícola Mundial (Sipam) por la Fao. Además, es un humedal de importancia mundial Ramsar y Área Natural Protegida.</p>
+        
+        <p>Cuenta con tesoros ecológicos y biodiversos, pero también con monumentos, tradiciones y raíces culturales. Es un espacio fundamental para la ecología del Valle de México y si bien sus trajineras ornamentadas son atractivo turístico, existen diversos retos que se viven en la actualidad.</p>
+        
+        <img src="images/xochimilco/trajineras_xochimilco.JPG" alt="Trajineras coloridas navegando por los canales de Xochimilco con turistas a bordo" class="section-image">
+
+        <h2>¿Qué factores amenazan las chinampas de Xochimilco?</h2>
+        
+        <p>Diferentes factores ponen en riesgo a estos espacios naturales:</p>
+        
+        <img src="images/xochimilco/chinampas_sostenibles_cdmx.jpg" alt="Contraste entre chinampas abandonadas y chinampas productivas en Xochimilco" class="section-image">
+        
+        <ul>
+            <li>Aproximadamente son 2,200 hectáreas de la zona chinampera, pero más del 60 % está abandonada, además de que pocos siembran sin agrotóxicos.</li>
+            <li>Más de 1,000 hectáreas de chinampas se encuentran en abandono y no son productivas, es decir, no producen alimentos.</li>
+            <li>La mancha urbana ocupa el 17 % de esta área causando contaminación al agua por un mal manejo de los desechos orgánicos e inorgánicos.</li>
+        </ul>
+        
+        <!-- CTA CANASTAS -->
+        <div class="cta-section">
+            <h3>Puedes hacer tu súper semanal con nuestras canastas de alimentos mexicanos que crecen en las chinampas o en otras comunidades campesinas.</h3>
+            
+            <p>Conoce más de Xochimilco en nuestras experiencias de turismo rural y gastronómico: contáctanos y apoya a la conservación de esta zona.</p>
+            
+            <div class="cta-buttons">
+                <a href="tienda-canastas-con-alimentos-de-temporada-mexico.html" class="btn-primary">Ver canastas</a>
+                <a href="experiencias-turismo-rural-y-gastronomico-xochimilco.html" class="btn-secondary">Ver experiencias</a>
+            </div>
+        </div>
+
+        <h2>La labor de arca tierra en Xochimilco</h2>
+        
+        <img src="images/xochimilco/agricultura_campesina_arca_tierra_cdmx.jpg" alt="Equipo de Arca Tierra trabajando en chinampas con técnicas de agricultura regenerativa" class="section-image">
+        
+        <p>En arca tierra buscamos la recuperación ecológica y cultural de la zona chinampera de Xochimilco por medio del apoyo a quienes trabajan las chinampas de manera agroecológica, produciendo alimentos naturales y de temporada desde 2009.</p>
+        
+        <p>De acciones como estas depende la conservación de la zona y de su importancia ecológica y cultural, al mismo tiempo de que generamos economía local y producimos alimentos naturales, mexicanos y de calidad.</p>
+        
+        <img src="images/xochimilco/cultivos_sin_agroquimicos_arca_tierra.jpg" alt="Cultivos orgánicos creciendo en chinampas sin uso de agroquímicos" class="section-image">
+        
+        <p>Trabajamos en los ejes ecológico, agrícola, económico, tecnológico y social. Hoy en día hemos alcanzado resultados que hacen viable la recuperación de la zona chinampera, desde la limpieza del agua y suelo hasta la comercialización con esquemas justos.</p>
+        
+        <p>Nuestro proyecto se caracteriza por la atención que tenemos hacia el proceso agroecológico y la cadena de valor que no deja una sola de sus etapas desatendidas. Las personas agricultoras de nuestra red forman nuestra razón de ser y misión.</p>
+
+        <h2>La Chinampa del sol</h2>
+        
+        <img src="images/xochimilco/chinampa_del_sol.jpg" alt="Vista de la Chinampa del Sol con cultivos diversos y equipo de trabajo de Arca Tierra" class="section-image">
+        
+        <p>Visitar la Chinampa del Sol te permitirá conocer al equipo de personas chinamperas y del personal de arca tierra, apreciarás las más de 50 variedades que se siembran en cada temporada y vivirás la experiencia de estar en esta zona.</p>
+        
+        <img src="images/xochimilco/agricultura_campesina_chinampa_del_sol.jpg" alt="Trabajadores campesinos cultivando en la Chinampa del Sol con técnicas tradicionales" class="section-image">
+        
+        <p>Ir a las chinampas del proyecto es al mismo tiempo vislumbrar el pasado de nuestra ciudad y también presenciar el futuro de nuestra alimentación. Mientras haya personas chinamperas, las chinampas seguirán existiendo y mientras ellas existan, habrá Xochimilco.</p>
+
+        <h2>¿Qué hemos logrado en la zona chinampera de Xochimilco?</h2>
+        
+        <p>A través de este modelo de negocio, arca tierra ha logrado:</p>
+        
+        <img src="images/xochimilco/chinampas_fauna.png" alt="Biodiversidad en chinampas con fauna acuática y terrestre en su hábitat natural" class="section-image">
+        
+        <div class="highlight-box">
+            <ul>
+                <li>Restaurar cinco hectáreas de zona chinampera a través de la recuperación y regeneración de suelo con prácticas agrícolas de captura de carbono y aumento en biodiversidad (medido en las chinampas por presencia de ciertas especies).</li>
+                
+                <li>Implementar seis biofiltros con apoyo de la Unam y el Cinvestav para limpiar el agua en las chinampas y fomentar las condiciones del entorno para la reincorporación del ajolote. Esta es una especie que sirve como bioindicador de que el ecosistema está sano.</li>
+                
+                <li>En estos biofiltros se utilizan plantas acuáticas de la zona como amollo, chilito, tule y cola de borrego, además de minerales como tezontle y grava que evitan que entren peces como las carpas y tilapias al apantle o canal secundario de tal forma que sí se pueda limpiar el agua de los canales.</li>
+            </ul>
+        </div>
+
+        <h2>Nuestro impacto social y ambiental</h2>
+        
+        <p>En general, este se traduce en:</p>
+        
+        <img src="images/xochimilco/xochimilco_cultivos.jpg" alt="Cultivos diversos en chinampas de Xochimilco mostrando biodiversidad agrícola" class="section-image">
+        
+        <ul>
+            <li>La conversión de 24.5 hectáreas en áreas productivas enfocadas en la agricultura regenerativa tanto en CDMX como en Hidalgo y Estado de México.</li>
+            
+            <li>El acceso de las personas agricultoras a una hectárea productiva en la red en la que pueden generar ingresos netos de hasta 347,000 pesos por año.</li>
+            
+            <li>Apoyo en la bancarización de personas productoras.</li>
+            
+            <li>La transferencia de tecnologías digitales (software de siembra) y métodos de agricultura regenerativa.</li>
+            
+            <li>Profesionalización de la red por medio de fortalecimiento de capacidades organizativas y articulación de red en equipos de trabajo y cooperativas.</li>
+        </ul>
+
+        <h2>Proyectos a futuro: Iniciativa Agroecológica Xochimilco (IAX)</h2>
+        
+        <p>La Iniciativa Agroecológica Xochimilco A.C. es presidida por Lucio Usobiaga, fundador de arca tierra.</p>
+        
+        <p>IAX se dedica a la capacitación y transferencia de conocimientos y técnicas a familias campesinas. Asimismo, trabaja en biorremediación de agua y suelo, especialmente en Xochimilco.</p>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            <div style="text-align: center;">
+                <img src="images/logos/logo-arcatierra-blanco.png" alt="Arca Tierra" style="height: 60px; margin-bottom: 1rem;">
+                <p>&copy; 2024 Arca Tierra. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

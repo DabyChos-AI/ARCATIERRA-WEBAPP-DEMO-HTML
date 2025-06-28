@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista de Empleados - Arca Tierra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .employee-dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #B85450 0%, #8B4513 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(184, 84, 80, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .view-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .view-selector button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .view-selector button:hover,
+        .view-selector button.active {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .employee-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .employee-select {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .export-controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .export-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* CALENDARIO */
+        .calendar-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .calendar-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #B85450;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .calendar-navigation {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: #B85450;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #8B4513;
+            transform: scale(1.1);
+        }
+
+        .current-date {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .experiences-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .experiences-table th,
+        .experiences-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .experiences-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+            position: sticky;
+            top: 0;
+        }
+
+        .experiences-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-confirmado { background: #d4edda; color: #155724; }
+        .status-pendiente { background: #fff3cd; color: #856404; }
+        .status-cancelado { background: #f8d7da; color: #721c24; }
+
+        /* MÉTRICAS */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #B85450;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .view-selector {
+                justify-content: center;
+            }
+
+            .calendar-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="employee-dashboard">
+        <!-- HEADER -->
+        <div class="dashboard-header">
+            <div class="header-content">
+                <div>
+                    <div class="header-title"><i class="fas fa-users"></i> Panel de Empleados</div>
+                    <div class="header-subtitle">Buenos días, coordinador de equipo! 🌱 Cada día es una nueva aventura!</div>
+                </div>
+                
+                <div class="view-selector">
+                    <button class="active" onclick="changeView('month')">Mes</button>
+                    <button onclick="changeView('week')">Semana</button>
+                    <button onclick="changeView('day')">Día</button>
+                    <button onclick="changeView('today')">Hoy</button>
+                </div>
+
+                <div class="employee-controls">
+                    <label style="color: white;">Empleado:</label>
+                    <select class="employee-select" id="employeeSelect" onchange="changeEmployee()">
+                        <option value="melissa">Melissa (Coordinadora)</option>
+                        <option value="sofia">Sofía (Guía Senior)</option>
+                        <option value="ortega">Ortega (Chef)</option>
+                        <option value="carmen">Carmen (Logística)</option>
+                        <option value="diego">Diego (Mantenimiento)</option>
+                        <option value="ana">Ana (Atención al Cliente)</option>
+                    </select>
+
+                    <div class="export-controls">
+                        <button class="export-btn" onclick="exportData('excel')">
+                            <i class="fas fa-file-excel"></i> Excel
+                        </button>
+                        <button class="export-btn" onclick="exportData('pdf')">
+                            <i class="fas fa-file-pdf"></i> PDF
+                        </button>
+                        <button class="export-btn" onclick="exportData('csv')">
+                            <i class="fas fa-file-csv"></i> CSV
+                        </button>
+                        <button class="export-btn" onclick="exportData('markdown')">
+                            <i class="fas fa-file-alt"></i> MD
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CALENDARIO -->
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <h2 class="calendar-title">
+                    <i class="fas fa-calendar-alt"></i> 
+                    Calendario de Experiencias
+                </h2>
+                <div class="calendar-navigation">
+                    <button class="nav-btn" onclick="navigateDate(-1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="current-date" id="currentDateDisplay"></div>
+                    <button class="nav-btn" onclick="navigateDate(1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div style="overflow-x: auto;">
+                <table class="experiences-table" id="experiencesTable">
+                    <thead>
+                        <tr>
+                            <th>Día</th>
+                            <th>Fecha</th>
+                            <th>Horario</th>
+                            <th>Experiencia</th>
+                            <th>Cliente/Aliado</th>
+                            <th>Tipo</th>
+                            <th>Estatus</th>
+                            <th># Invitados</th>
+                            <th>Chinampa</th>
+                            <th>Vendedor</th>
+                            <th>Guía</th>
+                            <th>Chef</th>
+                            <th>Status Pago</th>
+                            <th>Contacto</th>
+                            <th>Comentarios</th>
+                        </tr>
+                    </thead>
+                    <tbody id="experiencesTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- MÉTRICAS -->
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <span class="card-title">Total Experiencias</span>
+                </div>
+                <div class="metric-value" id="totalExperiences">127</div>
+                <div class="metric-label">En la vista actual</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <span class="card-title">Ingresos Totales</span>
+                </div>
+                <div class="metric-value" id="totalRevenue">$2,847,500</div>
+                <div class="metric-label">En la vista actual</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <span class="card-title">Ocupación Promedio</span>
+                </div>
+                <div class="metric-value" id="averageOccupancy">87%</div>
+                <div class="metric-label">En la vista actual</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <span class="card-title">Tareas Completadas</span>
+                </div>
+                <div class="metric-value" id="completedTasks">2/4</div>
+                <div class="metric-label">Del empleado actual</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // VARIABLES GLOBALES
+        let currentView = 'month';
+        let currentDate = new Date();
+        let currentEmployee = 'melissa';
+
+        // DATOS DE EXPERIENCIAS
+        const experiencesData = [
+            {
+                dia: 'Lunes',
+                fecha: '19/06/2025',
+                horario: '09:00-12:00',
+                experiencia: 'Arcano por un día',
+                cliente: 'Familia González',
+                tipo: 'Privada',
+                estatus: 'confirmado',
+                invitados: 4,
+                chinampa: 'Chinampa 1',
+                vendedor: 'Melissa',
+                guia: 'Sofía',
+                chef: 'Ortega',
+                statusPago: 'Pagado',
+                contacto: 'maria@email.com',
+                comentarios: 'Vegetarianos'
+            },
+            {
+                dia: 'Martes',
+                fecha: '20/06/2025',
+                horario: '10:00-14:00',
+                experiencia: 'Del comal a la huerta',
+                cliente: 'Empresa TechCorp',
+                tipo: 'Privada',
+                estatus: 'pendiente',
+                invitados: 12,
+                chinampa: 'Chinampa 2',
+                vendedor: 'Carmen',
+                guia: 'Ana',
+                chef: 'Ortega',
+                statusPago: 'Pendiente',
+                contacto: 'eventos@techcorp.com',
+                comentarios: 'Team building'
+            },
+            {
+                dia: 'Miércoles',
+                fecha: '21/06/2025',
+                horario: '08:00-11:00',
+                experiencia: 'Amanecer Chinampero',
+                cliente: 'Turistas Internacionales',
+                tipo: 'Pública',
+                estatus: 'confirmado',
+                invitados: 8,
+                chinampa: 'Chinampa 3',
+                vendedor: 'Diego',
+                guia: 'Sofía',
+                chef: 'Ortega',
+                statusPago: 'Pagado',
+                contacto: 'booking@travel.com',
+                comentarios: 'Inglés/Español'
+            }
+        ];
+
+        // FUNCIONES PRINCIPALES
+        function changeView(view) {
+            currentView = view;
+            
+            if (view === 'today') {
+                currentDate = new Date();
+            }
+            
+            // Actualizar botones activos
+            document.querySelectorAll('.view-selector button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            updateDateDisplay();
+            loadExperiencesTable();
+            updateMetrics();
+        }
+
+        function navigateDate(direction) {
+            if (currentView === 'month') {
+                currentDate.setMonth(currentDate.getMonth() + direction);
+            } else if (currentView === 'week') {
+                currentDate.setDate(currentDate.getDate() + (direction * 7));
+            } else if (currentView === 'day' || currentView === 'today') {
+                currentDate.setDate(currentDate.getDate() + direction);
+            }
+            
+            updateDateDisplay();
+            loadExperiencesTable();
+            updateMetrics();
+        }
+
+        function updateDateDisplay() {
+            const display = document.getElementById('currentDateDisplay');
+            
+            if (currentView === 'month') {
+                display.textContent = currentDate.toLocaleDateString('es-MX', { 
+                    year: 'numeric', 
+                    month: 'long' 
+                });
+            } else if (currentView === 'week') {
+                const weekStart = getWeekStart(currentDate);
+                const weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekEnd.getDate() + 6);
+                display.textContent = `${weekStart.getDate()}/${weekStart.getMonth()+1} - ${weekEnd.getDate()}/${weekEnd.getMonth()+1}/${weekEnd.getFullYear()}`;
+            } else {
+                display.textContent = currentDate.toLocaleDateString('es-MX', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    weekday: 'long'
+                });
+            }
+        }
+
+        function getWeekStart(date) {
+            const d = new Date(date);
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+            return new Date(d.setDate(diff));
+        }
+
+        function loadExperiencesTable() {
+            const tbody = document.getElementById('experiencesTableBody');
+            let filteredData = [...experiencesData];
+            
+            // Filtrar según la vista actual
+            if (currentView === 'today') {
+                const today = new Date().toLocaleDateString('es-MX');
+                filteredData = experiencesData.filter(exp => {
+                    const expDate = new Date(exp.fecha.split('/').reverse().join('-'));
+                    return expDate.toLocaleDateString('es-MX') === today;
+                });
+            } else if (currentView === 'day') {
+                const currentDateStr = currentDate.toLocaleDateString('es-MX');
+                filteredData = experiencesData.filter(exp => {
+                    const expDate = new Date(exp.fecha.split('/').reverse().join('-'));
+                    return expDate.toLocaleDateString('es-MX') === currentDateStr;
+                });
+            } else if (currentView === 'week') {
+                const weekStart = getWeekStart(currentDate);
+                const weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekEnd.getDate() + 6);
+                filteredData = experiencesData.filter(exp => {
+                    const expDate = new Date(exp.fecha.split('/').reverse().join('-'));
+                    return expDate >= weekStart && expDate <= weekEnd;
+                });
+            } else if (currentView === 'month') {
+                filteredData = experiencesData.filter(exp => {
+                    const expDate = new Date(exp.fecha.split('/').reverse().join('-'));
+                    return expDate.getMonth() === currentDate.getMonth() && 
+                           expDate.getFullYear() === currentDate.getFullYear();
+                });
+            }
+            
+            tbody.innerHTML = filteredData.map(exp => `
+                <tr>
+                    <td>${exp.dia}</td>
+                    <td>${exp.fecha}</td>
+                    <td>${exp.horario}</td>
+                    <td>${exp.experiencia}</td>
+                    <td>${exp.cliente}</td>
+                    <td>${exp.tipo}</td>
+                    <td><span class="status-badge status-${exp.estatus}">${exp.estatus}</span></td>
+                    <td>${exp.invitados}</td>
+                    <td>${exp.chinampa}</td>
+                    <td>${exp.vendedor}</td>
+                    <td>${exp.guia}</td>
+                    <td>${exp.chef}</td>
+                    <td>${exp.statusPago}</td>
+                    <td>${exp.contacto}</td>
+                    <td>${exp.comentarios}</td>
+                </tr>
+            `).join('');
+        }
+
+        function updateMetrics() {
+            // Actualizar métricas según la vista
+            const metrics = {
+                month: { experiences: 127, revenue: '$2,847,500', occupancy: '87%' },
+                week: { experiences: 32, revenue: '$687,200', occupancy: '92%' },
+                day: { experiences: 5, revenue: '$98,500', occupancy: '85%' },
+                today: { experiences: 3, revenue: '$45,200', occupancy: '90%' }
+            };
+            
+            const current = metrics[currentView];
+            document.getElementById('totalExperiences').textContent = current.experiences;
+            document.getElementById('totalRevenue').textContent = current.revenue;
+            document.getElementById('averageOccupancy').textContent = current.occupancy;
+        }
+
+        function changeEmployee() {
+            currentEmployee = document.getElementById('employeeSelect').value;
+            // Actualizar tareas del empleado
+            const tasks = {
+                melissa: '2/4',
+                sofia: '3/5',
+                ortega: '4/4',
+                carmen: '1/3',
+                diego: '2/3',
+                ana: '3/4'
+            };
+            document.getElementById('completedTasks').textContent = tasks[currentEmployee];
+        }
+
+        function exportData(format) {
+            alert(`Exportando datos en formato ${format.toUpperCase()}...`);
+        }
+
+        // INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDateDisplay();
+            loadExperiencesTable();
+            updateMetrics();
+        });
+    </script>
+</body>
+</html>
+

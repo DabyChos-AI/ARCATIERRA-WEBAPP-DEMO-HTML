@@ -1,0 +1,2190 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Arca Tierra | Finaliza tu Compra</title>
+    <meta name="description" content="Completa tu pedido de canastas orgánicas. Entrega directa de las chinampas a tu mesa en CDMX.">
+    
+    <!-- Leaflet CSS para el mapa -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        :root {
+            /* COLORES PRINCIPALES OFICIALES - Manual de Identidad */
+            --arcatierra-terracota-principal: #B15543;
+            --arcatierra-terracota-medio: #BA6440;
+            --arcatierra-terracota-oscuro: #975543;
+            
+            /* COLORES VERDE OFICIALES */
+            --arcatierra-verde-tipografia: #3A4741;
+            --arcatierra-verde-principal: #33503E;
+            --arcatierra-verde-claro: #475A52;
+            --arcatierra-verde-suave: #748880;
+            
+            /* NEUTROS OFICIALES */
+            --arcatierra-crema-principal: #E3DBCB;
+            --arcatierra-beige-medio: #CCBB9A;
+            --arcatierra-beige-calido: #DCB584;
+            --arcatierra-gris-azulado: #C1CCCE;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: var(--arcatierra-verde-tipografia);
+            line-height: 1.6;
+        }
+
+        /* Header Mejorado */
+        .header {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--arcatierra-verde-principal);
+            text-decoration: none;
+        }
+
+        .logo img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--arcatierra-verde-tipografia);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--arcatierra-terracota-principal);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--arcatierra-verde-tipografia);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--arcatierra-terracota-principal);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Progress Steps */
+        .checkout-steps {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ddd;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .step.active .step-circle {
+            background: var(--arcatierra-verde-principal);
+        }
+
+        .step.completed .step-circle {
+            background: var(--arcatierra-terracota-principal);
+        }
+
+        .step-label {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .step.active .step-label {
+            color: var(--arcatierra-verde-principal);
+            font-weight: 600;
+        }
+
+        .steps-line {
+            position: absolute;
+            top: 20px;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: #ddd;
+            z-index: 0;
+        }
+
+        .steps-line-progress {
+            height: 100%;
+            background: var(--arcatierra-terracota-principal);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Content */
+        .checkout-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem 3rem;
+        }
+
+        .main-form {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        /* Visitor/Extranjero Options */
+        .visitor-options {
+            background: #e8f5e9;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .visitor-checkbox {
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .visitor-checkbox input {
+            margin-top: 0.25rem;
+        }
+
+        .visitor-checkbox label {
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .whatsapp-contact {
+            display: none;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .whatsapp-contact.show {
+            display: block;
+        }
+
+        .whatsapp-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #25d366;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Form Sections */
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--arcatierra-verde-tipografia);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        label .required {
+            color: #e74c3c;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--arcatierra-verde-principal);
+        }
+
+        input.error, select.error {
+            border-color: #e74c3c;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Phone Input */
+        .phone-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .country-code {
+            width: 100px;
+        }
+
+        /* Postal Code Validation */
+        .cp-feedback {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            display: none;
+        }
+
+        .cp-feedback.valid {
+            background: #e8f5e9;
+            color: var(--arcatierra-verde-principal);
+            display: block;
+        }
+
+        .cp-feedback.invalid {
+            background: #ffebee;
+            color: #c62828;
+            display: block;
+        }
+
+        /* Map Section */
+        .map-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .map-container {
+            height: 300px;
+            background: #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+
+        .map-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .photo-upload {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .photo-upload:hover {
+            border-color: var(--arcatierra-verde-principal);
+        }
+
+        .photo-upload input[type="file"] {
+            display: none;
+        }
+
+        .photo-preview {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .photo-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+        }
+
+        /* Payment Section (Step 2) */
+        .payment-section {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .payment-section.active {
+            display: block;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-method {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .payment-method:hover {
+            border-color: var(--arcatierra-terracota-principal);
+        }
+
+        .payment-method.selected {
+            border-color: var(--arcatierra-terracota-principal);
+            background: rgba(177, 85, 67, 0.05);
+        }
+
+        .payment-method.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--arcatierra-terracota-principal);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .payment-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-label {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .payment-description {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        /* Mercado Pago Button */
+        .mercadopago-button {
+            background: #009ee3;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .mercadopago-button:hover {
+            background: #0089cc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 158, 227, 0.3);
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-items {
+            margin-bottom: 1rem;
+        }
+
+        .summary-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-details h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-details p {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .item-price {
+            font-weight: 600;
+        }
+
+        /* Discount Code */
+        .discount-code {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .discount-code input {
+            flex: 1;
+        }
+
+        .discount-code button {
+            padding: 0.75rem 1rem;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .discount-code button:hover {
+            background: #e9ecef;
+        }
+
+        /* Summary Totals */
+        .summary-totals {
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .total-row.shipping {
+            color: #666;
+        }
+
+        .total-row.shipping .free {
+            color: var(--arcatierra-verde-principal);
+            font-weight: 500;
+        }
+
+        .total-row.shipping-alert {
+            background: #fff3cd;
+            color: #856404;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+
+        .total-row.total {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #eee;
+        }
+
+        /* Impact Section */
+        .impact-section {
+            background: #e8f5e9;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .impact-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--arcatierra-verde-principal);
+        }
+
+        .impact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .impact-item svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--arcatierra-verde-principal);
+        }
+
+        /* Security Badges */
+        .security-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Buttons */
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+
+        .btn-primary {
+            background: var(--arcatierra-verde-principal);
+            color: white;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-primary:hover {
+            background: #245530;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(45, 110, 62, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Success Page */
+        .success-container {
+            display: none;
+            max-width: 600px;
+            margin: 3rem auto;
+            text-align: center;
+        }
+
+        .success-header {
+            background: linear-gradient(135deg, var(--arcatierra-verde-principal) 0%, #4a9d5f 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--arcatierra-verde-principal);
+        }
+
+        .success-body {
+            background: white;
+            padding: 2rem;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .order-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .success-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 2rem 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .success-detail {
+            text-align: center;
+        }
+
+        .success-detail svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--arcatierra-verde-principal);
+            margin-bottom: 0.5rem;
+        }
+
+        .success-detail h4 {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: normal;
+            margin-bottom: 0.25rem;
+        }
+
+        .success-detail p {
+            font-weight: 600;
+        }
+
+        .impact-summary {
+            background: #e8f5e9;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .impact-summary h3 {
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 1rem;
+        }
+
+        .impact-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .impact-metric {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .impact-metric .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--arcatierra-verde-principal);
+        }
+
+        .impact-metric .label {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .next-steps {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .next-steps h3 {
+            margin-bottom: 1rem;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .step-item svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--arcatierra-verde-principal);
+        }
+
+        .success-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--arcatierra-beige-calido);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-section a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            opacity: 0.8;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: var(--arcatierra-verde-principal);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: #c62828;
+        }
+
+        .toast.warning {
+            background: #f57c00;
+        }
+
+        /* Loading */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-spinner {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--arcatierra-verde-principal);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile Menu */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: var(--arcatierra-verde-tipografia);
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: fixed;
+                left: 0;
+                top: 70px;
+                width: 100%;
+                background: white;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                flex-direction: column;
+                padding: 1rem;
+                z-index: 99;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .checkout-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .order-summary {
+                position: static;
+                order: -1;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .success-details,
+            .impact-metrics {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .success-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Mejorado -->
+    <header class="header" id="mainHeader">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <img src="images/logos/logo-arcatierra.png" alt="Arca Tierra - Agricultura regenerativa">
+                </a>
+                
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <nav class="nav-links" id="navLinks">
+                    <a href="index.html">Inicio</a>
+                    <a href="tienda-canastas-con-alimentos-de-temporada-mexico.html">Tienda</a>
+                    <a href="productos.html">Productos</a>
+                    <a href="experiencias-turismo-rural-y-gastronomico-xochimilco.html">Experiencias</a>
+                    <a href="nosotros-xochimilco-chinampa-del-sol.html">Xochimilco</a>
+                    <a href="nosotros-chinampas-agricultura-campesina.html">Nosotros</a>
+                    <a href="kit-de-prensa-y-medios-alimentos-artesanales-mexicanos.html">Medios</a>
+                    <a href="recetas-faciles-alimentos-naturales.html">Recetas</a>
+                </nav>
+                
+                <div class="user-menu">
+                    <a href="productos.html" class="cart-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <a href="cuenta/dashboard.html" class="user-avatar" id="userAvatar" style="display: none;">
+                        <span id="userInitial">U</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Progress Steps -->
+    <div class="checkout-steps">
+        <div class="steps-container">
+            <div class="steps-line">
+                <div class="steps-line-progress" id="progressLine"></div>
+            </div>
+            <div class="step active" id="step1">
+                <div class="step-circle">1</div>
+                <div class="step-label">Información de entrega</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-circle">2</div>
+                <div class="step-label">Método de pago</div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-circle">3</div>
+                <div class="step-label">Confirmación</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="checkout-content" id="checkoutContent">
+        <!-- Step 1: Form Section -->
+        <div class="main-form" id="deliverySection">
+            <h1 style="margin-bottom: 1.5rem;">Información de entrega</h1>
+            
+            <!-- Visitor Options -->
+            <div class="visitor-options">
+                <div class="visitor-checkbox">
+                    <input type="checkbox" id="isVisitor" onchange="toggleVisitorMode()">
+                    <label for="isVisitor">Soy visitante/extranjero en CDMX<br>
+                    <small>Activa esta opción si estás visitando la Ciudad de México</small></label>
+                </div>
+                
+                <div class="visitor-checkbox">
+                    <input type="checkbox" id="noMexPhone" onchange="toggleWhatsApp()">
+                    <label for="noMexPhone">No tengo teléfono mexicano<br>
+                    <small>Podemos coordinar tu entrega por WhatsApp</small></label>
+                </div>
+                
+                <div class="whatsapp-contact" id="whatsappContact">
+                    <div class="whatsapp-info">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                        </svg>
+                        Contáctanos por WhatsApp para coordinar tu entrega:
+                    </div>
+                    <p style="font-weight: 600; color: #25d366;">+52 55 1234 5678</p>
+                    <p style="font-size: 0.875rem; color: #666;">Te ayudaremos a coordinar la entrega de tus productos orgánicos en tu ubicación en CDMX</p>
+                </div>
+            </div>
+
+            <!-- Personal Information -->
+            <div class="form-section">
+                <h2 class="section-title">👤 Datos Personales</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="firstName">Nombre Completo <span class="required">*</span></label>
+                        <input type="text" id="firstName" name="firstName" required>
+                        <span class="error-message">Este campo es requerido</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                        <span class="error-message">Ingresa un correo válido</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">WhatsApp (con código de país) <span class="required">*</span></label>
+                        <div class="phone-input-group">
+                            <select id="countryCode" class="country-code">
+                                <option value="+52">MX +52</option>
+                                <option value="+1">US +1</option>
+                                <option value="+44">UK +44</option>
+                                <option value="+33">FR +33</option>
+                                <option value="+49">DE +49</option>
+                            </select>
+                            <input type="tel" id="phone" name="phone" placeholder="55 1234 5678" required>
+                        </div>
+                        <span class="error-message">Ingresa un teléfono válido</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Information -->
+            <div class="form-section">
+                <h2 class="section-title">🏠 Dirección de Entrega</h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="street">Calle <span class="required">*</span></label>
+                        <input type="text" id="street" name="street" required>
+                        <span class="error-message">Este campo es requerido</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="extNumber">Número Exterior <span class="required">*</span></label>
+                        <input type="text" id="extNumber" name="extNumber" required>
+                        <span class="error-message">Este campo es requerido</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="intNumber">Interior / Depto (opcional)</label>
+                        <input type="text" id="intNumber" name="intNumber" placeholder="Depto 4B">
+                    </div>
+                    <div class="form-group">
+                        <label for="postalCode">Código Postal <span class="required">*</span></label>
+                        <input type="text" id="postalCode" name="postalCode" pattern="[0-9]{5}" placeholder="01000" maxlength="5" required onblur="validatePostalCode()">
+                        <span class="error-message">Código postal debe tener 5 dígitos</span>
+                        <div class="cp-feedback" id="cpFeedback"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="neighborhood">Colonia <span class="required">*</span></label>
+                        <select id="neighborhood" name="neighborhood" required disabled>
+                            <option value="">Primero ingresa el código postal</option>
+                        </select>
+                        <span class="error-message">Selecciona una colonia</span>
+                    </div>
+                </div>
+
+                <!-- Map Section -->
+                <div class="map-section">
+                    <h3 style="margin-bottom: 1rem;">📍 Marca tu ubicación exacta (opcional)</h3>
+                    <div class="map-container">
+                        <div id="map"></div>
+                    </div>
+                    
+                    <div class="photo-upload" onclick="document.getElementById('locationPhoto').click()">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="#999">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                        </svg>
+                        <p>Sube una foto de referencia (opcional)</p>
+                        <p style="font-size: 0.875rem; color: #666;">Esto ayudará al repartidor a encontrar tu ubicación</p>
+                        <input type="file" id="locationPhoto" accept="image/*" onchange="previewPhoto(event)">
+                    </div>
+                    <div class="photo-preview" id="photoPreview">
+                        <img id="previewImage" src="" alt="Vista previa">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="form-section">
+                <h2 class="section-title">📝 Información Adicional</h2>
+                <div class="form-group full-width">
+                    <label for="instructions">Instrucciones de entrega (opcional)</label>
+                    <textarea id="instructions" name="instructions" rows="3" placeholder="Ej: Tocar el timbre 2 veces, dejar con el portero, etc."></textarea>
+                </div>
+            </div>
+
+            <!-- Form Buttons -->
+            <div class="form-buttons">
+                <a href="productos.html" class="btn btn-secondary">
+                    ← Continuar comprando
+                </a>
+                <button type="button" class="btn btn-primary" onclick="proceedToPayment()">
+                    Continuar al pago →
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 2: Payment Section -->
+        <div class="payment-section" id="paymentSection">
+            <h1 style="margin-bottom: 1.5rem;">Método de pago</h1>
+            
+            <p style="color: #666; margin-bottom: 2rem;">
+                Todos los pagos son procesados de forma segura a través de Gigstack con Mercado Pago.
+            </p>
+
+            <div class="payment-methods">
+                <div class="payment-method selected" onclick="selectPaymentMethod(this, 'card')">
+                    <div class="payment-icon">💳</div>
+                    <div class="payment-label">Tarjeta de Crédito/Débito</div>
+                    <div class="payment-description">Pago instantáneo</div>
+                </div>
+                
+                <div class="payment-method" onclick="selectPaymentMethod(this, 'oxxo')">
+                    <div class="payment-icon">🏪</div>
+                    <div class="payment-label">OXXO</div>
+                    <div class="payment-description">Paga en efectivo</div>
+                </div>
+                
+                <div class="payment-method" onclick="selectPaymentMethod(this, 'transfer')">
+                    <div class="payment-icon">🏦</div>
+                    <div class="payment-label">Transferencia</div>
+                    <div class="payment-description">SPEI</div>
+                </div>
+            </div>
+
+            <div id="paymentDetails">
+                <h3 style="margin: 2rem 0 1rem;">Resumen de pago</h3>
+                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Subtotal:</span>
+                        <span id="paymentSubtotal">$0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Envío:</span>
+                        <span id="paymentShipping">$0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2rem; padding-top: 0.5rem; border-top: 1px solid #ddd;">
+                        <span>Total:</span>
+                        <span id="paymentTotal">$0.00 MXN</span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="mercadopago-button" onclick="processWithMercadoPago()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                Pagar con Mercado Pago
+            </button>
+
+            <p style="text-align: center; margin-top: 1rem; color: #666; font-size: 0.875rem;">
+                🔒 Pago 100% seguro procesado por Gigstack
+            </p>
+
+            <div class="form-buttons" style="margin-top: 2rem;">
+                <button type="button" class="btn btn-secondary" onclick="backToDelivery()">
+                    ← Volver
+                </button>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <h3 class="summary-title">Resumen del pedido</h3>
+            <p style="font-size: 0.875rem; color: #666; margin-bottom: 1rem;">
+                <span id="itemCount">0</span> productos
+            </p>
+            
+            <div class="summary-items" id="summaryItems">
+                <!-- Items will be loaded here -->
+            </div>
+
+            <div class="discount-code">
+                <input type="text" placeholder="Código promocional" id="discountCode">
+                <button onclick="applyDiscount()">Aplicar</button>
+            </div>
+
+            <div class="summary-totals">
+                <div class="total-row">
+                    <span>Subtotal</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="total-row shipping">
+                    <span>Envío</span>
+                    <span id="shippingCost">$59.00</span>
+                </div>
+                <div class="total-row shipping-alert" id="shippingAlert" style="display: none;">
+                    ¡Agrega $<span id="remainingAmount">0</span> más para envío gratis!
+                </div>
+                <div class="total-row total">
+                    <span>Total</span>
+                    <span id="total">$0.00 MXN</span>
+                </div>
+            </div>
+
+            <!-- Impact Section -->
+            <div class="impact-section">
+                <h4 class="impact-title">🌱 Tu impacto positivo</h4>
+                <div class="impact-item">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span>CO₂ ahorrado: <strong id="co2Impact">0 kg</strong></span>
+                </div>
+                <div class="impact-item">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2c-5.33 4.55-8 8.48-8 11.8 0 4.98 3.8 8.2 8 8.2s8-3.22 8-8.2c0-3.32-2.67-7.25-8-11.8zM7.83 14c.37 0 .67.26.74.62.41 2.22 2.28 2.98 3.64 2.87.43-.02.79.32.79.75 0 .4-.32.73-.72.75-2.13.13-4.62-1.09-5.19-4.12a.75.75 0 01.74-.87z"/>
+                    </svg>
+                    <span>Agua preservada: <strong id="waterImpact">0 L</strong></span>
+                </div>
+                <div class="impact-item">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                    </svg>
+                    <span>Plástico evitado: <strong id="plasticImpact">0 g</strong></span>
+                </div>
+            </div>
+
+            <!-- Security Badges -->
+            <div class="security-badges">
+                <div class="security-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                    </svg>
+                    <span>Pago 100% seguro</span>
+                </div>
+                <div class="security-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24">
+                        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                    </svg>
+                    <span>Entrega en 24-48 horas</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Page -->
+    <div class="success-container" id="successContainer">
+        <div class="success-header">
+            <div class="success-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+            </div>
+            <h1>¡Pedido Confirmado!</h1>
+            <p>Gracias por tu compra consciente</p>
+        </div>
+        
+        <div class="success-body">
+            <p>Número de orden</p>
+            <h2 class="order-number" id="orderNumber">ARC-20250624-0000</h2>
+            
+            <div class="success-details">
+                <div class="success-detail">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                    </svg>
+                    <h4>Total pagado</h4>
+                    <p id="confirmTotal">$0.00</p>
+                </div>
+                <div class="success-detail">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+                    </svg>
+                    <h4>Entrega estimada</h4>
+                    <p id="deliveryDate">Martes, 26 de junio</p>
+                </div>
+                <div class="success-detail">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                    <h4>Confirmación enviada a</h4>
+                    <p id="confirmEmail">email@ejemplo.com</p>
+                </div>
+            </div>
+
+            <div class="impact-summary">
+                <h3>🌍 ¡Mira el impacto positivo de tu compra!</h3>
+                <div class="impact-metrics">
+                    <div class="impact-metric">
+                        <div class="value" id="co2Total">0</div>
+                        <div class="label">kg CO₂ ahorrados</div>
+                    </div>
+                    <div class="impact-metric">
+                        <div class="value" id="waterTotal">0</div>
+                        <div class="label">litros de agua</div>
+                    </div>
+                    <div class="impact-metric">
+                        <div class="value" id="plasticTotal">0</div>
+                        <div class="label">g plástico evitado</div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1rem; color: #666;">
+                    ¡Equivale a plantar <span id="treesEquivalent">0</span> árboles! 🌳
+                </p>
+            </div>
+
+            <div class="next-steps">
+                <h3>¿Qué sigue?</h3>
+                <div class="step-item">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                    <span>Te enviamos un correo con los detalles y recetas especiales</span>
+                </div>
+                <div class="step-item">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span>Nuestro equipo está preparando tu pedido con mucho cuidado</span>
+                </div>
+                <div class="step-item">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg>
+                    <span>Te notificaremos cuando tu pedido salga a reparto</span>
+                </div>
+            </div>
+
+            <div class="success-actions">
+                <button class="btn btn-secondary" onclick="downloadReceipt()">
+                    📥 Descargar recibo
+                </button>
+                <button class="btn btn-secondary" onclick="shareImpact()">
+                    🔗 Compartir mi impacto
+                </button>
+            </div>
+
+            <div class="success-actions">
+                <a href="productos.html" class="btn btn-primary">
+                    Seguir comprando →
+                </a>
+                <a href="cuenta/dashboard.html" class="btn btn-secondary">
+                    Ver mis pedidos
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Mejorado -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <img src="images/logos/logo-arcatierra-white.png" alt="ArcaTierra" style="max-width: 150px; margin-bottom: 1rem;">
+                <p>Conectando las chinampas de Xochimilco con tu mesa.</p>
+                <div class="social-links" style="margin-top: 1rem;">
+                    <a href="#" aria-label="Facebook" style="margin-right: 1rem;">📘</a>
+                    <a href="#" aria-label="Instagram" style="margin-right: 1rem;">📷</a>
+                    <a href="#" aria-label="WhatsApp">💬</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="tienda-canastas-con-alimentos-de-temporada-mexico.html">Tienda</a></li>
+                    <li><a href="experiencias-turismo-rural-y-gastronomico-xochimilco.html">Experiencias</a></li>
+                    <li><a href="nosotros-chinampas-agricultura-campesina.html">Nosotros</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Productos</h3>
+                <ul>
+                    <li><a href="productos.html#canastas">Canastas Semanales</a></li>
+                    <li><a href="productos.html#vegetales">Vegetales Frescos</a></li>
+                    <li><a href="productos.html#frutas">Frutas de Temporada</a></li>
+                    <li><a href="productos.html#hierbas">Hierbas Aromáticas</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul>
+                    <li>📧 info@arcatierra.com</li>
+                    <li>📱 +52 55 1234 5678</li>
+                    <li>📍 Xochimilco, CDMX</li>
+                    <li>🕒 Lun-Vie: 9:00-18:00</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 ArcaTierra. Todos los derechos reservados.</p>
+            <p>Hecho con 💚 en las chinampas de Xochimilco</p>
+        </div>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Procesando tu pago con Mercado Pago...</p>
+        </div>
+    </div>
+
+    <!-- Leaflet JS para el mapa -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // Valid postal codes for CDMX coverage
+        const validPostalCodes = {
+            '01000': ['Roma Norte', 'Roma Sur', 'Hipódromo'],
+            '01100': ['Polanco', 'Polanco Reforma', 'Polanco Chapultepec'],
+            '01200': ['San Ángel', 'San Ángel Inn', 'Chimalistac'],
+            '01300': ['Coyoacán Centro', 'Villa Coyoacán', 'Del Carmen'],
+            '01400': ['Tlalpan Centro', 'Tlalpan Coapa'],
+            '01500': ['Benito Juárez', 'Del Valle Norte', 'Del Valle Sur'],
+            '01600': ['Álvaro Obregón', 'San José Insurgentes'],
+            '01700': ['Copilco', 'Copilco Universidad'],
+            '01800': ['Cuajimalpa', 'Santa Fe'],
+            '01900': ['Magdalena Contreras'],
+            '02000': ['Azcapotzalco'],
+            '03000': ['Benito Juárez'],
+            '04000': ['Coyoacán'],
+            '05000': ['Cuajimalpa'],
+            '06000': ['Cuauhtémoc'],
+            '07000': ['Gustavo A. Madero'],
+            '08000': ['Iztacalco'],
+            '09000': ['Iztapalapa'],
+            '10000': ['La Magdalena Contreras'],
+            '11000': ['Miguel Hidalgo'],
+            '12000': ['Milpa Alta'],
+            '13000': ['Tláhuac'],
+            '14000': ['Tlalpan'],
+            '15000': ['Venustiano Carranza'],
+            '16000': ['Xochimilco']
+        };
+
+        // Variables globales
+        let cartItems = JSON.parse(localStorage.getItem('arcaTierraCart')) || [];
+        let map = null;
+        let marker = null;
+        let currentStep = 1;
+        let selectedPaymentMethod = 'card';
+        let deliveryCoordinates = null;
+
+        // Get order type from URL if coming from tienda
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderType = urlParams.get('tipo');
+        const modalidad = urlParams.get('modalidad');
+        const isGuest = urlParams.get('guest') === 'true';
+
+        // Initialize checkout
+        function initCheckout() {
+            loadUserData();
+            loadCartSummary();
+            updateTotals();
+            initializeMap();
+            
+            // Show/hide user avatar based on auth
+            const user = localStorage.getItem('arcaTierraCurrentUser');
+            if (user) {
+                const userData = JSON.parse(user);
+                document.getElementById('userAvatar').style.display = 'flex';
+                document.getElementById('userInitial').textContent = userData.name.charAt(0).toUpperCase();
+            }
+
+            // Mobile menu toggle
+            const menuToggle = document.getElementById('menuToggle');
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    document.getElementById('navLinks').classList.toggle('active');
+                });
+            }
+        }
+
+        // Initialize Leaflet Map
+        function initializeMap() {
+            // Centro de CDMX
+            const cdmxCenter = [19.4326, -99.1332];
+            
+            map = L.map('map').setView(cdmxCenter, 12);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            
+            // Click event para agregar marcador
+            map.on('click', function(e) {
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+                
+                marker = L.marker(e.latlng).addTo(map);
+                deliveryCoordinates = {
+                    lat: e.latlng.lat,
+                    lng: e.latlng.lng
+                };
+                
+                showToast('Ubicación marcada en el mapa', 'success');
+            });
+        }
+
+        // Load user data if authenticated
+        function loadUserData() {
+            const user = localStorage.getItem('arcaTierraCurrentUser');
+            if (user && !isGuest) {
+                const userData = JSON.parse(user);
+                document.getElementById('firstName').value = userData.name || '';
+                document.getElementById('email').value = userData.email || '';
+            }
+            
+            // Load saved address data
+            const savedData = localStorage.getItem('arcaTierraUserData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                Object.keys(data).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element && !element.value) {
+                        element.value = data[key];
+                    }
+                });
+            }
+        }
+
+        // Load cart summary
+        function loadCartSummary() {
+            const summaryItems = document.getElementById('summaryItems');
+            summaryItems.innerHTML = '';
+            
+            if (cartItems.length === 0) {
+                summaryItems.innerHTML = '<p style="text-align: center; color: #666;">Tu carrito está vacío</p>';
+                return;
+            }
+            
+            cartItems.forEach(item => {
+                const itemHtml = `
+                    <div class="summary-item">
+                        <img src="${item.image || 'images/productos/default.jpg'}" alt="${item.name || item.nombre}" class="item-image" onerror="this.src='images/productos/default.jpg'">
+                        <div class="item-details">
+                            <h4>${item.name || item.nombre}</h4>
+                            <p>${item.unit || item.peso || 'Producto orgánico'}</p>
+                            <p>${item.quantity || 1} unidad${(item.quantity || 1) > 1 ? 'es' : ''}</p>
+                        </div>
+                        <div class="item-price">$${((item.price || item.precio) * (item.quantity || 1)).toFixed(2)}</div>
+                    </div>
+                `;
+                summaryItems.innerHTML += itemHtml;
+            });
+            
+            document.getElementById('itemCount').textContent = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        }
+
+        // Update totals
+        function updateTotals() {
+            const subtotal = cartItems.reduce((sum, item) => sum + ((item.price || item.precio) * (item.quantity || 1)), 0);
+            const shippingCost = subtotal >= 1000 ? 0 : 59;
+            const total = subtotal + shippingCost;
+            
+            // Update delivery form totals
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('shippingCost').textContent = shippingCost === 0 ? 'Gratis' : `$${shippingCost.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)} MXN`;
+            
+            // Update payment section totals
+            document.getElementById('paymentSubtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('paymentShipping').textContent = shippingCost === 0 ? 'Gratis' : `$${shippingCost.toFixed(2)}`;
+            document.getElementById('paymentTotal').textContent = `$${total.toFixed(2)} MXN`;
+            
+            // Show shipping alert if applicable
+            if (subtotal < 1000) {
+                const remaining = 1000 - subtotal;
+                document.getElementById('remainingAmount').textContent = remaining.toFixed(2);
+                document.getElementById('shippingAlert').style.display = 'block';
+            } else {
+                document.getElementById('shippingAlert').style.display = 'none';
+            }
+            
+            // Update impact metrics
+            const totalCO2 = cartItems.reduce((sum, item) => sum + ((item.co2 || 10) * (item.quantity || 1)), 0);
+            const totalWater = cartItems.reduce((sum, item) => sum + ((item.water || 200) * (item.quantity || 1)), 0);
+            const totalPlastic = cartItems.reduce((sum, item) => sum + 25 * (item.quantity || 1), 0);
+            
+            document.getElementById('co2Impact').textContent = `${totalCO2} kg`;
+            document.getElementById('waterImpact').textContent = `${totalWater} L`;
+            document.getElementById('plasticImpact').textContent = `${totalPlastic} g`;
+        }
+
+        // Toggle visitor mode
+        function toggleVisitorMode() {
+            const isVisitor = document.getElementById('isVisitor').checked;
+            if (isVisitor) {
+                showToast('Modo visitante activado', 'info');
+            }
+        }
+
+        // Toggle WhatsApp contact
+        function toggleWhatsApp() {
+            const noPhone = document.getElementById('noMexPhone').checked;
+            const whatsappContact = document.getElementById('whatsappContact');
+            whatsappContact.classList.toggle('show', noPhone);
+            
+            if (noPhone) {
+                document.getElementById('phone').required = false;
+            } else {
+                document.getElementById('phone').required = true;
+            }
+        }
+
+        // Validate postal code
+        function validatePostalCode() {
+            const postalCode = document.getElementById('postalCode').value;
+            const feedback = document.getElementById('cpFeedback');
+            const neighborhoodSelect = document.getElementById('neighborhood');
+            
+            if (postalCode.length === 5) {
+                // Check if it's in CDMX range (01000-16999)
+                const cpNumber = parseInt(postalCode);
+                if (cpNumber >= 1000 && cpNumber <= 16999) {
+                    feedback.textContent = '✓ ¡Sí hacemos entregas en tu zona!';
+                    feedback.className = 'cp-feedback valid';
+                    
+                    // Load neighborhoods
+                    neighborhoodSelect.disabled = false;
+                    neighborhoodSelect.innerHTML = '<option value="">Selecciona tu colonia</option>';
+                    
+                    // If we have specific neighborhoods for this CP, use them
+                    if (validPostalCodes[postalCode]) {
+                        validPostalCodes[postalCode].forEach(colonia => {
+                            neighborhoodSelect.innerHTML += `<option value="${colonia}">${colonia}</option>`;
+                        });
+                    } else {
+                        // Generic neighborhoods
+                        ['Centro', 'Norte', 'Sur', 'Este', 'Oeste'].forEach(zona => {
+                            neighborhoodSelect.innerHTML += `<option value="${zona}">${zona}</option>`;
+                        });
+                    }
+                } else {
+                    feedback.textContent = '✗ Solo realizamos entregas en CDMX (CP 01000-16999)';
+                    feedback.className = 'cp-feedback invalid';
+                    neighborhoodSelect.disabled = true;
+                    neighborhoodSelect.innerHTML = '<option value="">No hay cobertura en esta zona</option>';
+                }
+            } else {
+                feedback.className = 'cp-feedback';
+                feedback.style.display = 'none';
+            }
+        }
+
+        // Preview photo
+        function previewPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImage').src = e.target.result;
+                    document.getElementById('photoPreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Save form data
+        function saveFormData() {
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                street: document.getElementById('street').value,
+                extNumber: document.getElementById('extNumber').value,
+                intNumber: document.getElementById('intNumber').value,
+                postalCode: document.getElementById('postalCode').value,
+                neighborhood: document.getElementById('neighborhood').value,
+                instructions: document.getElementById('instructions').value,
+                coordinates: deliveryCoordinates
+            };
+            
+            localStorage.setItem('arcaTierraUserData', JSON.stringify(formData));
+            return formData;
+        }
+
+        // Validate form
+        function validateForm() {
+            let isValid = true;
+            const requiredFields = ['firstName', 'email', 'phone', 'street', 'extNumber', 'postalCode', 'neighborhood'];
+            
+            // Skip phone if using WhatsApp
+            if (document.getElementById('noMexPhone').checked) {
+                const phoneIndex = requiredFields.indexOf('phone');
+                if (phoneIndex > -1) {
+                    requiredFields.splice(phoneIndex, 1);
+                }
+            }
+            
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field);
+                const errorMsg = input.nextElementSibling;
+                
+                if (!input.value.trim()) {
+                    input.classList.add('error');
+                    if (errorMsg && errorMsg.classList.contains('error-message')) {
+                        errorMsg.classList.add('show');
+                    }
+                    isValid = false;
+                } else {
+                    input.classList.remove('error');
+                    if (errorMsg && errorMsg.classList.contains('error-message')) {
+                        errorMsg.classList.remove('show');
+                    }
+                }
+            });
+            
+            // Validate email
+            const email = document.getElementById('email');
+            if (email.value && !email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                email.classList.add('error');
+                email.nextElementSibling.classList.add('show');
+                isValid = false;
+            }
+            
+            // Validate postal code coverage
+            const postalCode = document.getElementById('postalCode').value;
+            const cpNumber = parseInt(postalCode);
+            if (!postalCode || cpNumber < 1000 || cpNumber > 16999) {
+                isValid = false;
+                showToast('Lo sentimos, no tenemos cobertura en tu zona', 'error');
+            }
+            
+            return isValid;
+        }
+
+        // Update progress
+        function updateProgress(step) {
+            currentStep = step;
+            
+            // Update step circles
+            for (let i = 1; i <= 3; i++) {
+                const stepEl = document.getElementById(`step${i}`);
+                stepEl.classList.remove('active', 'completed');
+                
+                if (i < step) {
+                    stepEl.classList.add('completed');
+                } else if (i === step) {
+                    stepEl.classList.add('active');
+                }
+            }
+            
+            // Update progress line
+            const progressLine = document.getElementById('progressLine');
+            const progress = ((step - 1) / 2) * 100;
+            progressLine.style.width = `${progress}%`;
+        }
+
+        // Proceed to payment
+        function proceedToPayment() {
+            if (validateForm()) {
+                const formData = saveFormData();
+                
+                // Update progress
+                updateProgress(2);
+                
+                // Hide delivery section, show payment section
+                document.getElementById('deliverySection').style.display = 'none';
+                document.getElementById('paymentSection').classList.add('active');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            } else {
+                showToast('Por favor completa todos los campos requeridos', 'error');
+            }
+        }
+
+        // Back to delivery
+        function backToDelivery() {
+            updateProgress(1);
+            document.getElementById('paymentSection').classList.remove('active');
+            document.getElementById('deliverySection').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        // Select payment method
+        function selectPaymentMethod(element, method) {
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedPaymentMethod = method;
+        }
+
+        // Process with MercadoPago
+        function processWithMercadoPago() {
+            // Show loading
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            
+            // Prepare order data for Gigstack
+            const orderData = {
+                items: cartItems.map(item => ({
+                    title: item.name || item.nombre,
+                    quantity: item.quantity || 1,
+                    unit_price: item.price || item.precio,
+                    currency_id: 'MXN'
+                })),
+                payer: {
+                    email: document.getElementById('email').value,
+                    name: document.getElementById('firstName').value,
+                    phone: {
+                        area_code: document.getElementById('countryCode').value,
+                        number: document.getElementById('phone').value
+                    },
+                    address: {
+                        zip_code: document.getElementById('postalCode').value,
+                        street_name: document.getElementById('street').value,
+                        street_number: document.getElementById('extNumber').value
+                    }
+                },
+                payment_method: selectedPaymentMethod,
+                external_reference: 'ARC-' + Date.now()
+            };
+            
+            // Simular integración con Gigstack/MercadoPago
+            // En producción, aquí harías la llamada real a tu backend
+            setTimeout(() => {
+                // Simular respuesta exitosa
+                if (selectedPaymentMethod === 'card') {
+                    // Para tarjeta, simular checkout de MercadoPago
+                    simulateMercadoPagoCheckout();
+                } else {
+                    // Para otros métodos, mostrar instrucciones
+                    showPaymentInstructions(selectedPaymentMethod);
+                }
+            }, 2000);
+        }
+
+        // Simulate MercadoPago checkout
+        function simulateMercadoPagoCheckout() {
+            // En producción, aquí abrirías el checkout real de MercadoPago
+            // Por ahora, simulamos un pago exitoso
+            setTimeout(() => {
+                processPaymentSuccess();
+            }, 3000);
+        }
+
+        // Show payment instructions
+        function showPaymentInstructions(method) {
+            document.getElementById('loadingOverlay').style.display = 'none';
+            
+            let instructions = '';
+            if (method === 'oxxo') {
+                instructions = 'Dirígete a cualquier OXXO con el código de pago que te enviamos por correo.';
+            } else if (method === 'transfer') {
+                instructions = 'Realiza la transferencia a la cuenta que te enviamos por correo.';
+            }
+            
+            showToast(instructions, 'info');
+            
+            // Proceder como si el pago fuera exitoso (en producción, esperarías confirmación)
+            setTimeout(() => {
+                processPaymentSuccess();
+            }, 2000);
+        }
+
+        // Process payment success
+        function processPaymentSuccess() {
+            // Hide loading
+            document.getElementById('loadingOverlay').style.display = 'none';
+            
+            // Update progress
+            updateProgress(3);
+            
+            // Generate order number
+            const orderNum = 'ARC-' + new Date().getFullYear() + 
+                ('0' + (new Date().getMonth() + 1)).slice(-2) + 
+                ('0' + new Date().getDate()).slice(-2) + '-' + 
+                Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            
+            // Update success page
+            document.getElementById('orderNumber').textContent = orderNum;
+            document.getElementById('confirmEmail').textContent = document.getElementById('email').value;
+            document.getElementById('confirmTotal').textContent = document.getElementById('total').textContent;
+            
+            // Calculate delivery date (2 days from now)
+            const deliveryDate = new Date();
+            deliveryDate.setDate(deliveryDate.getDate() + 2);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('deliveryDate').textContent = deliveryDate.toLocaleDateString('es-MX', options);
+            
+            // Update impact metrics in success page
+            const totalCO2 = cartItems.reduce((sum, item) => sum + ((item.co2 || 10) * (item.quantity || 1)), 0);
+            const totalWater = cartItems.reduce((sum, item) => sum + ((item.water || 200) * (item.quantity || 1)), 0);
+            const totalPlastic = cartItems.reduce((sum, item) => sum + 25 * (item.quantity || 1), 0);
+            
+            document.getElementById('co2Total').textContent = totalCO2;
+            document.getElementById('waterTotal').textContent = totalWater;
+            document.getElementById('plasticTotal').textContent = totalPlastic;
+            document.getElementById('treesEquivalent').textContent = Math.round(totalCO2 / 21); // ~21kg CO2 per tree per year
+            
+            // Hide checkout, show success
+            document.getElementById('checkoutContent').style.display = 'none';
+            document.querySelector('.checkout-steps').style.display = 'none';
+            document.getElementById('successContainer').style.display = 'block';
+            
+            // Clear cart
+            localStorage.removeItem('arcaTierraCart');
+            
+            // Save order to localStorage (for order history)
+            const orders = JSON.parse(localStorage.getItem('arcaTierraOrders') || '[]');
+            orders.push({
+                orderNumber: orderNum,
+                date: new Date().toISOString(),
+                items: cartItems,
+                total: document.getElementById('total').textContent,
+                status: 'processing',
+                deliveryAddress: JSON.parse(localStorage.getItem('arcaTierraUserData'))
+            });
+            localStorage.setItem('arcaTierraOrders', JSON.stringify(orders));
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Apply discount
+        function applyDiscount() {
+            const code = document.getElementById('discountCode').value.toUpperCase();
+            
+            if (code === 'PRIMERA10') {
+                showToast('¡Descuento del 10% aplicado!', 'success');
+                // Apply 10% discount logic here
+                // Recalculate totals
+                updateTotals();
+            } else if (code === 'ARCATIERRA') {
+                showToast('¡Envío gratis aplicado!', 'success');
+                // Apply free shipping
+            } else {
+                showToast('Código de descuento inválido', 'error');
+            }
+        }
+
+        // Download receipt
+        function downloadReceipt() {
+            showToast('Descargando recibo...', 'info');
+            
+            // Create a simple receipt
+            const receiptContent = `
+ARCA TIERRA - COMPROBANTE DE COMPRA
+====================================
+
+Número de orden: ${document.getElementById('orderNumber').textContent}
+Fecha: ${new Date().toLocaleDateString('es-MX')}
+
+PRODUCTOS:
+${cartItems.map(item => `- ${item.name || item.nombre} x${item.quantity || 1} - $${((item.price || item.precio) * (item.quantity || 1)).toFixed(2)}`).join('\n')}
+
+Total: ${document.getElementById('confirmTotal').textContent}
+
+Entrega estimada: ${document.getElementById('deliveryDate').textContent}
+
+¡Gracias por tu compra consciente!
+            `;
+            
+            // Create and download file
+            const blob = new Blob([receiptContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `recibo-arcatierra-${document.getElementById('orderNumber').textContent}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Share impact
+        function shareImpact() {
+            const co2 = document.getElementById('co2Total').textContent;
+            const water = document.getElementById('waterTotal').textContent;
+            const text = `¡Acabo de ahorrar ${co2}kg de CO₂ y ${water}L de agua con mi compra en Arca Tierra! 🌱`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Mi impacto positivo con Arca Tierra',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                // Copy to clipboard
+                navigator.clipboard.writeText(text);
+                showToast('Texto copiado al portapapeles', 'info');
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast show ${type}`;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Add input listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            initCheckout();
+            
+            // Add blur listeners to remove errors
+            document.querySelectorAll('input[required], select[required]').forEach(input => {
+                input.addEventListener('blur', function() {
+                    if (this.value.trim()) {
+                        this.classList.remove('error');
+                        const errorMsg = this.nextElementSibling;
+                        if (errorMsg && errorMsg.classList.contains('error-message')) {
+                            errorMsg.classList.remove('show');
+                        }
+                    }
+                });
+            });
+            
+            // Update cart count
+            const totalItems = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            document.getElementById('cartCount').textContent = totalItems;
+        });
+    </script>
+</body>
+</html>

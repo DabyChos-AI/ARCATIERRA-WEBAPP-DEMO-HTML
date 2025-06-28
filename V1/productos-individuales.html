@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Canastas Orgánicas - Arca Tierra</title>
+    <meta name="description" content="Explora nuestras canastas de alimentos orgánicos de temporada. Productos 100% mexicanos directo de las chinampas a tu mesa.">
+    
+    <style>
+        :root {
+            /* COLORES PRINCIPALES OFICIALES - Manual de Identidad */
+            --arcatierra-terracota-principal: #B15543;
+            --arcatierra-terracota-medio: #BA6440;
+            --arcatierra-terracota-oscuro: #975543;
+            
+            /* COLORES VERDE OFICIALES */
+            --arcatierra-verde-tipografia: #3A4741;
+            --arcatierra-verde-principal: #33503E;
+            --arcatierra-verde-claro: #475A52;
+            --arcatierra-verde-suave: #748880;
+            
+            /* NEUTROS OFICIALES */
+            --arcatierra-crema-principal: #E3DBCB;
+            --arcatierra-beige-medio: #CCBB9A;
+            --arcatierra-beige-calido: #DCB584;
+            --arcatierra-gris-azulado: #C1CCCE;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--arcatierra-verde-tipografia);
+            background-color: var(--arcatierra-crema-principal);
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--arcatierra-verde-tipografia);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: var(--arcatierra-terracota-principal);
+        }
+        
+        .nav-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--arcatierra-terracota-principal);
+        }
+
+        /* User Section */
+        #userSection {
+            position: relative;
+        }
+
+        .login-btn {
+            background: var(--arcatierra-terracota-principal);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: var(--arcatierra-terracota-oscuro);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(177, 85, 67, 0.3);
+        }
+
+        .user-menu {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--arcatierra-terracota-principal), var(--arcatierra-terracota-oscuro));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(177, 85, 67, 0.3);
+        }
+
+        .user-avatar span {
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            min-width: 250px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--arcatierra-crema-principal);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--arcatierra-verde-tipografia);
+            font-size: 16px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: #6B7571;
+            margin-top: 4px;
+        }
+
+        .dropdown-body {
+            padding: 8px 0;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: var(--arcatierra-verde-tipografia);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .dropdown-item:hover {
+            background: #F8F6F2;
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .dropdown-footer {
+            border-top: 1px solid var(--arcatierra-crema-principal);
+            padding: 8px 0;
+        }
+
+        .dropdown-item.logout {
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .dropdown-item.logout:hover {
+            background: #FFF5F3;
+            color: var(--arcatierra-terracota-oscuro);
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: white;
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--arcatierra-verde-principal);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--arcatierra-terracota-principal);
+        }
+
+        .toast.info {
+            border-left: 4px solid #6B7571;
+        }
+
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon {
+            color: var(--arcatierra-verde-principal);
+        }
+
+        .toast.error .toast-icon {
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .toast.info .toast-icon {
+            color: #6B7571;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            color: var(--arcatierra-verde-tipografia);
+            margin-bottom: 2px;
+        }
+
+        .toast-message {
+            font-size: 14px;
+            color: #6B7571;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #6B7571;
+            padding: 4px;
+        }
+
+        .toast-close:hover {
+            color: var(--arcatierra-verde-tipografia);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: white;
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+            z-index: 10;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.5rem;
+            border-radius: 30px;
+            border: none;
+            font-size: 1rem;
+            color: var(--arcatierra-verde-tipografia);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .search-button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: var(--arcatierra-terracota-medio);
+        }
+
+        /* Main Layout */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Filters Sidebar */
+        .filters-sidebar {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: fit-content;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .filter-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--arcatierra-gris-azulado);
+        }
+
+        .filter-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .filter-title {
+            font-weight: 600;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 1rem;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            color: var(--arcatierra-verde-tipografia);
+            transition: color 0.3s;
+        }
+
+        .filter-option:hover {
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .filter-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--arcatierra-terracota-principal);
+            cursor: pointer;
+        }
+
+        .filter-option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        /* Products Section */
+        .products-section {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .results-count {
+            color: var(--arcatierra-verde-suave);
+            font-size: 0.95rem;
+        }
+
+        .sort-options {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-button {
+            background: none;
+            border: 1px solid var(--arcatierra-gris-azulado);
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--arcatierra-verde-suave);
+            transition: all 0.3s;
+        }
+
+        .view-button.active {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            border-color: var(--arcatierra-terracota-principal);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Product Card */
+        .product-card {
+            background-color: var(--arcatierra-beige-medio);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            background-color: var(--arcatierra-beige-calido);
+        }
+
+        .product-badges {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .badge-new {
+            background-color: var(--arcatierra-verde-principal);
+        }
+
+        .badge-discount {
+            background-color: var(--arcatierra-terracota-principal);
+        }
+
+        .badge-organic {
+            background-color: var(--arcatierra-verde-claro);
+        }
+
+        .wishlist-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .wishlist-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .wishlist-button.active {
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .producer-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--arcatierra-verde-suave);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .product-description {
+            color: var(--arcatierra-verde-tipografia);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .product-metrics {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+            color: var(--arcatierra-verde-suave);
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .price-unit {
+            font-size: 0.9rem;
+            color: var(--arcatierra-verde-suave);
+            font-weight: normal;
+        }
+
+        .add-to-cart {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--arcatierra-terracota-medio);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(177, 85, 67, 0.3);
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--arcatierra-gris-azulado);
+        }
+
+        .cart-item-img {
+            width: 80px;
+            height: 80px;
+            background-color: var(--arcatierra-beige-medio);
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-producer {
+            font-size: 0.85rem;
+            color: var(--arcatierra-verde-suave);
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .quantity-button {
+            background-color: var(--arcatierra-beige-medio);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .quantity-button:hover {
+            background-color: var(--arcatierra-beige-calido);
+        }
+
+        .cart-item-price {
+            text-align: right;
+        }
+
+        .cart-footer {
+            background-color: var(--arcatierra-beige-medio);
+            padding: 1.5rem;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 1rem;
+        }
+
+        .checkout-button {
+            width: 100%;
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checkout-button:hover {
+            background-color: var(--arcatierra-terracota-medio);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(177, 85, 67, 0.3);
+        }
+
+        /* Cart Toggle Button */
+        .cart-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .cart-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 3rem 5%;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--arcatierra-beige-calido);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-section a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <img src="imagenes/logo-arca-tierra.png" alt="Arca Tierra">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="inicio.html">Inicio</a></li>
+                <li><a href="tienda.html">Tienda</a></li>
+                <li><a href="experiencias.html">Experiencias</a></li>
+                <li><a href="xochimilco.html">Xochimilco</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="recetas.html">Recetas</a></li>
+                <li><a href="medios.html">Medios</a></li>
+            </ul>
+            <div id="userSection"></div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Catálogo de Canastas Orgánicas</h1>
+        <p>Directo de las chinampas a tu mesa. Canastas 100% orgánicas cultivadas<br>con amor y respeto por la tierra.</p>
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Busca canastas..." id="searchInput">
+            <button class="search-button" onclick="searchProducts()">🔍</button>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Filters Sidebar -->
+        <aside class="filters-sidebar">
+            <div class="filter-section">
+                <h3 class="filter-title">Tipo de Canasta</h3>
+                <div class="filter-option">
+                    <input type="checkbox" id="individual" checked>
+                    <label for="individual">Individual (3.5kg)</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="media" checked>
+                    <label for="media">Media (5kg)</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="familiar" checked>
+                    <label for="familiar">Familiar (7.5kg)</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="frutas" checked>
+                    <label for="frutas">Solo Frutas (3.5kg)</label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3 class="filter-title">Precio</h3>
+                <div class="filter-option">
+                    <input type="checkbox" id="price1">
+                    <label for="price1">$200 - $300</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="price2">
+                    <label for="price2">$300 - $400</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="price3">
+                    <label for="price3">$400 - $500</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="price4">
+                    <label for="price4">$500+</label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3 class="filter-title">Características</h3>
+                <div class="filter-option">
+                    <input type="checkbox" id="organic" checked>
+                    <label for="organic">100% Orgánico</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="seasonal" checked>
+                    <label for="seasonal">De temporada</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="recipes" checked>
+                    <label for="recipes">Incluye recetas</label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Products Section -->
+        <section class="products-section">
+            <div class="products-header">
+                <span class="results-count">4 canastas encontradas</span>
+                <div class="sort-options">
+                    <select style="padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--arcatierra-gris-azulado);">
+                        <option>Más populares</option>
+                        <option>Precio: menor a mayor</option>
+                        <option>Precio: mayor a menor</option>
+                        <option>Tamaño: menor a mayor</option>
+                    </select>
+                    <div class="view-toggle">
+                        <button class="view-button active">⚏</button>
+                        <button class="view-button">☰</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Canasta Individual -->
+                <div class="product-card" onclick="openProductModal(1)">
+                    <div class="product-badges">
+                        <span class="badge badge-organic">100% Orgánico</span>
+                    </div>
+                    <button class="wishlist-button" onclick="toggleWishlist(1, event)">
+                        ❤️
+                    </button>
+                    <img src="imagenes/canasta-individual.jpg" alt="Canasta Individual" class="product-image">
+                    <div class="product-info">
+                        <div class="producer-info">
+                            📍 Red de productores Arca Tierra
+                        </div>
+                        <h3 class="product-name">Canasta Individual</h3>
+                        <p class="product-description">Perfecta para 1-2 personas. 5-7 variedades de verduras, 2-3 frutas frescas y hierbas aromáticas.</p>
+                        <div class="product-metrics">
+                            <span class="metric">🌿 10 kg CO₂</span>
+                            <span class="metric">💧 200L agua</span>
+                        </div>
+                        <div class="product-footer">
+                            <div>
+                                <span class="product-price">$350</span>
+                                <span class="price-unit">/ 3.5kg</span>
+                            </div>
+                            <button class="add-to-cart" onclick="addToCart(1, event)">
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Canasta Media -->
+                <div class="product-card" onclick="openProductModal(2)">
+                    <div class="product-badges">
+                        <span class="badge badge-new">Más Popular</span>
+                        <span class="badge badge-organic">100% Orgánico</span>
+                    </div>
+                    <button class="wishlist-button" onclick="toggleWishlist(2, event)">
+                        ❤️
+                    </button>
+                    <img src="imagenes/canasta-media.jpg" alt="Canasta Media" class="product-image">
+                    <div class="product-info">
+                        <div class="producer-info">
+                            📍 Red de productores Arca Tierra
+                        </div>
+                        <h3 class="product-name">Canasta Media</h3>
+                        <p class="product-description">Ideal para 2-3 personas. 7-9 variedades de verduras, 3-4 frutas y mix de hierbas aromáticas.</p>
+                        <div class="product-metrics">
+                            <span class="metric">🌿 15 kg CO₂</span>
+                            <span class="metric">💧 350L agua</span>
+                        </div>
+                        <div class="product-footer">
+                            <div>
+                                <span class="product-price">$399</span>
+                                <span class="price-unit">/ 5kg</span>
+                            </div>
+                            <button class="add-to-cart" onclick="addToCart(2, event)">
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Canasta Familiar -->
+                <div class="product-card" onclick="openProductModal(3)">
+                    <div class="product-badges">
+                        <span class="badge badge-discount">Mejor Valor</span>
+                        <span class="badge badge-organic">100% Orgánico</span>
+                    </div>
+                    <button class="wishlist-button" onclick="toggleWishlist(3, event)">
+                        ❤️
+                    </button>
+                    <img src="imagenes/canasta-familiar.jpg" alt="Canasta Familiar" class="product-image">
+                    <div class="product-info">
+                        <div class="producer-info">
+                            📍 Red de productores Arca Tierra
+                        </div>
+                        <h3 class="product-name">Canasta Completa</h3>
+                        <p class="product-description">Para familias de 4-5 personas. 10-12 variedades de verduras, 4-5 frutas y variedad de hierbas.</p>
+                        <div class="product-metrics">
+                            <span class="metric">🌿 25 kg CO₂</span>
+                            <span class="metric">💧 500L agua</span>
+                        </div>
+                        <div class="product-footer">
+                            <div>
+                                <span class="product-price">$549</span>
+                                <span class="price-unit">/ 7.5kg</span>
+                            </div>
+                            <button class="add-to-cart" onclick="addToCart(3, event)">
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Canasta de Frutas -->
+                <div class="product-card" onclick="openProductModal(4)">
+                    <div class="product-badges">
+                        <span class="badge badge-new">Especial</span>
+                        <span class="badge badge-organic">100% Orgánico</span>
+                    </div>
+                    <button class="wishlist-button" onclick="toggleWishlist(4, event)">
+                        ❤️
+                    </button>
+                    <img src="imagenes/canasta-frutas.jpg" alt="Canasta de Frutas" class="product-image">
+                    <div class="product-info">
+                        <div class="producer-info">
+                            📍 Red de productores Arca Tierra
+                        </div>
+                        <h3 class="product-name">Canasta de Frutas Agroecológicas</h3>
+                        <p class="product-description">Solo frutas de temporada. 5-7 variedades diferentes, perfecta para jugos y postres saludables.</p>
+                        <div class="product-metrics">
+                            <span class="metric">🌿 8 kg CO₂</span>
+                            <span class="metric">💧 150L agua</span>
+                        </div>
+                        <div class="product-footer">
+                            <div>
+                                <span class="product-price">$249</span>
+                                <span class="price-unit">/ 3.5kg</span>
+                            </div>
+                            <button class="add-to-cart" onclick="addToCart(4, event)">
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Mi Carrito (<span id="cartItemsCount">0</span>)</h2>
+            <button class="cart-close" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Items del carrito dinámicos -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span>$<span id="cartTotal">0.00</span></span>
+            </div>
+            <button class="checkout-button" onclick="proceedToCheckout()">
+                Proceder al pago
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Toggle Button -->
+    <button class="cart-toggle" onclick="toggleCart()">
+        🛒
+        <span class="cart-count" id="cartCount">0</span>
+    </button>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Arca Tierra</h3>
+                <p>Primera cooperativa privada inteligente de México conectando productores de chinampas con consumidores conscientes.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="tienda.html">Tienda</a></li>
+                    <li><a href="experiencias.html">Experiencias</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Tipos de Canastas</h3>
+                <ul>
+                    <li><a href="#individual">Individual</a></li>
+                    <li><a href="#media">Media</a></li>
+                    <li><a href="#familiar">Familiar</a></li>
+                    <li><a href="#frutas">Solo Frutas</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul>
+                    <li>📍 Xochimilco, CDMX</li>
+                    <li>📞 +52 55 1234 5678</li>
+                    <li>✉️ hola@arcatierra.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Arca Tierra. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Datos de productos (canastas)
+        const products = [
+            {
+                id: 1,
+                name: "Canasta Individual",
+                size: "3.5kg",
+                price: 350,
+                description: "Perfecta para 1-2 personas. 5-7 variedades de verduras, 2-3 frutas frescas y hierbas aromáticas.",
+                producer: "Red de productores Arca Tierra",
+                co2: 10,
+                water: 200,
+                badges: ["100% Orgánico"],
+                image: "imagenes/canasta-individual.jpg"
+            },
+            {
+                id: 2,
+                name: "Canasta Media",
+                size: "5kg",
+                price: 399,
+                description: "Ideal para 2-3 personas. 7-9 variedades de verduras, 3-4 frutas y mix de hierbas aromáticas.",
+                producer: "Red de productores Arca Tierra",
+                co2: 15,
+                water: 350,
+                badges: ["Más Popular", "100% Orgánico"],
+                image: "imagenes/canasta-media.jpg"
+            },
+            {
+                id: 3,
+                name: "Canasta Completa",
+                size: "7.5kg",
+                price: 549,
+                description: "Para familias de 4-5 personas. 10-12 variedades de verduras, 4-5 frutas y variedad de hierbas.",
+                producer: "Red de productores Arca Tierra",
+                co2: 25,
+                water: 500,
+                badges: ["Mejor Valor", "100% Orgánico"],
+                image: "imagenes/canasta-familiar.jpg"
+            },
+            {
+                id: 4,
+                name: "Canasta de Frutas Agroecológicas",
+                size: "3.5kg",
+                price: 249,
+                description: "Solo frutas de temporada. 5-7 variedades diferentes, perfecta para jugos y postres saludables.",
+                producer: "Red de productores Arca Tierra",
+                co2: 8,
+                water: 150,
+                badges: ["Especial", "100% Orgánico"],
+                image: "imagenes/canasta-frutas.jpg"
+            }
+        ];
+
+        // Sistema de autenticación
+        function checkAuth() {
+            const userSection = document.getElementById('userSection');
+            const user = localStorage.getItem('arcaTierraCurrentUser');
+            
+            if (user) {
+                const userData = JSON.parse(user);
+                userSection.innerHTML = `
+                    <div class="user-menu">
+                        <div class="user-avatar" onclick="toggleUserMenu()">
+                            <span>${userData.name.charAt(0).toUpperCase()}</span>
+                        </div>
+                        <div class="dropdown-menu" id="userDropdown">
+                            <div class="dropdown-header">
+                                <div class="user-info">
+                                    <span class="user-name">${userData.name}</span>
+                                    <span class="user-email">${userData.email}</span>
+                                </div>
+                            </div>
+                            <div class="dropdown-body">
+                                <a href="dashboard.html" class="dropdown-item">Mi Cuenta</a>
+                                <a href="pedidos.html" class="dropdown-item">Mis Pedidos</a>
+                                <a href="suscripciones.html" class="dropdown-item">Mis Suscripciones</a>
+                            </div>
+                            <div class="dropdown-footer">
+                                <button onclick="logout()" class="dropdown-item logout">Cerrar Sesión</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                userSection.innerHTML = `
+                    <button onclick="window.location.href='login.html'" class="login-btn">
+                        Iniciar Sesión
+                    </button>
+                `;
+            }
+        }
+
+        function toggleUserMenu() {
+            document.getElementById('userDropdown').classList.toggle('active');
+        }
+
+        function logout() {
+            localStorage.removeItem('arcaTierraCurrentUser');
+            showToast('Sesión cerrada', 'Has cerrado sesión exitosamente', 'info');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+
+        // Sistema de notificaciones toast
+        function showToast(title, message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: '<svg class="toast-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>',
+                error: '<svg class="toast-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>',
+                info: '<svg class="toast-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'
+            };
+            
+            toast.innerHTML = `
+                ${icons[type]}
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+
+        // Carrito
+        let cart = JSON.parse(localStorage.getItem('arcaTierraCart')) || [];
+
+        function addToCart(productId, event) {
+            if (event) event.stopPropagation();
+            
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+
+            updateCart();
+            showToast(`${product.name} agregada al carrito`, '', 'success');
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCart();
+                }
+            }
+        }
+
+        function updateCart() {
+            localStorage.setItem('arcaTierraCart', JSON.stringify(cart));
+            
+            // Actualizar contador
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems;
+            document.getElementById('cartItemsCount').textContent = totalItems;
+
+            // Actualizar items del carrito
+            const cartItemsContainer = document.getElementById('cartItems');
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p style="text-align: center; color: var(--arcatierra-verde-suave);">Tu carrito está vacío</p>';
+            } else {
+                cartItemsContainer.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-producer">${item.size}</div>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-button" onclick="updateQuantity(${item.id}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button class="quantity-button" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="cart-item-price">
+                            <div>$${(item.price * item.quantity).toFixed(2)}</div>
+                            <button onclick="removeFromCart(${item.id})" style="background: none; border: none; color: var(--arcatierra-terracota-principal); cursor: pointer; margin-top: 0.5rem;">🗑️</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Actualizar total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cartTotal').textContent = total.toFixed(2);
+        }
+
+        function toggleCart() {
+            const cartSidebar = document.getElementById('cartSidebar');
+            cartSidebar.classList.toggle('open');
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                showToast('Tu carrito está vacío', 'Agrega canastas antes de continuar', 'error');
+                return;
+            }
+            window.location.href = 'checkout.html';
+        }
+
+        function toggleWishlist(productId, event) {
+            if (event) event.stopPropagation();
+            showToast('Agregado a favoritos', '', 'success');
+        }
+
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            // Implementar búsqueda
+            showToast('Búsqueda realizada', `Buscando: ${searchTerm}`, 'info');
+        }
+
+        function openProductModal(productId) {
+            // Aquí iría la lógica del modal de producto
+            showToast('Vista rápida', 'Función próximamente', 'info');
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            updateCart();
+            
+            // Cerrar dropdown al hacer clic fuera
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.user-menu')) {
+                    const dropdown = document.getElementById('userDropdown');
+                    if (dropdown) dropdown.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

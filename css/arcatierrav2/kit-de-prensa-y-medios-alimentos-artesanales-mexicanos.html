@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- METADATOS SEO EXACTOS DE LA GUÍA -->
+    <title>Prensa y medios Arca Tierra, alimentos artesanales mexicanos</title>
+    <meta name="description" content="Checa lo que se ha dicho en prensa y medios sobre Arca Tierra. Nos interesan los alimentos artesanales mexicanos, la agricultura campesina y las chinampas.">
+    <link rel="canonical" href="https://www.arcatierra.com/kit-de-prensa-y-medios-alimentos-artesanales-mexicanos">
+    <meta name="keywords" content="alimentos artesanales mexicanos, prensa arca tierra, medios comunicación, agricultura campesina">
+    
+    <!-- SCHEMA.ORG ESPECÍFICO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Prensa y Medios - Arca Tierra",
+      "description": "Cobertura mediática sobre Arca Tierra, alimentos artesanales mexicanos y agricultura campesina",
+      "about": {
+        "@type": "Organization",
+        "name": "Arca Tierra",
+        "foundingDate": "2009",
+        "founder": {
+          "@type": "Person",
+          "name": "Lucio Usobiaga"
+        }
+      },
+      "mentions": [
+        {
+          "@type": "NewsArticle",
+          "publisher": "Washington Post",
+          "datePublished": "2022"
+        },
+        {
+          "@type": "NewsArticle", 
+          "publisher": "Travel & Leisure",
+          "datePublished": "2023"
+        }
+      ]
+    }
+    </script>
+    
+    <style>
+        /* VARIABLES DE COLORES OFICIALES */
+        :root {
+            --arcatierra-terracota-principal: #B15543;
+            --arcatierra-terracota-medio: #BA6440;
+            --arcatierra-terracota-oscuro: #975543;
+            --arcatierra-verde-tipografia: #3A4741;
+            --arcatierra-verde-principal: #33503E;
+            --arcatierra-verde-claro: #475A52;
+            --arcatierra-verde-suave: #748880;
+            --arcatierra-crema-principal: #E3DBCB;
+            --arcatierra-beige-medio: #CCBB9A;
+            --arcatierra-beige-calido: #DCB584;
+            --arcatierra-gris-azulado: #C1CCCE;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--arcatierra-crema-principal);
+            color: var(--arcatierra-verde-tipografia);
+            line-height: 1.6;
+        }
+
+        /* HEADER UNIFICADO */
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            height: 50px;
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+            max-width: 150px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--arcatierra-verde-tipografia);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        /* HERO SECTION */
+        .hero-media {
+            background-color: var(--arcatierra-beige-medio);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero-media h1 {
+            color: var(--arcatierra-verde-principal);
+            font-size: 2.5rem;
+            max-width: 900px;
+            margin: 0 auto 2rem;
+            line-height: 1.3;
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content-section {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .content-section h2 {
+            color: var(--arcatierra-verde-principal);
+            font-size: 2rem;
+            margin: 3rem 0 1.5rem;
+        }
+
+        .content-section h3 {
+            color: var(--arcatierra-terracota-principal);
+            font-size: 1.5rem;
+            margin: 2.5rem 0 1rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .content-section ul {
+            margin: 1rem 0 2rem 0;
+            list-style: none;
+        }
+
+        .content-section li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .content-section li:before {
+            content: "▸";
+            color: var(--arcatierra-terracota-principal);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* ENLACES DE PRENSA */
+        .press-link {
+            color: var(--arcatierra-terracota-principal);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .press-link:hover {
+            color: var(--arcatierra-terracota-medio);
+            text-decoration: underline;
+        }
+
+        /* IMÁGENES */
+        .section-image {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            margin: 2rem auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* CTA SECTION */
+        .cta-section {
+            background-color: white;
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--arcatierra-terracota-medio);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--arcatierra-verde-principal);
+            padding: 1rem 2rem;
+            border: 2px solid var(--arcatierra-verde-principal);
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+        }
+
+        /* DATOS DE IMPACTO */
+        .impact-box {
+            background-color: var(--arcatierra-verde-claro);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .impact-box ul {
+            margin-left: 0;
+        }
+
+        .impact-box li {
+            color: white;
+        }
+
+        .impact-box li:before {
+            color: white;
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-media h1 {
+                font-size: 1.8rem;
+            }
+            
+            .content-section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logos/logo-arcatierra.png" alt="Arca Tierra">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="tienda-canastas-con-alimentos-de-temporada-mexico.html">Tienda</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="experiencias-turismo-rural-y-gastronomico-xochimilco.html">Experiencias</a></li>
+                <li><a href="nosotros-xochimilco-chinampa-del-sol.html">Xochimilco</a></li>
+                <li><a href="nosotros-chinampas-agricultura-campesina.html">Nosotros</a></li>
+                <li><a href="kit-de-prensa-y-medios-alimentos-artesanales-mexicanos.html" style="color: var(--arcatierra-terracota-principal);">Medios</a></li>
+                <li><a href="recetas-faciles-alimentos-naturales.html">Recetas</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+            <div id="userSection">
+                <!-- Se llena con JS -->
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-media">
+        <h1>Prensa y medios arca tierra, alimentos artesanales mexicanos</h1>
+        <p style="max-width: 800px; margin: 0 auto; font-size: 1.2rem;">Nuestra historia en los medios desde 2009</p>
+    </section>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="content-section">
+        <img src="images/medios/prensa_medios_arca_tierra.jpg" alt="Collage de apariciones de Arca Tierra en medios de comunicación nacionales e internacionales" class="section-image">
+        
+        <p>Checa lo que se ha dicho en prensa y medios sobre arca tierra. Nos interesan los alimentos artesanales mexicanos, la agricultura campesina y la conservación de las chinampas.</p>
+        
+        <img src="images/medios/lucio_usobiaga_entrevista.jpg" alt="Lucio Usobiaga, fundador de Arca Tierra, durante entrevista en medios" class="section-image">
+        
+        <p>Nuestra labor comenzó en 2009 y desde entonces hemos tejido redes entre agricultoras y agricultores, el medio gastronómico y las personas interesadas en alimentación natural y saludable.</p>
+        
+        <p>Sentimos orgullo de que conozcas nuestro proyecto y seamos en conjunto parte de un movimiento en pro de las familias agricultoras, la agroecología, el comercio justo y la trazabilidad.</p>
+        
+        <!-- CTA -->
+        <div class="cta-section">
+            <h3>Lee sobre nuestras canastas de alimentos mexicanos que se cultivan en las chinampas o en otras comunidades campesinas.</h3>
+            
+            <p>Revisa detalles de nuestras experiencias de turismo rural y gastronómico en Xochimilco.</p>
+            
+            <div class="cta-buttons">
+                <a href="tienda-canastas-con-alimentos-de-temporada-mexico.html" class="btn-primary">Ver Canastas</a>
+                <a href="experiencias-turismo-rural-y-gastronomico-xochimilco.html" class="btn-secondary">Ver Experiencias</a>
+            </div>
+        </div>
+
+        <h2>Datos de interés sobre arca tierra</h2>
+        
+        <img src="images/medios/impacto_social_datos.jpg" alt="Infografía mostrando el impacto social de Arca Tierra en familias campesinas" class="section-image">
+        
+        <p>Algunos ejemplos del impacto social que tenemos son:</p>
+        
+        <div class="impact-box">
+            <ul>
+                <li>Producción y entregas locales de alimentos artesanales mexicanos a 250 familias de consumidores, 35 familias campesinas y 46 tiendas y restaurantes.</li>
+                <li>Personas agricultoras con acceso a una hectárea productiva en la red pueden generar ingresos netos de hasta 347,000 pesos al año.</li>
+                <li>Bancarización de productores y transferencia de tecnologías digitales (software de siembra) y métodos de agricultura regenerativa.</li>
+                <li>Profesionalización por medio de fortalecimiento de capacidades organizativas y articulación de red en equipos de trabajo y cooperativas.</li>
+            </ul>
+        </div>
+        
+        <p>Y algunos datos sobre impacto ambiental son:</p>
+        
+        <ul>
+            <li>Restauración de la zona chinampera: cinco hectáreas de recuperación y regeneración con prácticas agrícolas de captura de carbono, aumento en biodiversidad (medido en las chinampas por presencia de ciertas especies), seis biofiltros implementados con la UNAM y el Cinvestav para limpiar el agua en las chinampas (y que servirán como refugio de ajolotes).</li>
+            <li>24.5 hectáreas totales de conversión a agricultura regenerativa en CDMX, Hidalgo y Estado de México.</li>
+            <li>Energía solar para riego y limpieza de agua.</li>
+        </ul>
+        
+        <p>Por otro lado, la Iniciativa Agroecológica Xochimilco A.C. es presidida por Lucio Usobiaga, fundador de arca tierra. Esta se dedica a la capacitación y transferencia de conocimientos y técnicas a familias campesinas y trabaja en biorremediación de agua y suelo, especialmente en Xochimilco.</p>
+
+        <h2>Notas de prensa sobre arca tierra</h2>
+        
+        <img src="images/medios/cobertura_internacional.jpg" alt="Artículos internacionales sobre Arca Tierra en Washington Post y Travel & Leisure" class="section-image">
+        
+        <!-- 2021 -->
+        <h3>2021</h3>
+        <ul>
+            <li><a href="https://www.timeoutmexico.mx/ciudad-de-mexico/restaurantes/arca-tierra" target="_blank" class="press-link">Time Out México - Arca Tierra</a></li>
+            <li><a href="https://foodandtravel.mx/agricultura-ecologica-en-las-chinampas-de-xochimilco/" target="_blank" class="press-link">Food and Travel - Agricultura ecológica en las chinampas de Xochimilco</a></li>
+            <li><a href="https://www.robynhuang.com/post/arca-tierra-connecting-xochimilco-s-peasant-farmers-with-mexico-city-s-gourmands" target="_blank" class="press-link">Robyn Huang - Connecting Xochimilco's peasant farmers with Mexico City's gourmands</a></li>
+            <li><a href="https://lifeandstyle.expansion.mx/viajes-y-gourmet/2021/11/09/al-rescate-de-xochimilco-los-mejores-chefs-de-mexico-se-unen-por-las-chinampas" target="_blank" class="press-link">Expansión - Al rescate de Xochimilco</a></li>
+        </ul>
+        
+        <!-- 2022 -->
+        <h3>2022</h3>
+        <ul>
+            <li><a href="https://www.ngenespanol.com/traveler/que-es-arca-tierra/" target="_blank" class="press-link">National Geographic España - ¿Qué es Arca Tierra?</a></li>
+            <li><a href="https://resilientcitiesnetwork.org/arca-tierra-eng/" target="_blank" class="press-link">Resilient Cities Network - Arca Tierra</a></li>
+            <li><a href="https://www.mexicodesconocido.com.mx/arca-tierra-comida-chinampera-con-causa.html" target="_blank" class="press-link">México Desconocido - Comida chinampera con causa</a></li>
+            <li><a href="https://www.washingtonpost.com/travel/mexico/mexico-city-local-guide/" target="_blank" class="press-link">Washington Post - Mexico City Local Guide</a></li>
+        </ul>
+        
+        <!-- 2023 -->
+        <h3>2023</h3>
+        <ul>
+            <li><a href="https://www.travelandleisure.com/arca-tierra-farm-tour-xochimilco-mexico-city-6823932" target="_blank" class="press-link">Travel & Leisure - Arca Tierra Farm Tour Xochimilco</a></li>
+            <li><a href="https://www.animalgourmet.com/2023/04/28/arca-tierra-agricultura-regenerativa-y-comida-sustentable/" target="_blank" class="press-link">Animal Gourmet - Agricultura regenerativa y comida sustentable</a></li>
+            <li><a href="https://www.chilango.com/revista/un-viaje-al-corazon-de-las-chinampas-arca-tierra/" target="_blank" class="press-link">Chilango - Un viaje al corazón de las chinampas</a></li>
+        </ul>
+        
+        <!-- 2024 -->
+        <h3>2024</h3>
+        
+        <img src="images/medios/restaurante_baldio_prensa.jpg" alt="Cobertura mediática del restaurante Baldío, primer zero waste de México" class="section-image">
+        
+        <ul>
+            <li><a href="https://es.wired.com/articulos/arca-tierra-y-silo-londres-inauguran-el-primer-restaurante-cero-desperdicio-de-mexico" target="_blank" class="press-link">Wired España - Primer restaurante cero desperdicio de México</a></li>
+            <li><a href="https://www.finedininglovers.com/article/silo-mexico-bald%C3%ADo" target="_blank" class="press-link">Fine Dining Lovers - Silo Mexico Baldío</a></li>
+            <li><a href="https://elpais.com/gastronomia/restaurantes/2024-09-09/baldio-el-primer-restaurante-mexicano-sin-cubo-de-basura-en-su-cocina.html" target="_blank" class="press-link">El País - Baldío, el primer restaurante mexicano sin cubo de basura</a></li>
+            <li><a href="https://www.cntraveler.com/restaurants/mexico-city/baldio" target="_blank" class="press-link">Condé Nast Traveler - Baldío Restaurant</a></li>
+        </ul>
+        
+        <!-- 2025 -->
+        <h3>2025</h3>
+        
+        <img src="images/medios/chinampa_veneta_bienal.jpg" alt="Proyecto Chinampa Veneta en la Bienal de Venecia 2025" class="section-image">
+        
+        <ul>
+            <li><a href="https://vanguardia.com.mx/entrevistas/lucio-usobiaga-BA16163637" target="_blank" class="press-link">Vanguardia - Entrevista Lucio Usobiaga</a></li>
+            <li><a href="https://foodandpleasure.com/chinampa-veneta-mexico-bienal-venecia/" target="_blank" class="press-link">Food and Pleasure - Chinampa Veneta México Bienal Venecia</a></li>
+            <li><a href="https://www.dondeir.com/cultura/chinampa-veneta-mexico-regenera-espacios-en-la-bienal-de-venecia/2025/05/" target="_blank" class="press-link">Dónde Ir - México regenera espacios en la Bienal de Venecia</a></li>
+        </ul>
+        
+        <!-- KIT DE PRENSA -->
+        <div class="cta-section" style="margin-top: 4rem;">
+            <h3>Descarga la información de prensa sobre arca tierra y contáctanos si requieres alguna entrevista o si tienes alguna duda sobre nosotros.</h3>
+            
+            <img src="images/medios/kit_prensa_arca_tierra.jpg" alt="Kit de prensa con logos, imágenes y datos de Arca Tierra" class="section-image">
+            
+            <div class="cta-buttons">
+                <a href="#" class="btn-primary">Descargar Kit de Prensa</a>
+                <a href="contacto.html" class="btn-secondary">Contacto para Medios</a>
+                <a href="#" class="btn-secondary">Solicitar Entrevista</a>
+            </div>
+        </div>
+        
+        <h2 style="text-align: center; margin-top: 4rem;">Arca tierra es promotora de los alimentos artesanales mexicanos, la cultura chinampera, la agroecología y las personas que las hacen posibles.</h2>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            <div style="text-align: center;">
+                <img src="images/logos/logo-arcatierra-blanco.png" alt="Arca Tierra" style="height: 60px; margin-bottom: 1rem;">
+                <p>&copy; 2024 Arca Tierra. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

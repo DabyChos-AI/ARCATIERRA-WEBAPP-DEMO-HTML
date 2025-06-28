@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- METADATOS ESPECÍFICOS TIENDA -->
+    <title>Tienda y canastas con alimentos de temporada en México</title>
+    <meta name="description" content="Nuestra tienda y canastas con alimentos de temporada en México ofrecen calidad, además de que al comprar, apoyas a regenerar el suelo de las chinampas y otras zonas de cultivo en Hidalgo y Estado de México.">
+    <link rel="canonical" href="https://www.arcatierra.com/tienda">
+    <meta name="keywords" content="alimentos de temporada, canastas agroecológicas, tienda orgánica, productos chinamperos, agricultura campesina">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/tienda.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- SCHEMA.ORG PARA TIENDA -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "Tienda Arca Tierra",
+      "description": "Tienda de alimentos agroecológicos y canastas de temporada directo de las chinampas",
+      "url": "https://www.arcatierra.com/tienda",
+      "priceRange": "$$",
+      "paymentAccepted": ["Cash", "Credit Card", "Debit Card"],
+      "currenciesAccepted": "MXN",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Xochimilco",
+        "addressRegion": "CDMX",
+        "addressCountry": "MX"
+      }
+    }
+    </script>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logos/logo-arcatierra.png" alt="ArcaTierra">
+                </a>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="tienda.html" class="active">Tienda</a></li>
+                <li><a href="experiencias.html">Experiencias</a></li>
+                <li><a href="xochimilco.html">Xochimilco</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="medios-prensa.html">Medios</a></li>
+                <li><a href="recetas.html">Recetas</a></li>
+            </ul>
+            
+            <div class="user-cart-section">
+                <div id="userSection">
+                    <!-- Se llena dinámicamente con JS -->
+                </div>
+                <div class="cart-icon">
+                    <a href="carrito.html">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 2L3 6v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-6-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M12 2v20"></path>
+                        </svg>
+                        <span id="cartBadge" class="cart-badge">0</span>
+                    </a>
+                </div>
+            </div>
+            
+            <button class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HERO TIENDA -->
+        <section class="tienda-hero">
+            <div class="container">
+                <h1>Tienda y canastas con alimentos de temporada en México</h1>
+                
+                <img src="images/tienda/agricultura_campesina_alimentos_de_temporada.jpg" 
+                     alt="Canasta con variedad de vegetales frescos de temporada cultivados por agricultura campesina" 
+                     class="hero-image">
+                
+                <p class="hero-text">Nuestra tienda y canastas con alimentos de temporada en México ofrecen calidad, además de que al comprar, apoyas a regenerar el suelo de las chinampas y otras zonas de cultivo en Hidalgo, Puebla, Veracruz y Estado de México.</p>
+                
+                <p>Vendemos alimentos artesanales y canastas con la cosecha de la semana ya sea a través de suscripciones o con compra directa. Elige la que más te convenga y lleva a tu hogar frescura y salud.</p>
+                
+                <img src="images/tienda/alimentos_saludables.jpg" 
+                     alt="Variedad de frutas y verduras frescas organizadas por colores sobre superficie blanca" 
+                     class="section-image">
+                
+                <p>Cuidamos la trazabilidad y la relación comercial que tenemos con personas agricultoras, artesanas, productoras y cocineras está basada en el comercio justo, así que toda la red es remunerada por su trabajo.</p>
+            </div>
+        </section>
+
+        <!-- VERIFICADOR DE CÓDIGO POSTAL -->
+        <section class="codigo-postal">
+            <div class="container">
+                <h3>Ayúdanos a saber si podemos llegar hasta ti: ingresa tu código postal.</h3>
+                <div class="cp-form">
+                    <input type="text" 
+                           id="cpInput"
+                           placeholder="Código postal" 
+                           class="cp-input"
+                           maxlength="5"
+                           pattern="[0-9]{4,5}">
+                    <button class="cp-button" onclick="verificarCodigoPostal()">Verificar</button>
+                </div>
+                <div id="cpMessage" class="cp-message"></div>
+            </div>
+        </section>
+
+        <!-- ENLACE A PRODUCTOS -->
+        <section class="enlace-tienda">
+            <div class="container">
+                <h3>Ver productos de tienda en línea arca tierra</h3>
+                <a href="#productos" class="tienda-link">Ir a la tienda</a>
+            </div>
+        </section>
+
+        <!-- POR QUÉ COMPRAR -->
+        <section class="por-que-comprar">
+            <div class="container">
+                <h2>¿Por qué comprar en nuestra tienda?</h2>
+                
+                <p><strong>Alimentos agroecológicos, frescos y 100% mexicanos, directo a tu casa.</strong></p>
+                
+                <img src="images/tienda/agricultura_campesina_sin_agroquimicos.JPG" 
+                     alt="Agricultor cosechando vegetales verdes en campo sin uso de agroquímicos" 
+                     class="section-image">
+                
+                <p>Tenemos alimentos de temporada que provienen de los huertos trabajados por 50 familias campesinas que integran la red campesina de arca tierra y los de origen animal son resultado de prácticas regenerativas con cuidado hacia los animales.</p>
+                
+                <p>Frutas, verduras y cada alimento y producto que ofrecemos son resultado de prácticas y principios de cuidado al medio ambiente.</p>
+                
+                <img src="images/tienda/agricultura_campesina_mexico.jpg" 
+                     alt="Vista panorámica de cultivos campesinos en terreno montañoso de México" 
+                     class="section-image">
+                
+                <p>Te invitamos a sumarte a un movimiento en el cual una alimentación saludable va de la mano del cuidado del planeta y de la revalorización de quienes se dedican a la agricultura campesina.</p>
+            </div>
+        </section>
+
+        <!-- CANASTAS DE TEMPORADA -->
+        <section class="canastas-temporada" id="productos">
+            <div class="container">
+                <h2>Canastas de alimentos de temporada: agroecológicas y variadas</h2>
+                
+                <p>Nuestras canastas de alimentos temporada ofrecen un balance entre verduras de hoja, frutas y raíces y cada semana son diferentes.</p>
+                
+                <p>Procuramos incluir productos de consumo básico en la cocina como jitomate, cebolla, mezcla de lechugas, aguacate y hierbas de olor.</p>
+                
+                <img src="images/tienda/compra_de_alimentos_de_temporada.jpg" 
+                     alt="Manos seleccionando vegetales frescos en mercado local de productos de temporada" 
+                     class="section-image">
+                
+                <p>Compra hoy y empieza a disfrutar alimentos frescos, sanos y con historia.</p>
+                
+                <p><strong>Tenemos de diferentes opciones para escoger:</strong></p>
+                
+                <div class="canastas-opciones">
+                    <!-- Canasta de Frutas -->
+                    <div class="canasta-opcion">
+                        <h4>Canasta de Frutas Agroecológicas individual (3.5 kg)</h4>
+                        <p class="canasta-descripcion">Selección de frutas de temporada cultivadas sin agroquímicos</p>
+                        <p class="precio">$320.00 MXN</p>
+                        <div class="canasta-botones">
+                            <button class="btn-suscripcion" onclick="suscribirse('frutas-individual')">
+                                Suscribirme
+                            </button>
+                            <button class="btn-compra-directa" onclick="comprarDirecto('frutas-individual')">
+                                Quiero pedirla sin suscripción
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Canasta Individual -->
+                    <div class="canasta-opcion">
+                        <h4>Canasta individual (3.5 kg)</h4>
+                        <p class="canasta-descripcion">Mix de vegetales y frutas perfecta para 1-2 personas</p>
+                        <p class="precio">$280.00 MXN</p>
+                        <div class="canasta-botones">
+                            <button class="btn-suscripcion" onclick="suscribirse('individual')">
+                                Suscribirme
+                            </button>
+                            <button class="btn-compra-directa" onclick="comprarDirecto('individual')">
+                                Quiero pedirla sin suscripción
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Canasta Media -->
+                    <div class="canasta-opcion">
+                        <h4>Canasta media (5 kg)</h4>
+                        <p class="canasta-descripcion">Ideal para familias pequeñas de 2-3 personas</p>
+                        <p class="precio">$380.00 MXN</p>
+                        <div class="canasta-botones">
+                            <button class="btn-suscripcion" onclick="suscribirse('media')">
+                                Suscribirme
+                            </button>
+                            <button class="btn-compra-directa" onclick="comprarDirecto('media')">
+                                Quiero pedirla sin suscripción
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Canasta Completa -->
+                    <div class="canasta-opcion canasta-destacada">
+                        <span class="badge-popular">Más Popular</span>
+                        <h4>Canasta completa (7.5 kg)</h4>
+                        <img src="images/tienda/compra_de_alimentos_de_temporada_arca_tierra.jpg" 
+                             alt="Canasta completa con abundante variedad de vegetales y frutas de temporada de Arca Tierra" 
+                             class="canasta-image">
+                        <p class="canasta-descripcion">Perfecta para familias de 3-5 personas</p>
+                        <p class="precio">$520.00 MXN</p>
+                        <div class="canasta-botones">
+                            <button class="btn-suscripcion" onclick="suscribirse('completa')">
+                                Suscribirme
+                            </button>
+                            <button class="btn-compra-directa" onclick="comprarDirecto('completa')">
+                                Quiero pedirla sin suscripción
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BENEFICIOS DE SUSCRIPCIÓN -->
+        <section class="beneficios-suscripcion">
+            <div class="container">
+                <h2>Beneficios de tu suscripción</h2>
+                <div class="beneficios-grid">
+                    <div class="beneficio">
+                        <span class="beneficio-icon">🚚</span>
+                        <h3>Entrega Semanal</h3>
+                        <p>Recibe productos frescos cada semana sin preocuparte por hacer el pedido</p>
+                    </div>
+                    <div class="beneficio">
+                        <span class="beneficio-icon">💰</span>
+                        <h3>10% de Descuento</h3>
+                        <p>Ahorra en cada entrega con nuestro descuento exclusivo para suscriptores</p>
+                    </div>
+                    <div class="beneficio">
+                        <span class="beneficio-icon">🎁</span>
+                        <h3>Productos Sorpresa</h3>
+                        <p>Descubre nuevos sabores con productos especiales cada mes</p>
+                    </div>
+                    <div class="beneficio">
+                        <span class="beneficio-icon">⏸️</span>
+                        <h3>Pausar en Cualquier Momento</h3>
+                        <p>Flexibilidad total para pausar o cancelar tu suscripción cuando lo necesites</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA FINAL -->
+        <section class="cta-tienda">
+            <div class="container">
+                <h2>Empieza hoy a comer sano y apoyar al campo mexicano</h2>
+                <p>Cada compra es un voto por la agricultura regenerativa y el comercio justo</p>
+                <div class="cta-buttons">
+                    <a href="#productos" class="btn-primary">Ver Canastas</a>
+                    <a href="nosotros.html" class="btn-secondary">Conocer Más</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <img src="images/logos/logo-arcatierra-white.png" alt="ArcaTierra" class="footer-logo">
+                <p>Conectando las chinampas de Xochimilco con tu mesa. Productos orgánicos, frescos y sustentables.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">📘</a>
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="WhatsApp">💬</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="tienda.html">Tienda</a></li>
+                    <li><a href="experiencias.html">Experiencias</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="cuenta/mi-cuenta.html">Mi Cuenta</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Productos</h3>
+                <ul>
+                    <li><a href="#canastas">Canastas Semanales</a></li>
+                    <li><a href="#suscripciones">Suscripciones</a></li>
+                    <li><a href="#productos-especiales">Productos Especiales</a></li>
+                    <li><a href="recetas.html">Recetas</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul>
+                    <li>📧 info@arcatierra.com</li>
+                    <li>📱 +52 55 1234 5678</li>
+                    <li>📍 Xochimilco, CDMX</li>
+                    <li>🕒 Lun-Vie: 9:00-18:00</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 ArcaTierra. Todos los derechos reservados.</p>
+            <p>Hecho con 💚 en las chinampas de Xochimilco</p>
+        </div>
+    </footer>
+    
+    <!-- JAVASCRIPT -->
+    <script src="js/main.js"></script>
+    <script src="js/tienda.js"></script>
+</body>
+</html>

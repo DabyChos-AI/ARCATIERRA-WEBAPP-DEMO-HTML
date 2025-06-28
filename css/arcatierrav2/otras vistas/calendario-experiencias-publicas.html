@@ -1,0 +1,2257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiencias - Arca Tierra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            /* Colores del manual de identidad */
+            --terracota-principal: #B15543;
+            --verde-principal: #33503E;
+            --marron-oscuro: #562E26;
+            --verde-secundario: #67795F;
+            --verde-claro: #ABC59E;
+            --beige: #EAD8B6;
+            --crema: #F9F4E8;
+            --blanco: #FFFFFF;
+            --negro: #1A1A1A;
+            --gris-oscuro: #4A4A4A;
+            --gris-medio: #7A7A7A;
+            --gris-claro: #CACACA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--crema);
+            color: var(--negro);
+            overflow-x: hidden;
+        }
+
+        /* LOADER */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--crema);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loader-circles {
+            display: flex;
+            gap: 12px;
+        }
+
+        .loader-circle {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .loader-circle:nth-child(1) {
+            background: var(--terracota-principal);
+            animation-delay: -0.32s;
+        }
+
+        .loader-circle:nth-child(2) {
+            background: var(--verde-principal);
+            animation-delay: -0.16s;
+        }
+
+        .loader-circle:nth-child(3) {
+            background: var(--verde-secundario);
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* HEADER */
+        header {
+            background: var(--blanco);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--terracota-principal);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gris-oscuro);
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--terracota-principal);
+        }
+
+        .btn-reservar {
+            background: var(--terracota-principal);
+            color: var(--blanco);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-reservar:hover {
+            background: #9A4A3A;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        /* HERO */
+        .hero {
+            height: 300px;
+            background: linear-gradient(135deg, var(--verde-principal) 0%, var(--verde-secundario) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-pattern {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.05) 35px, rgba(255,255,255,.05) 70px);
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--blanco);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 5%;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 3rem;
+        }
+
+        /* CALENDAR */
+        .calendar-container {
+            background: var(--blanco);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .calendar-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: var(--verde-principal);
+            color: var(--blanco);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background: var(--verde-secundario);
+            transform: scale(1.1);
+        }
+
+        .month-year {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--verde-principal);
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--verde-principal);
+            background: transparent;
+            color: var(--verde-principal);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-btn.active {
+            background: var(--verde-principal);
+            color: var(--blanco);
+        }
+
+        .calendar-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--gris-medio);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gris-claro);
+        }
+
+        .calendar-grid {
+            background: var(--blanco);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .weekday {
+            text-align: center;
+            font-weight: 600;
+            color: var(--gris-oscuro);
+            padding: 0.5rem;
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .day-cell {
+            aspect-ratio: 1;
+            border: 2px solid var(--gris-claro);
+            border-radius: 10px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .day-cell:hover {
+            border-color: var(--verde-principal);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .day-number {
+            font-weight: 600;
+            color: var(--negro);
+            margin-bottom: 0.25rem;
+        }
+
+        .day-cell.other-month .day-number {
+            color: var(--gris-claro);
+        }
+
+        .day-cell.has-events {
+            background: linear-gradient(135deg, var(--verde-claro) 0%, var(--beige) 100%);
+            border-color: var(--verde-principal);
+        }
+
+        .event-icons {
+            display: flex;
+            gap: 2px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .event-icon {
+            font-size: 1rem;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 350px;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .sidebar-section {
+            background: var(--blanco);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-section h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--verde-principal);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .experience-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .experience-item:hover {
+            background: var(--crema);
+            transform: translateX(5px);
+        }
+
+        .experience-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+        }
+
+        .experience-details h4 {
+            color: var(--verde-principal);
+            margin-bottom: 0.25rem;
+        }
+
+        .experience-details p {
+            font-size: 0.85rem;
+            color: var(--gris-medio);
+        }
+
+        .schedule-item {
+            padding: 1rem;
+            border-left: 4px solid var(--terracota-principal);
+            background: var(--crema);
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 0.5rem;
+        }
+
+        /* VISTA DE EMPLEADOS */
+        .employee-access {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .employee-btn {
+            background: var(--verde-principal);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(51, 80, 62, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .employee-btn:hover {
+            background: var(--verde-secundario);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(51, 80, 62, 0.4);
+        }
+
+        /* MODAL DE LOGIN */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-content h3 {
+            color: var(--verde-principal);
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--gris-claro);
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-size: 16px;
+        }
+
+        .modal-content input:focus {
+            outline: none;
+            border-color: var(--verde-principal);
+        }
+
+        .modal-btn {
+            background: var(--terracota-principal);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            background: var(--marron-oscuro);
+            transform: translateY(-2px);
+        }
+
+        .modal-btn.secondary {
+            background: var(--gris-medio);
+        }
+
+        .modal-btn.secondary:hover {
+            background: var(--gris-oscuro);
+        }
+
+        /* DASHBOARD DE EMPLEADOS */
+        .employee-dashboard {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--crema);
+            z-index: 1500;
+            display: none;
+            overflow-y: auto;
+        }
+
+        .employee-dashboard.active {
+            display: block;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--verde-principal) 0%, var(--verde-secundario) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .dashboard-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-message {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .close-dashboard {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .close-dashboard:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .dashboard-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .dashboard-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .view-selector {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-selector button {
+            padding: 10px 20px;
+            border: 2px solid var(--verde-principal);
+            background: white;
+            color: var(--verde-principal);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .view-selector button.active {
+            background: var(--verde-principal);
+            color: white;
+        }
+
+        .employee-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .employee-selector select {
+            padding: 10px 15px;
+            border: 2px solid var(--verde-principal);
+            border-radius: 10px;
+            background: white;
+            color: var(--verde-principal);
+            font-weight: 600;
+        }
+
+        .export-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .export-btn {
+            padding: 10px 15px;
+            background: var(--terracota-principal);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn:hover {
+            background: var(--marron-oscuro);
+            transform: translateY(-2px);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--verde-principal);
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+            color: var(--terracota-principal);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--verde-principal);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: var(--gris-medio);
+            font-size: 0.9rem;
+        }
+
+        /* TABLA DE EXPERIENCIAS */
+        .experiences-table-container {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-input {
+            padding: 8px 12px;
+            border: 2px solid var(--gris-claro);
+            border-radius: 8px;
+            width: 200px;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 2px solid var(--gris-claro);
+            border-radius: 8px;
+            background: white;
+        }
+
+        .experiences-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .experiences-table th,
+        .experiences-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--gris-claro);
+        }
+
+        .experiences-table th {
+            background: var(--crema);
+            font-weight: 600;
+            color: var(--verde-principal);
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-confirmado {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .status-pendiente {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .status-cancelado {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin: 0 2px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit {
+            background: var(--verde-claro);
+            color: var(--verde-principal);
+        }
+
+        .btn-delete {
+            background: #ffcdd2;
+            color: #d32f2f;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* POST-ITS SYSTEM */
+        .postits-section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .postits-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .add-postit-btn {
+            background: var(--terracota-principal);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .add-postit-btn:hover {
+            background: var(--marron-oscuro);
+            transform: translateY(-2px);
+        }
+
+        .postits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .postit {
+            background: #ffeb3b;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transform: rotate(-1deg);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .postit:nth-child(even) {
+            transform: rotate(1deg);
+        }
+
+        .postit:hover {
+            transform: rotate(0deg) scale(1.05);
+            z-index: 10;
+        }
+
+        .postit.personal {
+            background: #e1f5fe;
+        }
+
+        .postit.team {
+            background: #f3e5f5;
+        }
+
+        .postit-header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--gris-oscuro);
+        }
+
+        .postit-content {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+        }
+
+        .postit-footer {
+            font-size: 0.7rem;
+            color: var(--gris-medio);
+            text-align: right;
+        }
+
+        .delete-postit {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            display: none;
+        }
+
+        .postit:hover .delete-postit {
+            display: block;
+        }
+
+        /* TASK LIST */
+        .tasks-section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--terracota-principal);
+        }
+
+        .task-item:hover {
+            background: var(--crema);
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+            border-left-color: var(--verde-claro);
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: 600;
+            color: var(--verde-principal);
+            margin-bottom: 0.25rem;
+        }
+
+        .task-time {
+            font-size: 0.8rem;
+            color: var(--gris-medio);
+        }
+
+        .task-priority {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .priority-alta {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+
+        .priority-media {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .priority-baja {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        /* PROGRESS CHARTS */
+        .progress-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .progress-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .progress-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--verde-principal);
+            margin-bottom: 0.5rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 200px;
+            margin-bottom: 1rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+
+            .dashboard-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .view-selector,
+            .export-controls {
+                justify-content: center;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-section {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* ANIMATIONS */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* CONFETTI */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--terracota-principal);
+            animation: confetti-fall 3s linear infinite;
+            z-index: 1000;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOADER -->
+    <div class="loader" id="loader">
+        <div class="loader-circles">
+            <div class="loader-circle"></div>
+            <div class="loader-circle"></div>
+            <div class="loader-circle"></div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                🌱 ArcaTierra
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Inicio</a>
+                <a href="experiencias.html">Experiencias</a>
+                <a href="nosotros.html">Nosotros</a>
+                <a href="contacto.html">Contacto</a>
+                <a href="#" class="btn-reservar">Reservar Ahora</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-pattern"></div>
+        <div class="hero-content">
+            <h1>Calendario de Experiencias</h1>
+            <p>Descubre y reserva experiencias únicas en las chinampas de Xochimilco</p>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <!-- CALENDAR -->
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <div class="calendar-nav">
+                    <button class="nav-btn" onclick="previousMonth()">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="month-year" id="monthYear"></div>
+                    <button class="nav-btn" onclick="nextMonth()">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="view-controls">
+                    <button class="view-btn active" onclick="setView('month')">Mes</button>
+                    <button class="view-btn" onclick="setView('week')">Semana</button>
+                </div>
+            </div>
+            
+            <div class="calendar-grid">
+                <div class="weekdays">
+                    <div class="weekday">Dom</div>
+                    <div class="weekday">Lun</div>
+                    <div class="weekday">Mar</div>
+                    <div class="weekday">Mié</div>
+                    <div class="weekday">Jue</div>
+                    <div class="weekday">Vie</div>
+                    <div class="weekday">Sáb</div>
+                </div>
+                <div class="days-grid" id="daysGrid"></div>
+            </div>
+            
+            <div class="calendar-stats">
+                <span id="availableCount">0 experiencias disponibles</span>
+                <span id="liveViewers">0 personas viendo ahora</span>
+            </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3><i class="fas fa-calendar-day"></i> Experiencias Disponibles</h3>
+                <div id="availableExperiences"></div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3><i class="fas fa-clock"></i> Próximas Reservas</h3>
+                <div id="scheduleContent"></div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3><i class="fas fa-tasks"></i> Tareas del Día</h3>
+                <div id="tasksContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTÓN VISTA EMPLEADOS -->
+    <div class="employee-access">
+        <button class="employee-btn" onclick="showEmployeeLogin()">
+            <i class="fas fa-user-tie"></i> Vista Empleados
+        </button>
+    </div>
+
+    <!-- MODAL DE LOGIN -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-lock"></i> Acceso de Empleados</h3>
+            <p>Ingresa la contraseña para acceder al panel de empleados</p>
+            <input type="password" id="employeePassword" placeholder="Contraseña" maxlength="20">
+            <div style="margin-top: 1rem;">
+                <button class="modal-btn" onclick="checkEmployeePassword()">Ingresar</button>
+                <button class="modal-btn secondary" onclick="hideEmployeeLogin()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD DE EMPLEADOS -->
+    <div class="employee-dashboard" id="employeeDashboard">
+        <div class="dashboard-header">
+            <button class="close-dashboard" onclick="closeEmployeeDashboard()">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2><i class="fas fa-chart-line"></i> Panel de Empleados</h2>
+            <div class="welcome-message" id="welcomeMessage"></div>
+        </div>
+
+        <div class="dashboard-content">
+            <!-- CONTROLES DEL DASHBOARD -->
+            <div class="dashboard-controls">
+                <div class="view-selector">
+                    <button class="active" onclick="changeEmployeeView('month')">Mes</button>
+                    <button onclick="changeEmployeeView('week')">Semana</button>
+                    <button onclick="changeEmployeeView('day')">Día</button>
+                    <button onclick="changeEmployeeView('today')">Hoy</button>
+                </div>
+                
+                <div class="employee-selector">
+                    <label for="employeeSelect">Empleado:</label>
+                    <select id="employeeSelect" onchange="changeEmployee()">
+                        <option value="melissa">Melissa (Coordinadora)</option>
+                        <option value="sofia">Sofía (Guía Senior)</option>
+                        <option value="ortega">Ortega (Chef)</option>
+                        <option value="carmen">Carmen (Logística)</option>
+                        <option value="diego">Diego (Mantenimiento)</option>
+                        <option value="ana">Ana (Atención al Cliente)</option>
+                    </select>
+                </div>
+                
+                <div class="export-controls">
+                    <button class="export-btn" onclick="exportEmployeeData('excel')">
+                        <i class="fas fa-file-excel"></i> Excel
+                    </button>
+                    <button class="export-btn" onclick="exportEmployeeData('pdf')">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </button>
+                    <button class="export-btn" onclick="exportEmployeeData('csv')">
+                        <i class="fas fa-file-csv"></i> CSV
+                    </button>
+                    <button class="export-btn" onclick="exportEmployeeData('markdown')">
+                        <i class="fas fa-file-alt"></i> MD
+                    </button>
+                </div>
+            </div>
+
+            <!-- MÉTRICAS PRINCIPALES -->
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Total Experiencias</span>
+                        <i class="fas fa-calendar-check card-icon"></i>
+                    </div>
+                    <div class="metric-value" id="totalExperiences">127</div>
+                    <div class="metric-label">En vista actual</div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Ingresos Totales</span>
+                        <i class="fas fa-dollar-sign card-icon"></i>
+                    </div>
+                    <div class="metric-value" id="totalRevenue">$2,847,500</div>
+                    <div class="metric-label">MXN en vista actual</div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Ocupación Promedio</span>
+                        <i class="fas fa-users card-icon"></i>
+                    </div>
+                    <div class="metric-value" id="averageOccupancy">87%</div>
+                    <div class="metric-label">De capacidad total</div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Tareas Completadas</span>
+                        <i class="fas fa-check-circle card-icon"></i>
+                    </div>
+                    <div class="metric-value" id="completedTasks">24/32</div>
+                    <div class="metric-label">Del empleado actual</div>
+                </div>
+            </div>
+
+            <!-- PROGRESO PERSONAL Y DE EQUIPO -->
+            <div class="progress-section">
+                <div class="progress-card">
+                    <div class="progress-header">
+                        <div class="progress-title">Progreso Personal</div>
+                        <div class="metric-label" id="personalEmployee">Melissa</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="personalChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="progress-card">
+                    <div class="progress-header">
+                        <div class="progress-title">Progreso del Equipo</div>
+                        <div class="metric-label">Todos los empleados</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="teamChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SISTEMA DE POST-ITS -->
+            <div class="postits-section">
+                <div class="postits-header">
+                    <h3><i class="fas fa-sticky-note"></i> Notas del Equipo</h3>
+                    <button class="add-postit-btn" onclick="showAddPostit()">
+                        <i class="fas fa-plus"></i> Nueva Nota
+                    </button>
+                </div>
+                <div class="postits-grid" id="postitsGrid"></div>
+            </div>
+
+            <!-- LISTA DE TAREAS INTERACTIVA -->
+            <div class="tasks-section">
+                <div class="postits-header">
+                    <h3><i class="fas fa-tasks"></i> Lista de Tareas</h3>
+                    <span class="metric-label" id="taskProgress">24 de 32 completadas (75%)</span>
+                </div>
+                <div id="interactiveTasksList"></div>
+            </div>
+
+            <!-- TABLA DE EXPERIENCIAS -->
+            <div class="experiences-table-container">
+                <div class="table-header">
+                    <h3><i class="fas fa-table"></i> Experiencias Detalladas</h3>
+                    <div class="search-filter">
+                        <input type="text" class="search-input" placeholder="Buscar..." id="searchInput" onkeyup="filterTable()">
+                        <select class="filter-select" id="statusFilter" onchange="filterTable()">
+                            <option value="">Todos los estatus</option>
+                            <option value="confirmado">Confirmado</option>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="cancelado">Cancelado</option>
+                        </select>
+                        <select class="filter-select" id="typeFilter" onchange="filterTable()">
+                            <option value="">Todos los tipos</option>
+                            <option value="publica">Pública</option>
+                            <option value="privada">Privada</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="experiences-table" id="experiencesTable">
+                        <thead>
+                            <tr>
+                                <th>Día</th>
+                                <th>Fecha</th>
+                                <th>Horario</th>
+                                <th>Experiencia</th>
+                                <th>Cliente/Aliado</th>
+                                <th>Tipo</th>
+                                <th>Estatus</th>
+                                <th># Invitados</th>
+                                <th>Chinampa</th>
+                                <th>Vendedor</th>
+                                <th>Guía</th>
+                                <th>Chef</th>
+                                <th>Status Pago</th>
+                                <th>Contacto</th>
+                                <th>Comentarios</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="experiencesTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PARA AGREGAR POST-IT -->
+    <div class="modal-overlay" id="postitModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-sticky-note"></i> Nueva Nota</h3>
+            <div style="margin: 1rem 0;">
+                <label for="postitRecipient">Para:</label>
+                <select id="postitRecipient" style="width: 100%; padding: 8px; margin-top: 0.5rem;">
+                    <option value="todos">Todos (visible para todo el equipo)</option>
+                    <option value="melissa">Melissa (Coordinadora)</option>
+                    <option value="sofia">Sofía (Guía Senior)</option>
+                    <option value="ortega">Ortega (Chef)</option>
+                    <option value="carmen">Carmen (Logística)</option>
+                    <option value="diego">Diego (Mantenimiento)</option>
+                    <option value="ana">Ana (Atención al Cliente)</option>
+                </select>
+            </div>
+            <textarea id="postitContent" placeholder="Escribe tu nota aquí..." style="width: 100%; height: 100px; padding: 8px; margin: 1rem 0; border: 2px solid var(--gris-claro); border-radius: 8px; resize: vertical;"></textarea>
+            <div style="margin-top: 1rem;">
+                <button class="modal-btn" onclick="addPostit()">Crear Nota</button>
+                <button class="modal-btn secondary" onclick="hideAddPostit()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // VARIABLES GLOBALES
+        let currentDate = new Date();
+        let currentView = 'month';
+        let currentEmployeeView = 'month';
+        let currentEmployee = 'melissa';
+        let liveViewerCount = Math.floor(Math.random() * 15) + 5;
+        let isEmployeeView = false;
+
+        // DATOS DE EXPERIENCIAS
+        const experiencesByDate = {
+            '2025-01-15': [
+                { icon: '🌅', name: 'Amanecer Chinampero', schedule: '5:30 AM', price: 990, type: 'publica' },
+                { icon: '🍽️', name: 'Brunch Chinampero', schedule: '11:00 AM', price: 1290, type: 'publica' }
+            ],
+            '2025-01-16': [
+                { icon: '👨‍👩‍👧‍👦', name: 'Chinampa en Familia', schedule: '10:00 AM', price: 850, type: 'publica' }
+            ],
+            '2025-01-18': [
+                { icon: '🌱', name: 'Día de Campo y Siembra', schedule: '9:00 AM', price: 1190, type: 'publica' },
+                { icon: '🏺', name: 'Arcano por un Día', schedule: '2:00 PM', price: 700, type: 'privada' }
+            ],
+            '2025-01-20': [
+                { icon: '👨‍🍳', name: 'Cocina de Temporada', schedule: '10:00 AM', price: 1990, type: 'privada' }
+            ],
+            '2025-01-22': [
+                { icon: '🌽', name: 'Del Comal a la Huerta', schedule: '11:00 AM', price: 990, type: 'privada' },
+                { icon: '🏺', name: 'De las Cazuelas', schedule: '3:00 PM', price: 990, type: 'privada' }
+            ],
+            '2025-01-25': [
+                { icon: '🍸', name: 'Del Campo a la Barra', schedule: '6:00 PM', price: 2400, type: 'privada' }
+            ],
+            '2025-01-27': [
+                { icon: '⭐', name: 'Delicias de la Chinampa', schedule: '12:00 PM', price: 1200, type: 'privada' },
+                { icon: '📚', name: 'Taller de Cocina Tradicional', schedule: '2:00 PM', price: 1850, type: 'privada' }
+            ]
+        };
+
+        // DATOS DE EMPLEADOS
+        const employees = {
+            melissa: {
+                name: 'Melissa',
+                role: 'Coordinadora',
+                avatar: '👩‍💼',
+                color: '#e91e63',
+                tasks: [
+                    { id: 1, title: 'Revisar reservaciones del día', time: 'Hoy 8:00 AM', priority: 'alta', completed: true },
+                    { id: 2, title: 'Coordinar con equipo de guías', time: 'Hoy 9:30 AM', priority: 'alta', completed: true },
+                    { id: 3, title: 'Llamada con cliente corporativo', time: 'Hoy 11:00 AM', priority: 'media', completed: false },
+                    { id: 4, title: 'Revisar inventario semanal', time: 'Hoy 2:00 PM', priority: 'media', completed: false },
+                    { id: 5, title: 'Planificar actividades de mañana', time: 'Hoy 4:00 PM', priority: 'baja', completed: false }
+                ]
+            },
+            sofia: {
+                name: 'Sofía',
+                role: 'Guía Senior',
+                avatar: '👩‍🏫',
+                color: '#2196f3',
+                tasks: [
+                    { id: 6, title: 'Preparar material educativo', time: 'Hoy 7:00 AM', priority: 'alta', completed: true },
+                    { id: 7, title: 'Guiar experiencia matutina', time: 'Hoy 9:00 AM', priority: 'alta', completed: true },
+                    { id: 8, title: 'Capacitar nuevo guía', time: 'Hoy 1:00 PM', priority: 'media', completed: false },
+                    { id: 9, title: 'Actualizar protocolo de seguridad', time: 'Hoy 3:00 PM', priority: 'media', completed: false }
+                ]
+            },
+            ortega: {
+                name: 'Ortega',
+                role: 'Chef',
+                avatar: '👨‍🍳',
+                color: '#ff9800',
+                tasks: [
+                    { id: 10, title: 'Preparar ingredientes frescos', time: 'Hoy 6:00 AM', priority: 'alta', completed: true },
+                    { id: 11, title: 'Cocinar para experiencia brunch', time: 'Hoy 10:30 AM', priority: 'alta', completed: true },
+                    { id: 12, title: 'Planificar menú de mañana', time: 'Hoy 2:00 PM', priority: 'media', completed: false },
+                    { id: 13, title: 'Inventario de cocina', time: 'Hoy 4:00 PM', priority: 'baja', completed: false }
+                ]
+            },
+            carmen: {
+                name: 'Carmen',
+                role: 'Logística',
+                avatar: '👩‍💻',
+                color: '#4caf50',
+                tasks: [
+                    { id: 14, title: 'Coordinar transporte de clientes', time: 'Hoy 8:00 AM', priority: 'alta', completed: true },
+                    { id: 15, title: 'Verificar equipos de seguridad', time: 'Hoy 9:00 AM', priority: 'alta', completed: false },
+                    { id: 16, title: 'Actualizar base de datos', time: 'Hoy 11:00 AM', priority: 'media', completed: false },
+                    { id: 17, title: 'Preparar reporte semanal', time: 'Hoy 3:00 PM', priority: 'baja', completed: false }
+                ]
+            },
+            diego: {
+                name: 'Diego',
+                role: 'Mantenimiento',
+                avatar: '👨‍🔧',
+                color: '#795548',
+                tasks: [
+                    { id: 18, title: 'Revisar trajineras', time: 'Hoy 7:00 AM', priority: 'alta', completed: true },
+                    { id: 19, title: 'Mantenimiento de senderos', time: 'Hoy 10:00 AM', priority: 'media', completed: true },
+                    { id: 20, title: 'Reparar sistema de riego', time: 'Hoy 1:00 PM', priority: 'alta', completed: false },
+                    { id: 21, title: 'Limpieza general de instalaciones', time: 'Hoy 3:00 PM', priority: 'baja', completed: false }
+                ]
+            },
+            ana: {
+                name: 'Ana',
+                role: 'Atención al Cliente',
+                avatar: '👩‍💼',
+                color: '#9c27b0',
+                tasks: [
+                    { id: 22, title: 'Responder consultas por email', time: 'Hoy 8:30 AM', priority: 'media', completed: true },
+                    { id: 23, title: 'Llamadas de seguimiento', time: 'Hoy 10:00 AM', priority: 'alta', completed: true },
+                    { id: 24, title: 'Actualizar redes sociales', time: 'Hoy 12:00 PM', priority: 'media', completed: false },
+                    { id: 25, title: 'Procesar nuevas reservaciones', time: 'Hoy 2:00 PM', priority: 'alta', completed: false }
+                ]
+            }
+        };
+
+        // DATOS SIMULADOS DE EXPERIENCIAS DETALLADAS
+        const detailedExperiences = [
+            {
+                dia: 'Lunes', fecha: '15/01/2025', horario: '5:30 AM', experiencia: 'Amanecer Chinampero',
+                cliente: 'Hotel Boutique CDMX', tipo: 'publica', estatus: 'confirmado', invitados: 12,
+                chinampa: 'Chinampa del Sol', vendedor: 'Ana García', guia: 'Sofía Martínez',
+                chef: 'Ortega López', statusPago: 'Pagado', contacto: 'reservas@hotelboutique.com',
+                comentarios: 'Grupo corporativo, solicitan factura'
+            },
+            {
+                dia: 'Lunes', fecha: '15/01/2025', horario: '11:00 AM', experiencia: 'Brunch Chinampero',
+                cliente: 'Familia Rodríguez', tipo: 'publica', estatus: 'confirmado', invitados: 6,
+                chinampa: 'Chinampa Verde', vendedor: 'Carmen Silva', guia: 'Diego Hernández',
+                chef: 'Ortega López', statusPago: 'Pagado', contacto: 'maria.rodriguez@email.com',
+                comentarios: 'Celebración de aniversario'
+            },
+            {
+                dia: 'Martes', fecha: '16/01/2025', horario: '10:00 AM', experiencia: 'Chinampa en Familia',
+                cliente: 'Escuela Primaria Benito Juárez', tipo: 'publica', estatus: 'pendiente', invitados: 25,
+                chinampa: 'Chinampa Educativa', vendedor: 'Ana García', guia: 'Sofía Martínez',
+                chef: 'Ortega López', statusPago: 'Pendiente', contacto: 'direccion@escuelabjuarez.edu.mx',
+                comentarios: 'Excursión escolar, requieren actividades educativas'
+            },
+            {
+                dia: 'Jueves', fecha: '18/01/2025', horario: '9:00 AM', experiencia: 'Día de Campo y Siembra',
+                cliente: 'Grupo de Yoga Namaste', tipo: 'publica', estatus: 'confirmado', invitados: 15,
+                chinampa: 'Chinampa del Sol', vendedor: 'Carmen Silva', guia: 'Sofía Martínez',
+                chef: 'Ortega López', statusPago: 'Pagado', contacto: 'info@yoganamaste.com',
+                comentarios: 'Retiro de bienestar, dieta vegetariana'
+            },
+            {
+                dia: 'Jueves', fecha: '18/01/2025', horario: '2:00 PM', experiencia: 'Arcano por un Día',
+                cliente: 'Empresa Tech Solutions', tipo: 'privada', estatus: 'confirmado', invitados: 20,
+                chinampa: 'Chinampa Corporativa', vendedor: 'Ana García', guia: 'Diego Hernández',
+                chef: 'Ortega López', statusPago: 'Pagado', contacto: 'eventos@techsolutions.com',
+                comentarios: 'Team building corporativo'
+            },
+            {
+                dia: 'Sábado', fecha: '20/01/2025', horario: '10:00 AM', experiencia: 'Cocina de Temporada',
+                cliente: 'Chef Internacional Marco', tipo: 'privada', estatus: 'confirmado', invitados: 8,
+                chinampa: 'Chinampa Gourmet', vendedor: 'Carmen Silva', guia: 'Sofía Martínez',
+                chef: 'Ortega López', statusPago: 'Pagado', contacto: 'marco.chef@international.com',
+                comentarios: 'Intercambio culinario, grabación para documental'
+            }
+        ];
+
+        // MENSAJES DE BIENVENIDA MOTIVADORES
+        const welcomeMessages = [
+            "¡Hola campeón! 🌱 ¡Listo para hacer magia en las chinampas hoy!",
+            "¡Buenos días, guardián de las chinampas! 🚀 ¡Tu energía ilumina Xochimilco!",
+            "¡Saludos, maestro de la naturaleza! ✨ ¡Hoy será un día increíble!",
+            "¡Hola, embajador de la sustentabilidad! 🌿 ¡Tu trabajo transforma vidas!",
+            "¡Buenos días, héroe verde! 💚 ¡Las chinampas te esperan con alegría!",
+            "¡Hola, artista de las experiencias! 🎨 ¡Hoy crearemos momentos únicos!",
+            "¡Saludos, protector de tradiciones! 🏺 ¡Tu pasión inspira a todos!",
+            "¡Buenos días, constructor de sueños! 🌟 ¡Cada día es una nueva aventura!",
+            "¡Hola, sembrador de sonrisas! 😊 ¡Tu trabajo florece en cada corazón!",
+            "¡Saludos, guardián de la biodiversidad! 🦋 ¡Eres parte de algo extraordinario!"
+        ];
+
+        // SISTEMA DE POST-ITS
+        let postits = JSON.parse(localStorage.getItem('arcaTierraPostits') || '[]');
+
+        // INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ocultar loader después de 1 segundo
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                document.getElementById('loader').style.visibility = 'hidden';
+            }, 1000);
+
+            // Inicializar calendario
+            updateCalendar();
+            updateStats();
+            populateAvailableExperiences();
+            populateSchedule();
+            populateTasks();
+
+            // Actualizar contadores en vivo
+            setInterval(updateLiveViewers, 5000);
+        });
+
+        // FUNCIONES DEL CALENDARIO PÚBLICO
+        function updateCalendar() {
+            const monthYear = document.getElementById('monthYear');
+            const daysGrid = document.getElementById('daysGrid');
+            
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            monthYear.textContent = currentDate.toLocaleDateString('es-MX', { 
+                month: 'long', 
+                year: 'numeric' 
+            });
+            
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
+            
+            daysGrid.innerHTML = '';
+            
+            for (let i = 0; i < 42; i++) {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + i);
+                
+                const dayCell = document.createElement('div');
+                dayCell.className = 'day-cell';
+                
+                if (date.getMonth() !== month) {
+                    dayCell.classList.add('other-month');
+                }
+                
+                const dateKey = date.toISOString().split('T')[0];
+                const experiences = experiencesByDate[dateKey] || [];
+                
+                if (experiences.length > 0) {
+                    dayCell.classList.add('has-events');
+                }
+                
+                dayCell.innerHTML = `
+                    <div class="day-number">${date.getDate()}</div>
+                    <div class="event-icons">
+                        ${experiences.map(exp => `<span class="event-icon">${exp.icon}</span>`).join('')}
+                    </div>
+                `;
+                
+                dayCell.addEventListener('click', () => showDayDetails(date, experiences));
+                daysGrid.appendChild(dayCell);
+            }
+        }
+
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            updateCalendar();
+        }
+
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            updateCalendar();
+        }
+
+        function setView(view) {
+            currentView = view;
+            document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (view === 'week') {
+                // Implementar vista semanal
+                alert('Vista semanal próximamente disponible');
+            }
+        }
+
+        function showDayDetails(date, experiences) {
+            if (experiences.length === 0) {
+                alert('No hay experiencias disponibles para este día');
+                return;
+            }
+            
+            let details = `Experiencias para ${date.toLocaleDateString('es-MX')}:\n\n`;
+            experiences.forEach(exp => {
+                details += `${exp.icon} ${exp.name}\n`;
+                details += `Horario: ${exp.schedule}\n`;
+                details += `Precio: $${exp.price} MXN\n`;
+                details += `Tipo: ${exp.type === 'publica' ? 'Pública' : 'Privada'}\n\n`;
+            });
+            
+            alert(details);
+        }
+
+        function populateAvailableExperiences() {
+            const container = document.getElementById('availableExperiences');
+            const today = new Date();
+            const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            
+            let upcomingExperiences = [];
+            
+            for (let dateKey in experiencesByDate) {
+                const date = new Date(dateKey);
+                if (date >= today && date <= nextWeek) {
+                    experiencesByDate[dateKey].forEach(exp => {
+                        upcomingExperiences.push({
+                            ...exp,
+                            date: date.toLocaleDateString('es-MX', { weekday: 'short', day: 'numeric' })
+                        });
+                    });
+                }
+            }
+            
+            container.innerHTML = upcomingExperiences.map(exp => `
+                <div class="experience-item">
+                    <div class="experience-icon">${exp.icon}</div>
+                    <div class="experience-details">
+                        <h4>${exp.name}</h4>
+                        <p>${exp.date} - ${exp.schedule}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function populateSchedule() {
+            const scheduleContent = document.getElementById('scheduleContent');
+            const reservations = JSON.parse(localStorage.getItem('arcaTierraReservations') || '[]');
+            const weekStart = new Date();
+            weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+            
+            scheduleContent.innerHTML = '';
+            
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(weekStart);
+                date.setDate(weekStart.getDate() + i);
+                const dateKey = date.toDateString();
+                
+                const dayReservations = reservations.filter(r => 
+                    new Date(r.date).toDateString() === dateKey
+                );
+                
+                if (dayReservations.length > 0) {
+                    dayReservations.forEach(res => {
+                        const item = document.createElement('div');
+                        item.className = 'schedule-item';
+                        item.innerHTML = `
+                            <strong>${date.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric' })}</strong><br>
+                            ${res.experience.icon} ${res.experience.name} - ${res.experience.schedule}<br>
+                            Cliente: ${res.customer.name}<br>
+                            ${res.quantities.adults} adultos, ${res.quantities.children} niños
+                        `;
+                        scheduleContent.appendChild(item);
+                    });
+                }
+            }
+            
+            if (scheduleContent.innerHTML === '') {
+                scheduleContent.innerHTML = '<p style="text-align: center; color: var(--gris-medio);">Sin reservaciones esta semana</p>';
+            }
+        }
+
+        function populateTasks() {
+            const tasksContent = document.getElementById('tasksContent');
+            const tasks = [
+                { title: 'Preparar trajinera #3', time: 'Hoy 5:00 AM', priority: 'alta' },
+                { title: 'Revisar equipo de seguridad', time: 'Hoy 7:00 AM', priority: 'media' },
+                { title: 'Coordinación con cocina', time: 'Hoy 11:30 AM', priority: 'alta' },
+                { title: 'Inventario semanal', time: 'Viernes', priority: 'baja' }
+            ];
+            
+            tasksContent.innerHTML = '';
+            tasks.forEach(task => {
+                const item = document.createElement('div');
+                item.className = 'schedule-item';
+                const priorityColor = task.priority === 'alta' ? '#E53935' : 
+                                     task.priority === 'media' ? '#F9A825' : '#67795F';
+                item.style.borderLeftColor = priorityColor;
+                item.innerHTML = `
+                    <strong>${task.title}</strong><br>
+                    <span style="color: var(--gris-medio); font-size: 0.85rem;">${task.time}</span>
+                `;
+                tasksContent.appendChild(item);
+            });
+        }
+
+        function updateStats() {
+            let count = 0;
+            for (let dateKey in experiencesByDate) {
+                count += experiencesByDate[dateKey].length;
+            }
+            document.getElementById('availableCount').textContent = 
+                `${count} experiencias disponibles`;
+        }
+
+        function updateLiveViewers() {
+            liveViewerCount += Math.floor(Math.random() * 5) - 2;
+            liveViewerCount = Math.max(1, Math.min(20, liveViewerCount));
+            document.getElementById('liveViewers').textContent = 
+                `${liveViewerCount} personas viendo ahora`;
+        }
+
+        // FUNCIONES DE VISTA DE EMPLEADOS
+        function showEmployeeLogin() {
+            document.getElementById('loginModal').style.display = 'flex';
+            document.getElementById('employeePassword').focus();
+        }
+
+        function hideEmployeeLogin() {
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('employeePassword').value = '';
+        }
+
+        function checkEmployeePassword() {
+            const password = document.getElementById('employeePassword').value;
+            if (password === 'arcatierra2025') {
+                hideEmployeeLogin();
+                showEmployeeDashboard();
+                createConfetti();
+            } else {
+                alert('Contraseña incorrecta');
+                document.getElementById('employeePassword').value = '';
+            }
+        }
+
+        function showEmployeeDashboard() {
+            isEmployeeView = true;
+            document.getElementById('employeeDashboard').classList.add('active');
+            
+            // Mostrar mensaje de bienvenida aleatorio
+            const randomMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+            document.getElementById('welcomeMessage').textContent = randomMessage;
+            
+            // Inicializar dashboard
+            updateEmployeeMetrics();
+            loadPostits();
+            loadInteractiveTasks();
+            loadExperiencesTable();
+            initializeCharts();
+        }
+
+        function closeEmployeeDashboard() {
+            isEmployeeView = false;
+            document.getElementById('employeeDashboard').classList.remove('active');
+        }
+
+        function changeEmployeeView(view) {
+            currentEmployeeView = view;
+            
+            // Actualizar botones activos
+            document.querySelectorAll('.view-selector button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Actualizar métricas según la vista
+            updateEmployeeMetrics();
+        }
+
+        function changeEmployee() {
+            currentEmployee = document.getElementById('employeeSelect').value;
+            document.getElementById('personalEmployee').textContent = employees[currentEmployee].name;
+            updateEmployeeMetrics();
+            loadInteractiveTasks();
+            updatePersonalChart();
+        }
+
+        function updateEmployeeMetrics() {
+            const metrics = getMetricsForView(currentEmployeeView);
+            
+            document.getElementById('totalExperiences').textContent = metrics.experiences;
+            document.getElementById('totalRevenue').textContent = `$${metrics.revenue.toLocaleString()}`;
+            document.getElementById('averageOccupancy').textContent = `${metrics.occupancy}%`;
+            
+            // Actualizar tareas completadas para el empleado actual
+            const employee = employees[currentEmployee];
+            const completedTasks = employee.tasks.filter(task => task.completed).length;
+            const totalTasks = employee.tasks.length;
+            document.getElementById('completedTasks').textContent = `${completedTasks}/${totalTasks}`;
+        }
+
+        function getMetricsForView(view) {
+            const metrics = {
+                month: { experiences: 127, revenue: 2847500, occupancy: 87 },
+                week: { experiences: 32, revenue: 687200, occupancy: 92 },
+                day: { experiences: 5, revenue: 98500, occupancy: 78 },
+                today: { experiences: 3, revenue: 45200, occupancy: 85 }
+            };
+            
+            return metrics[view] || metrics.month;
+        }
+
+        // SISTEMA DE POST-ITS
+        function showAddPostit() {
+            document.getElementById('postitModal').style.display = 'flex';
+        }
+
+        function hideAddPostit() {
+            document.getElementById('postitModal').style.display = 'none';
+            document.getElementById('postitContent').value = '';
+            document.getElementById('postitRecipient').value = 'todos';
+        }
+
+        function addPostit() {
+            const content = document.getElementById('postitContent').value.trim();
+            const recipient = document.getElementById('postitRecipient').value;
+            
+            if (!content) {
+                alert('Por favor escribe el contenido de la nota');
+                return;
+            }
+            
+            const postit = {
+                id: Date.now(),
+                content: content,
+                recipient: recipient,
+                sender: currentEmployee,
+                timestamp: new Date().toLocaleString('es-MX'),
+                type: recipient === 'todos' ? 'team' : 'personal'
+            };
+            
+            postits.push(postit);
+            localStorage.setItem('arcaTierraPostits', JSON.stringify(postits));
+            
+            hideAddPostit();
+            loadPostits();
+        }
+
+        function loadPostits() {
+            const container = document.getElementById('postitsGrid');
+            const visiblePostits = postits.filter(postit => 
+                postit.type === 'team' || 
+                postit.recipient === currentEmployee || 
+                postit.sender === currentEmployee
+            );
+            
+            container.innerHTML = visiblePostits.map(postit => `
+                <div class="postit ${postit.type}">
+                    <button class="delete-postit" onclick="deletePostit(${postit.id})">×</button>
+                    <div class="postit-header-info">
+                        <span><strong>De:</strong> ${employees[postit.sender]?.name || postit.sender}</span>
+                        <span><strong>Para:</strong> ${postit.recipient === 'todos' ? 'Todos' : employees[postit.recipient]?.name || postit.recipient}</span>
+                    </div>
+                    <div class="postit-content">${postit.content}</div>
+                    <div class="postit-footer">${postit.timestamp}</div>
+                </div>
+            `).join('');
+        }
+
+        function deletePostit(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta nota?')) {
+                postits = postits.filter(postit => postit.id !== id);
+                localStorage.setItem('arcaTierraPostits', JSON.stringify(postits));
+                loadPostits();
+            }
+        }
+
+        // SISTEMA DE TAREAS INTERACTIVAS
+        function loadInteractiveTasks() {
+            const container = document.getElementById('interactiveTasksList');
+            const employee = employees[currentEmployee];
+            
+            container.innerHTML = employee.tasks.map(task => `
+                <div class="task-item ${task.completed ? 'completed' : ''}">
+                    <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
+                           onchange="toggleTask(${task.id})">
+                    <div class="task-content">
+                        <div class="task-title">${task.title}</div>
+                        <div class="task-time">${task.time}</div>
+                    </div>
+                    <div class="task-priority priority-${task.priority}">${task.priority.toUpperCase()}</div>
+                </div>
+            `).join('');
+            
+            updateTaskProgress();
+        }
+
+        function toggleTask(taskId) {
+            const employee = employees[currentEmployee];
+            const task = employee.tasks.find(t => t.id === taskId);
+            if (task) {
+                task.completed = !task.completed;
+                loadInteractiveTasks();
+                updateEmployeeMetrics();
+                updatePersonalChart();
+            }
+        }
+
+        function updateTaskProgress() {
+            const employee = employees[currentEmployee];
+            const completedTasks = employee.tasks.filter(task => task.completed).length;
+            const totalTasks = employee.tasks.length;
+            const percentage = Math.round((completedTasks / totalTasks) * 100);
+            
+            document.getElementById('taskProgress').textContent = 
+                `${completedTasks} de ${totalTasks} completadas (${percentage}%)`;
+        }
+
+        // TABLA DE EXPERIENCIAS
+        function loadExperiencesTable() {
+            const tbody = document.getElementById('experiencesTableBody');
+            
+            tbody.innerHTML = detailedExperiences.map(exp => `
+                <tr>
+                    <td>${exp.dia}</td>
+                    <td>${exp.fecha}</td>
+                    <td>${exp.horario}</td>
+                    <td>${exp.experiencia}</td>
+                    <td>${exp.cliente}</td>
+                    <td>${exp.tipo}</td>
+                    <td><span class="status-badge status-${exp.estatus}">${exp.estatus}</span></td>
+                    <td>${exp.invitados}</td>
+                    <td>${exp.chinampa}</td>
+                    <td>${exp.vendedor}</td>
+                    <td>${exp.guia}</td>
+                    <td>${exp.chef}</td>
+                    <td>${exp.statusPago}</td>
+                    <td>${exp.contacto}</td>
+                    <td>${exp.comentarios}</td>
+                    <td>
+                        <button class="action-btn btn-edit" onclick="editExperience('${exp.fecha}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn btn-delete" onclick="deleteExperience('${exp.fecha}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterTable() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            
+            const rows = document.querySelectorAll('#experiencesTableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const status = row.querySelector('.status-badge').textContent;
+                const type = row.cells[5].textContent;
+                
+                const matchesSearch = text.includes(searchTerm);
+                const matchesStatus = !statusFilter || status === statusFilter;
+                const matchesType = !typeFilter || type === typeFilter;
+                
+                row.style.display = matchesSearch && matchesStatus && matchesType ? '' : 'none';
+            });
+        }
+
+        function editExperience(fecha) {
+            alert(`Editando experiencia del ${fecha}`);
+        }
+
+        function deleteExperience(fecha) {
+            if (confirm(`¿Estás seguro de que quieres eliminar la experiencia del ${fecha}?`)) {
+                alert(`Experiencia del ${fecha} eliminada`);
+            }
+        }
+
+        // GRÁFICOS
+        function initializeCharts() {
+            initializePersonalChart();
+            initializeTeamChart();
+        }
+
+        function initializePersonalChart() {
+            const ctx = document.getElementById('personalChart').getContext('2d');
+            const employee = employees[currentEmployee];
+            const completedTasks = employee.tasks.filter(task => task.completed).length;
+            const totalTasks = employee.tasks.length;
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completadas', 'Pendientes'],
+                    datasets: [{
+                        data: [completedTasks, totalTasks - completedTasks],
+                        backgroundColor: ['#4caf50', '#e0e0e0'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function updatePersonalChart() {
+            // Actualizar gráfico personal cuando cambie el empleado o las tareas
+            const canvas = document.getElementById('personalChart');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            initializePersonalChart();
+        }
+
+        function initializeTeamChart() {
+            const ctx = document.getElementById('teamChart').getContext('2d');
+            
+            const teamData = Object.keys(employees).map(key => {
+                const employee = employees[key];
+                const completed = employee.tasks.filter(task => task.completed).length;
+                const total = employee.tasks.length;
+                return Math.round((completed / total) * 100);
+            });
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(employees).map(key => employees[key].name),
+                    datasets: [{
+                        label: 'Progreso (%)',
+                        data: teamData,
+                        backgroundColor: '#33503E',
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // EXPORTACIÓN DE DATOS
+        function exportEmployeeData(format) {
+            const data = {
+                view: currentEmployeeView,
+                employee: employees[currentEmployee].name,
+                metrics: getMetricsForView(currentEmployeeView),
+                experiences: detailedExperiences,
+                tasks: employees[currentEmployee].tasks,
+                timestamp: new Date().toLocaleString('es-MX')
+            };
+            
+            if (format === 'excel') {
+                exportToCSV(data);
+            } else if (format === 'pdf') {
+                exportToPDF(data);
+            } else if (format === 'csv') {
+                exportToCSV(data);
+            } else if (format === 'markdown') {
+                exportToMarkdown(data);
+            }
+            
+            alert(`Datos exportados en formato ${format.toUpperCase()}`);
+        }
+
+        function exportToCSV(data) {
+            let csv = 'Vista,Empleado,Total Experiencias,Ingresos,Ocupación\n';
+            csv += `${data.view},${data.employee},${data.metrics.experiences},${data.metrics.revenue},${data.metrics.occupancy}%\n\n`;
+            
+            csv += 'EXPERIENCIAS DETALLADAS\n';
+            csv += 'Día,Fecha,Horario,Experiencia,Cliente,Tipo,Estatus,Invitados,Chinampa,Vendedor,Guía,Chef,Status Pago,Contacto,Comentarios\n';
+            
+            data.experiences.forEach(exp => {
+                csv += `${exp.dia},${exp.fecha},${exp.horario},${exp.experiencia},${exp.cliente},${exp.tipo},${exp.estatus},${exp.invitados},${exp.chinampa},${exp.vendedor},${exp.guia},${exp.chef},${exp.statusPago},${exp.contacto},${exp.comentarios}\n`;
+            });
+            
+            downloadFile(csv, `reporte_empleados_${data.view}_${Date.now()}.csv`, 'text/csv');
+        }
+
+        function exportToPDF(data) {
+            let content = `REPORTE DE EMPLEADOS - ARCA TIERRA\n\n`;
+            content += `Vista: ${data.view}\n`;
+            content += `Empleado: ${data.employee}\n`;
+            content += `Fecha: ${data.timestamp}\n\n`;
+            content += `MÉTRICAS:\n`;
+            content += `Total Experiencias: ${data.metrics.experiences}\n`;
+            content += `Ingresos: $${data.metrics.revenue.toLocaleString()}\n`;
+            content += `Ocupación: ${data.metrics.occupancy}%\n\n`;
+            
+            downloadFile(content, `reporte_empleados_${data.view}_${Date.now()}.txt`, 'text/plain');
+        }
+
+        function exportToMarkdown(data) {
+            let md = `# Reporte de Empleados - Arca Tierra\n\n`;
+            md += `**Vista:** ${data.view}\n`;
+            md += `**Empleado:** ${data.employee}\n`;
+            md += `**Fecha:** ${data.timestamp}\n\n`;
+            md += `## Métricas\n\n`;
+            md += `- **Total Experiencias:** ${data.metrics.experiences}\n`;
+            md += `- **Ingresos:** $${data.metrics.revenue.toLocaleString()}\n`;
+            md += `- **Ocupación:** ${data.metrics.occupancy}%\n\n`;
+            
+            downloadFile(md, `reporte_empleados_${data.view}_${Date.now()}.md`, 'text/markdown');
+        }
+
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // EFECTOS VISUALES
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = 
+                    ['var(--terracota-principal)', 'var(--verde-principal)', 'var(--verde-secundario)', 'var(--beige)']
+                    [Math.floor(Math.random() * 4)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        // ATAJOS DE TECLADO
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                hideEmployeeLogin();
+                hideAddPostit();
+                if (isEmployeeView) {
+                    closeEmployeeDashboard();
+                }
+            }
+            
+            if (e.key === 'Enter' && document.getElementById('loginModal').style.display === 'flex') {
+                checkEmployeePassword();
+            }
+        });
+
+        console.log('🌱 Arca Tierra - Calendario completo cargado correctamente');
+        console.log('📅 Calendario público + Vista de empleados avanzada');
+        console.log('🔑 Contraseña de empleados: arcatierra2025');
+    </script>
+</body>
+</html>
+

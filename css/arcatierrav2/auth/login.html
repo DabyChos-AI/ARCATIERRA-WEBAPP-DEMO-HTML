@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - ArcaTierra</title>
+    
+    <style>
+        /* VARIABLES CSS - COLORES OFICIALES */
+        :root {
+            /* TERRACOTA (40% - Elementos de Acción) */
+            --arcatierra-terracota-principal: #B15543;
+            --arcatierra-terracota-medio: #BA6440;
+            --arcatierra-terracota-oscuro: #975543;
+            
+            /* VERDE (30% - Información/Educación) */
+            --arcatierra-verde-tipografia: #3A4741;
+            --arcatierra-verde-principal: #33503E;
+            --arcatierra-verde-claro: #475A52;
+            --arcatierra-verde-suave: #748880;
+            
+            /* NEUTROS (30% - Fondos/Base) */
+            --arcatierra-crema-principal: #E3DBCB;
+            --arcatierra-beige-medio: #CCBB9A;
+            --arcatierra-beige-calido: #DCB584;
+            --arcatierra-gris-azulado: #C1CCCE;
+            
+            /* TRANSICIONES */
+            --transition-fast: 0.3s ease;
+            --transition-medium: 0.5s ease;
+        }
+        
+        /* RESET Y BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--arcatierra-crema-principal);
+            color: var(--arcatierra-verde-tipografia);
+            line-height: 1.6;
+        }
+        
+        /* ANIMACIONES */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes float {
+            from { transform: translate(-50%, -50%); }
+            to { transform: translate(0, 0); }
+        }
+        
+        /* LOADER */
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--arcatierra-beige-medio);
+            border-top-color: var(--arcatierra-terracota-principal);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        /* PÁGINA DE LOGIN */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--arcatierra-verde-principal) 0%, var(--arcatierra-verde-claro) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 20s linear infinite;
+        }
+        
+        .login-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .login-logo {
+            height: 80px;
+            margin-bottom: 2rem;
+            transition: transform var(--transition-fast);
+        }
+        
+        .login-logo:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .login-title {
+            font-size: 2rem;
+            color: var(--arcatierra-verde-tipografia);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .login-subtitle {
+            color: var(--arcatierra-verde-suave);
+            margin-bottom: 2rem;
+        }
+        
+        /* AUTH TABS */
+        .auth-tabs {
+            display: flex;
+            gap: 0;
+            margin: 2rem 0 1.5rem;
+            border-bottom: 2px solid var(--arcatierra-beige-medio);
+        }
+        
+        .auth-tab {
+            flex: 1;
+            padding: 0.75rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--arcatierra-verde-suave);
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+        
+        .auth-tab.active {
+            color: var(--arcatierra-terracota-principal);
+        }
+        
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--arcatierra-terracota-principal);
+        }
+        
+        /* FORMS */
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--arcatierra-beige-medio);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--arcatierra-terracota-principal);
+            box-shadow: 0 0 0 3px rgba(177, 85, 67, 0.1);
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .forgot-password {
+            color: var(--arcatierra-terracota-principal);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all var(--transition-fast);
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--arcatierra-terracota-principal);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .submit-btn:hover {
+            background: var(--arcatierra-terracota-oscuro);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(177, 85, 67, 0.3);
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--arcatierra-beige-medio);
+        }
+        
+        .divider span {
+            background: white;
+            padding: 0 1rem;
+            position: relative;
+            color: var(--arcatierra-verde-suave);
+            font-size: 0.875rem;
+        }
+        
+        /* SOCIAL BUTTONS */
+        .social-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .google-btn, .facebook-btn {
+            flex: 1;
+            padding: 0.875rem;
+            border: 2px solid var(--arcatierra-beige-medio);
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--arcatierra-verde-tipografia);
+            transition: all var(--transition-fast);
+        }
+        
+        .google-btn:hover {
+            background-color: #4285F4;
+            color: white;
+            border-color: #4285F4;
+            transform: translateY(-2px);
+        }
+        
+        .facebook-btn:hover {
+            background-color: #1877F2;
+            color: white;
+            border-color: #1877F2;
+            transform: translateY(-2px);
+        }
+        
+        .google-icon, .facebook-icon {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .login-loading {
+            display: none;
+            margin-top: 2rem;
+        }
+        
+        .login-terms {
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            color: var(--arcatierra-verde-suave);
+        }
+        
+        .login-terms a {
+            color: var(--arcatierra-terracota-principal);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+        
+        .login-terms a:hover {
+            text-decoration: underline;
+            color: var(--arcatierra-terracota-oscuro);
+        }
+        
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all var(--transition-fast);
+            z-index: 3000;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .toast.success {
+            background-color: #4CAF50;
+        }
+        
+        .toast.error {
+            background-color: #F44336;
+        }
+        
+        /* HOME LINK */
+        .home-link {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all var(--transition-fast);
+        }
+        
+        .home-link:hover {
+            transform: translateX(-4px);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <a href="1-inicio.html" class="home-link">
+            ← Volver al inicio
+        </a>
+        
+        <div class="login-box">
+            <img src="images/logo-arcatierra.png" alt="ArcaTierra" class="login-logo">
+            <h1 class="login-title">Bienvenido a ArcaTierra</h1>
+            <p class="login-subtitle">Inicia sesión para acceder a productos orgánicos frescos y experiencias culinarias únicas</p>
+            
+            <!-- TABS DE LOGIN/REGISTRO -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">Iniciar Sesión</button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">Crear Cuenta</button>
+            </div>
+            
+            <!-- FORMULARIO DE LOGIN -->
+            <div id="loginForm" class="auth-form active">
+                <form onsubmit="handleEmailLogin(event)">
+                    <div class="form-group">
+                        <input type="email" id="loginEmail" placeholder="Correo electrónico" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="loginPassword" placeholder="Contraseña" required>
+                    </div>
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Recordarme</span>
+                        </label>
+                        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <button type="submit" class="submit-btn">Iniciar Sesión</button>
+                </form>
+            </div>
+            
+            <!-- FORMULARIO DE REGISTRO -->
+            <div id="registerForm" class="auth-form">
+                <form onsubmit="handleEmailRegister(event)">
+                    <div class="form-group">
+                        <input type="text" id="registerName" placeholder="Nombre completo" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="registerEmail" placeholder="Correo electrónico" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="registerPassword" placeholder="Contraseña (mínimo 6 caracteres)" minlength="6" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Crear Cuenta</button>
+                </form>
+            </div>
+            
+            <div class="divider">
+                <span>O continúa con</span>
+            </div>
+            
+            <!-- BOTONES DE REDES SOCIALES -->
+            <div class="social-buttons">
+                <button class="google-btn" onclick="signInWithGoogle()">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
+                    Google
+                </button>
+                <button class="facebook-btn" onclick="signInWithFacebook()">
+                    <svg class="facebook-icon" viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    Facebook
+                </button>
+            </div>
+            
+            <div class="login-loading" id="loginLoading">
+                <div class="loader"></div>
+                <p style="margin-top: 1rem; color: var(--arcatierra-verde-suave);">Iniciando sesión...</p>
+            </div>
+            
+            <p class="login-terms">
+                Al iniciar sesión, aceptas nuestros 
+                <a href="/terminos">Términos de Servicio</a> y 
+                <a href="/privacidad">Política de Privacidad</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // BASE DE DATOS SIMULADA
+        let usersDB = JSON.parse(localStorage.getItem('arcatierraUsersDB')) || [];
+
+        // INICIALIZAR
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar si ya está autenticado
+            if (localStorage.getItem('arcatierraAuth') === 'true') {
+                window.location.href = 'dashboard.html';
+            }
+            
+            // Cargar email recordado si existe
+            const rememberedEmail = localStorage.getItem('arcatierraRememberEmail');
+            if (rememberedEmail) {
+                document.getElementById('loginEmail').value = rememberedEmail;
+                document.getElementById('rememberMe').checked = true;
+            }
+        });
+
+        // CAMBIAR TAB
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Form').classList.add('active');
+        }
+
+        // LOGIN CON EMAIL
+        function handleEmailLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const remember = document.getElementById('rememberMe').checked;
+            
+            // Buscar usuario en DB simulada
+            const user = usersDB.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                if (remember) {
+                    localStorage.setItem('arcatierraRememberEmail', email);
+                }
+                loginUser(user);
+            } else {
+                showToast('Email o contraseña incorrectos', 'error');
+            }
+        }
+
+        // REGISTRO CON EMAIL
+        function handleEmailRegister(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            // Verificar si ya existe
+            if (usersDB.find(u => u.email === email)) {
+                showToast('Este email ya está registrado', 'error');
+                return;
+            }
+            
+            // Crear nuevo usuario
+            const newUser = {
+                id: 'email_' + Date.now(),
+                name: name,
+                email: email,
+                password: password,
+                provider: 'email',
+                image: null,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Guardar en DB simulada
+            usersDB.push(newUser);
+            localStorage.setItem('arcatierraUsersDB', JSON.stringify(usersDB));
+            
+            showToast('Cuenta creada exitosamente', 'success');
+            loginUser(newUser);
+        }
+
+        // LOGIN CON GOOGLE
+        function signInWithGoogle() {
+            showLoading();
+            
+            setTimeout(() => {
+                const mockUser = {
+                    id: 'google_' + Date.now(),
+                    name: 'Usuario Google',
+                    email: 'usuario@gmail.com',
+                    provider: 'google',
+                    image: null,
+                    createdAt: new Date().toISOString()
+                };
+                
+                loginUser(mockUser);
+            }, 2000);
+        }
+
+        // LOGIN CON FACEBOOK
+        function signInWithFacebook() {
+            showLoading();
+            
+            setTimeout(() => {
+                const mockUser = {
+                    id: 'fb_' + Date.now(),
+                    name: 'Usuario Facebook',
+                    email: 'usuario@facebook.com',
+                    provider: 'facebook',
+                    image: null,
+                    createdAt: new Date().toISOString()
+                };
+                
+                loginUser(mockUser);
+            }, 2000);
+        }
+
+        // FUNCIÓN COMÚN DE LOGIN
+        function loginUser(user) {
+            // Guardar datos básicos del usuario
+            const userData = {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                provider: user.provider,
+                image: user.image
+            };
+            
+            localStorage.setItem('arcatierraAuth', 'true');
+            localStorage.setItem('arcatierraUser', JSON.stringify(userData));
+            
+            showToast(`¡Bienvenido ${user.name}!`, 'success');
+            
+            // Redirigir al dashboard
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1000);
+        }
+
+        // MOSTRAR LOADING
+        function showLoading() {
+            document.querySelectorAll('.google-btn, .facebook-btn, .submit-btn').forEach(btn => {
+                btn.style.display = 'none';
+            });
+            document.getElementById('loginLoading').style.display = 'block';
+        }
+
+        // MOSTRAR TOAST
+        function showToast(message, type = 'default') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show';
+            
+            if (type === 'success') {
+                toast.classList.add('success');
+            } else if (type === 'error') {
+                toast.classList.add('error');
+            }
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

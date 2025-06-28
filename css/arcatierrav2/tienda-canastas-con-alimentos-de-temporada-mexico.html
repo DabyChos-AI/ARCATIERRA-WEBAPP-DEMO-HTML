@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- METADATOS SEO EXACTOS DE LA GUÍA -->
+    <title>Tienda y canastas con alimentos de temporada en México</title>
+    <meta name="description" content="Nuestra tienda y canastas con alimentos de temporada en México ofrecen calidad, además de que al comprar, apoyas a regenerar el suelo de las chinampas y otras zonas de cultivo en Hidalgo y Estado de México.">
+    <link rel="canonical" href="https://www.arcatierra.com/tienda-canastas-con-alimentos-de-temporada-mexico">
+    <meta name="keywords" content="compra de alimentos de temporada, alimentos naturales, agricultura campesina, chinampas, alimentos saludables">
+    
+    <!-- SCHEMA.ORG PARA TIENDA -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "Tienda Arca Tierra",
+      "description": "Tienda y canastas con alimentos de temporada en México",
+      "url": "https://www.arcatierra.com/tienda",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Alimentos de temporada agroecológicos"
+      }
+    }
+    </script>
+    
+    <!-- CSS UNIFICADOS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/header-styles.css">
+    <link rel="stylesheet" href="css/main.css">
+    
+    <style>
+        /* CORRECCIÓN DE PROPORCIONES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px; /* Tamaño base estándar */
+            line-height: 1.6;
+            color: var(--arcatierra-verde-tipografia);
+            background-color: var(--arcatierra-crema-principal);
+        }
+        
+        /* CONTENEDOR PRINCIPAL ESTÁNDAR */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* HERO SECTION PROPORCIONADA */
+        .hero-tienda {
+            background-color: var(--arcatierra-beige-medio);
+            padding: 60px 0; /* Padding estándar */
+            text-align: center;
+        }
+        
+        .hero-tienda h1 {
+            font-size: 2.5rem; /* Tamaño proporcionado */
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero-tienda p {
+            font-size: 1.125rem; /* 18px */
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--arcatierra-verde-tipografia);
+        }
+        
+        /* SECCIONES DE CONTENIDO */
+        .content-section {
+            padding: 60px 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2rem;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .content-section h3 {
+            font-size: 1.5rem;
+            color: var(--arcatierra-terracota-principal);
+            margin: 2rem 0 1rem;
+        }
+        
+        .content-section p {
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+        
+        /* IMÁGENES PROPORCIONADAS */
+        .section-image {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            margin: 2rem auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        /* VERIFICADOR DE CÓDIGO POSTAL */
+        .codigo-postal-section {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 3rem 0;
+            text-align: center;
+        }
+        
+        .cp-form {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .cp-input {
+            padding: 12px 20px;
+            border: 2px solid var(--arcatierra-gris-azulado);
+            border-radius: 25px;
+            font-size: 1rem;
+            width: 250px;
+        }
+        
+        .cp-button {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .cp-button:hover {
+            background-color: var(--arcatierra-terracota-medio);
+        }
+        
+        /* GRID DE CANASTAS */
+        .canastas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .canasta-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .canasta-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        
+        .canasta-card h4 {
+            color: var(--arcatierra-verde-principal);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .canasta-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .canasta-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .btn-suscripcion {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-suscripcion:hover {
+            background-color: var(--arcatierra-terracota-medio);
+        }
+        
+        .btn-compra-directa {
+            background-color: transparent;
+            color: var(--arcatierra-verde-principal);
+            padding: 12px 20px;
+            border: 2px solid var(--arcatierra-verde-principal);
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .btn-compra-directa:hover {
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero-tienda h1 {
+                font-size: 2rem;
+            }
+            
+            .content-section h2 {
+                font-size: 1.75rem;
+            }
+            
+            .cp-form {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cp-input {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- EL HEADER SE INSERTA AUTOMÁTICAMENTE -->
+    
+    <!-- HERO SECTION -->
+    <section class="hero-tienda">
+        <div class="container">
+            <h1>Tienda y canastas con alimentos de temporada en México</h1>
+            <p>Nuestra tienda y canastas con alimentos de temporada en México ofrecen calidad, además de que al comprar, apoyas a regenerar el suelo de las chinampas y otras zonas de cultivo en Hidalgo, Puebla, Veracruz y Estado de México.</p>
+        </div>
+    </section>
+    
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <!-- INTRODUCCIÓN -->
+        <section class="content-section">
+            <div class="container">
+                <img src="images/tienda/agricultura_campesina_alimentos_de_temporada.jpg" 
+                     alt="Canasta con variedad de vegetales frescos de temporada cultivados por agricultura campesina" 
+                     class="section-image">
+                
+                <p>Vendemos alimentos artesanales y canastas con la cosecha de la semana ya sea a través de suscripciones o con compra directa. Elige la que más te convenga y lleva a tu hogar frescura y salud.</p>
+                
+                <img src="images/tienda/alimentos_saludables.jpg" 
+                     alt="Variedad de frutas y verduras frescas organizadas por colores sobre superficie blanca" 
+                     class="section-image">
+                
+                <p>Cuidamos la trazabilidad y la relación comercial que tenemos con personas agricultoras, artesanas, productoras y cocineras está basada en el comercio justo, así que toda la red es remunerada por su trabajo.</p>
+            </div>
+        </section>
+        
+        <!-- VERIFICADOR DE CÓDIGO POSTAL -->
+        <section class="content-section">
+            <div class="container">
+                <div class="codigo-postal-section">
+                    <h3>Ayúdanos a saber si podemos llegar hasta ti: ingresa tu código postal.</h3>
+                    <form class="cp-form" onsubmit="verificarCodigoPostal(event)">
+                        <input type="text" 
+                               placeholder="Código postal" 
+                               class="cp-input" 
+                               pattern="[0-9]{5}" 
+                               required>
+                        <button type="submit" class="cp-button">Verificar</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- POR QUÉ COMPRAR -->
+        <section class="content-section">
+            <div class="container">
+                <h2>¿Por qué comprar en nuestra tienda?</h2>
+                
+                <p style="text-align: center; font-size: 1.125rem; font-weight: 600; color: var(--arcatierra-verde-principal);">
+                    Alimentos agroecológicos, frescos y 100% mexicanos, directo a tu casa.
+                </p>
+                
+                <img src="images/tienda/agricultura_campesina_sin_agroquimicos.JPG" 
+                     alt="Agricultor cosechando vegetales verdes en campo sin uso de agroquímicos" 
+                     class="section-image">
+                
+                <p>Tenemos alimentos de temporada que provienen de los huertos trabajados por 50 familias campesinas que integran la red campesina de arca tierra y los de origen animal son resultado de prácticas regenerativas con cuidado hacia los animales.</p>
+                
+                <p>Frutas, verduras y cada alimento y producto que ofrecemos son resultado de prácticas y principios de cuidado al medio ambiente.</p>
+                
+                <img src="images/tienda/agricultura_campesina_mexico.jpg" 
+                     alt="Vista panorámica de cultivos campesinos en terreno montañoso de México" 
+                     class="section-image">
+                
+                <p>Te invitamos a sumarte a un movimiento en el cual una alimentación saludable va de la mano del cuidado del planeta y de la revalorización de quienes se dedican a la agricultura campesina.</p>
+            </div>
+        </section>
+        
+        <!-- CANASTAS DE TEMPORADA -->
+        <section class="content-section" style="background-color: var(--arcatierra-crema-principal);">
+            <div class="container">
+                <h2>Canastas de alimentos de temporada: agroecológicas y variadas</h2>
+                
+                <p style="text-align: center;">Nuestras canastas de alimentos temporada ofrecen un balance entre verduras de hoja, frutas y raíces y cada semana son diferentes.</p>
+                
+                <p style="text-align: center;">Procuramos incluir productos de consumo básico en la cocina como jitomate, cebolla, mezcla de lechugas, aguacate y hierbas de olor.</p>
+                
+                <img src="images/tienda/compra_de_alimentos_de_temporada.jpg" 
+                     alt="Manos seleccionando vegetales frescos en mercado local de productos de temporada" 
+                     class="section-image">
+                
+                <p style="text-align: center; font-weight: 600; color: var(--arcatierra-verde-principal); font-size: 1.125rem;">
+                    Compra hoy y empieza a disfrutar alimentos frescos, sanos y con historia.
+                </p>
+                
+                <h3 style="text-align: center;">Tenemos diferentes opciones para escoger:</h3>
+                
+                <!-- GRID DE CANASTAS -->
+                <div class="canastas-grid">
+                    <!-- CANASTA FRUTAS -->
+                    <div class="canasta-card">
+                        <h4>Canasta de Frutas Agroecológicas individual (3.5 kg)</h4>
+                        <div class="canasta-buttons">
+                            <button class="btn-suscripcion">Suscribirme</button>
+                            <button class="btn-compra-directa">Quiero pedirla sin suscripción</button>
+                        </div>
+                    </div>
+                    
+                    <!-- CANASTA INDIVIDUAL -->
+                    <div class="canasta-card">
+                        <h4>Canasta individual (3.5 kg)</h4>
+                        <div class="canasta-buttons">
+                            <button class="btn-suscripcion">Suscribirme</button>
+                            <button class="btn-compra-directa">Quiero pedirla sin suscripción</button>
+                        </div>
+                    </div>
+                    
+                    <!-- CANASTA MEDIA -->
+                    <div class="canasta-card">
+                        <h4>Canasta media (5 kg)</h4>
+                        <div class="canasta-buttons">
+                            <button class="btn-suscripcion">Suscribirme</button>
+                            <button class="btn-compra-directa">Quiero pedirla sin suscripción</button>
+                        </div>
+                    </div>
+                    
+                    <!-- CANASTA COMPLETA -->
+                    <div class="canasta-card">
+                        <img src="images/tienda/compra_de_alimentos_de_temporada_arca_tierra.jpg" 
+                             alt="Canasta completa con abundante variedad de vegetales y frutas de temporada de Arca Tierra" 
+                             loading="lazy">
+                        <h4>Canasta completa (7.5 kg)</h4>
+                        <div class="canasta-buttons">
+                            <button class="btn-suscripcion">Suscribirme</button>
+                            <button class="btn-compra-directa">Quiero pedirla sin suscripción</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- FOOTER -->
+    <footer class="footer" style="background-color: var(--arcatierra-terracota-principal); color: white; padding: 3rem 0; text-align: center;">
+        <div class="container">
+            <img src="images/logos/logo-arcatierra-blanco.png" 
+                 alt="Arca Tierra" 
+                 style="height: 60px; margin-bottom: 1rem; filter: brightness(0) invert(1);">
+            <p>&copy; 2024 Arca Tierra. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <!-- SCRIPTS -->
+    <script src="js/header-unified.js"></script>
+    <script>
+        function verificarCodigoPostal(event) {
+            event.preventDefault();
+            const cp = event.target[0].value;
+            
+            // Verificar si es CDMX (01000-16999)
+            const cpNum = parseInt(cp);
+            if (cpNum >= 1000 && cpNum <= 16999) {
+                showToast('¡Excelente! Hacemos entregas en tu zona', 'success');
+            } else {
+                showToast('Lo sentimos, por el momento solo entregamos en CDMX', 'warning');
+            }
+        }
+    </script>
+</body>
+</html>

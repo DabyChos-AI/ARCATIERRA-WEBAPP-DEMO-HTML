@@ -1,0 +1,148 @@
+/* 
+ * VARIABLES CSS - ARCA TIERRA
+ * Colores oficiales según Manual de Identidad
+ * Principio: "El terracota llama a la acción, el verde informa y educa, los neutros dan respiro"
+ */
+
+:root {
+    /* ========================================
+       COLORES PRINCIPALES OFICIALES
+       ======================================== */
+    
+    /* TERRACOTA (40% - Elementos de Acción) */
+    --arcatierra-terracota-principal: #B15543;
+    --arcatierra-terracota-medio: #BA6440;
+    --arcatierra-terracota-oscuro: #975543;
+    
+    /* VERDE (30% - Información/Educación) */
+    --arcatierra-verde-tipografia: #3A4741;
+    --arcatierra-verde-principal: #33503E;
+    --arcatierra-verde-claro: #475A52;
+    --arcatierra-verde-suave: #748880;
+    
+    /* NEUTROS (30% - Fondos/Base) */
+    --arcatierra-crema-principal: #E3DBCB;
+    --arcatierra-beige-medio: #CCBB9A;
+    --arcatierra-beige-calido: #DCB584;
+    --arcatierra-gris-azulado: #C1CCCE;
+    
+    /* ========================================
+       VALORES CMYK OFICIALES (Para impresión)
+       ======================================== */
+    
+    /* Terracota Principal: Pantone 7599U - CMYK: C23 M76 Y76 K11% */
+    /* Verde Principal: Pantone 626U - CMYK: C76 M46 Y73 K41% */
+    
+    /* ========================================
+       APLICACIONES ESPECÍFICAS
+       ======================================== */
+    
+    /* Fondos */
+    --bg-primary: var(--arcatierra-crema-principal);
+    --bg-secondary: var(--arcatierra-beige-medio);
+    --bg-white: #FFFFFF;
+    
+    /* Textos */
+    --text-primary: var(--arcatierra-verde-tipografia);
+    --text-secondary: var(--arcatierra-verde-suave);
+    --text-white: #FFFFFF;
+    
+    /* Botones y CTAs */
+    --btn-primary: var(--arcatierra-terracota-principal);
+    --btn-primary-hover: var(--arcatierra-terracota-oscuro);
+    --btn-secondary: var(--arcatierra-verde-principal);
+    --btn-secondary-hover: var(--arcatierra-verde-claro);
+    
+    /* Enlaces */
+    --link-color: var(--arcatierra-terracota-principal);
+    --link-hover: var(--arcatierra-terracota-oscuro);
+    
+    /* Bordes */
+    --border-light: var(--arcatierra-beige-medio);
+    --border-medium: var(--arcatierra-beige-calido);
+    
+    /* ========================================
+       TRANSICIONES
+       ======================================== */
+    
+    --transition-fast: 0.3s ease;
+    --transition-medium: 0.5s ease;
+    --transition-slow: 0.8s ease;
+    
+    /* ========================================
+       ESPACIADO
+       ======================================== */
+    
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    --spacing-2xl: 4rem;
+    
+    /* ========================================
+       TIPOGRAFÍA
+       ======================================== */
+    
+    --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    --font-secondary: Georgia, 'Times New Roman', serif;
+    
+    /* Tamaños */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 2rem;
+    --text-4xl: 2.5rem;
+    
+    /* ========================================
+       SOMBRAS
+       ======================================== */
+    
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 24px rgba(0,0,0,0.15);
+    --shadow-xl: 0 20px 40px rgba(0,0,0,0.2);
+    
+    /* ========================================
+       BORDES REDONDEADOS
+       ======================================== */
+    
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-full: 9999px;
+    
+    /* ========================================
+       BREAKPOINTS (para referencia en JS)
+       ======================================== */
+    
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+}
+
+/* ========================================
+   MODO OSCURO (Opcional)
+   ======================================== */
+
+[data-theme="dark"] {
+    /* Invertir neutros para modo oscuro */
+    --bg-primary: #2A2825;
+    --bg-secondary: #3D3A35;
+    --text-primary: var(--arcatierra-crema-principal);
+    --text-secondary: var(--arcatierra-beige-medio);
+    
+    /* Mantener terracota para acciones */
+    --btn-primary: var(--arcatierra-terracota-principal);
+    
+    /* Ajustar sombras */
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+    --shadow-lg: 0 10px 24px rgba(0,0,0,0.4);
+    --shadow-xl: 0 20px 40px rgba(0,0,0,0.5);
+}

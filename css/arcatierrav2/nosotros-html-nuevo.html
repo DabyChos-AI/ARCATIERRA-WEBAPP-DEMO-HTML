@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- METADATOS SEO EXACTOS DE LA GUÍA -->
+    <title>Arca Tierra, todo comenzó en las chinampas: agricultura campesina</title>
+    <meta name="description" content="Este proyecto comenzó en las chinampas: la agricultura campesina es nuestro interés central. Arca tierra tiene producción propia en Xochimilco, así como parcelas demostrativas, pero también una red de familias productoras.">
+    <link rel="canonical" href="https://www.arcatierra.com/nosotros-chinampas-agricultura-campesina">
+    <meta name="keywords" content="chinampas agricultura, agricultura campesina, arca tierra, xochimilco, comercio justo">
+    
+    <!-- SCHEMA.ORG PARA NOSOTROS -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Arca Tierra",
+      "description": "Proyecto de agricultura campesina que comenzó en las chinampas de Xochimilco",
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Xochimilco, Ciudad de México"
+      },
+      "areaServed": [
+        "Xochimilco, CDMX",
+        "Huasca de Ocampo, Hidalgo", 
+        "Amanalco de Becerra, Estado de México",
+        "Polvillos, Estado de México"
+      ],
+      "knowsAbout": [
+        "Agricultura campesina",
+        "Chinampas",
+        "Agricultura regenerativa",
+        "Trazabilidad de alimentos",
+        "Comercio justo"
+      ]
+    }
+    </script>
+    
+    <!-- CSS UNIFICADOS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/header-footer-styles.css">
+    <link rel="stylesheet" href="css/main.css">
+    
+    <style>
+        /* ESTILOS ESPECÍFICOS DE LA PÁGINA NOSOTROS */
+        .hero-nosotros {
+            background-color: var(--arcatierra-crema-principal);
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .hero-nosotros h1 {
+            font-size: 2.5rem;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 2rem;
+            line-height: 1.3;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section {
+            padding: 60px 0;
+        }
+        
+        .section h2 {
+            font-size: 2rem;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .section h3 {
+            font-size: 1.5rem;
+            color: var(--arcatierra-terracota-principal);
+            margin: 2rem 0 1rem;
+            text-align: center;
+        }
+        
+        .section p {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: var(--arcatierra-verde-tipografia);
+        }
+        
+        .section-image {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            margin: 2rem auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .problematicas-list,
+        .datos-list,
+        .diferenciadores-list {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+        
+        .problematicas-list li,
+        .datos-list li,
+        .diferenciadores-list li {
+            background-color: white;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--arcatierra-terracota-principal);
+        }
+        
+        .datos-list li {
+            border-left-color: var(--arcatierra-verde-principal);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--arcatierra-terracota-medio);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--arcatierra-verde-principal);
+            padding: 1rem 2rem;
+            border: 2px solid var(--arcatierra-verde-principal);
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-nosotros h1 {
+                font-size: 2rem;
+            }
+            
+            .section h2 {
+                font-size: 1.75rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NO HAY HEADER AQUÍ - SE INSERTA AUTOMÁTICAMENTE -->
+    
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero-nosotros">
+            <div class="container">
+                <h1>Arca Tierra, todo comenzó en las chinampas: agricultura campesina</h1>
+                
+                <img src="images/nosotros/equipo_arca_tierra_chinampas.jpg" 
+                     alt="Equipo de Arca Tierra trabajando en las chinampas de Xochimilco" 
+                     class="section-image">
+                
+                <p>Este proyecto comenzó en las chinampas: la agricultura campesina es nuestro interés central. Xochimilco es nuestro corazón y en esta localidad de la Ciudad de México tenemos producción propia, así como parcelas demostrativas.</p>
+                
+                <img src="images/nosotros/chinampas_produccion_propia.jpg" 
+                     alt="Vista de las parcelas demostrativas de Arca Tierra en Xochimilco" 
+                     class="section-image">
+                
+                <p>En ellas experimentamos con semillas, técnicas y diseños. Tenemos conocimiento de primera mano y conocemos sobre los retos que la agricultura campesina representa. Esto nos permite entender y dialogar mejor con personas que conocen el tema agrícola.</p>
+                
+                <img src="images/nosotros/semillas_conservacion.jpg" 
+                     alt="Variedad de semillas criollas conservadas por agricultores campesinos" 
+                     class="section-image">
+                
+                <p>Además, nuestra red se extiende a Huasca de Ocampo, Hidalgo donde ayudamos a formar la Cooperativa de Productores Naturales de Huasca. Trabajamos en conjunto con la gente planes de siembra, conservación de semillas, capacitaciones y esquemas de comercio justo.</p>
+                
+                <img src="images/nosotros/cooperativa_huasca.jpg" 
+                     alt="Miembros de la Cooperativa de Productores Naturales de Huasca" 
+                     class="section-image">
+                
+                <p>También hacemos equipo en Amanalco de Becerra y Polvillos, Estado de México, donde nacen los manantiales del sistema Cutzamala y hacemos promoción de una agricultura regenerativa caracterizada por el uso de policultivos. En este lugar, debido a su clima y el agua en abundancia, hay cosechas todo el año.</p>
+                
+                <img src="images/nosotros/policultivos_amanalco.jpg" 
+                     alt="Sistema de policultivos en Amanalco de Becerra, Estado de México" 
+                     class="section-image">
+            </div>
+        </section>
+        
+        <!-- CTA SECTION -->
+        <section class="section" style="background-color: white;">
+            <div class="container">
+                <h3>Puedes hacer tu súper semanal con nuestras canastas de alimentos mexicanos que se cultivan en las chinampas o en otras comunidades campesinas.</h3>
+                
+                <p style="text-align: center;">También puedes conocer más de Xochimilco en nuestras experiencias de turismo rural y gastronómico.</p>
+                
+                <div class="cta-buttons">
+                    <a href="tienda-canastas-con-alimentos-de-temporada-mexico.html" class="btn-primary">Ver Canastas</a>
+                    <a href="experiencias-turismo-rural-y-gastronomico-xochimilco.html" class="btn-secondary">Ver Experiencias</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- PROBLEMÁTICAS SECTION -->
+        <section class="section" style="background-color: var(--arcatierra-crema-principal);">
+            <div class="container">
+                <h2>Algunas problemáticas que arca tierra busca resolver son:</h2>
+                
+                <ul class="problematicas-list">
+                    <li>Contaminación de agua y suelo.</li>
+                    <li>Crecimiento de la mancha urbana en la zona chinampera.</li>
+                    <li>Baja productividad agrícola en las chinampas.</li>
+                    <li>Falta de acceso a mercados, tecnología y métodos de agricultura sostenible, que a su vez provoca una escasez de oferta de productos agroecológicos.</li>
+                    <li>Renovación generacional y abandono de las chinampas y el campo en general.</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- TRAZABILIDAD SECTION -->
+        <section class="section">
+            <div class="container">
+                <h2>¿Qué es la trazabilidad?</h2>
+                
+                <img src="images/nosotros/trazabilidad_alimentos.jpg" 
+                     alt="Proceso de trazabilidad desde el cultivo hasta el consumidor" 
+                     class="section-image">
+                
+                <p>Se define como la capacidad de rastrear los procesos de algún alimento o producto para saber cuándo, dónde, cómo y por quién fue producido.</p>
+                
+                <p>¿Quién produce lo que comemos? ¿Cómo y de dónde proviene? ¿En qué estado se encuentra el suelo que los sustenta? ¿Cuánto ganan las personas que los producen? ¿Cómo viven las plantas y los animales que nos permiten que estos lleguen a nuestros hogares?</p>
+                
+                <p>Podemos alimentarnos regenerando el medio ambiente: en arca tierra brindamos la oportunidad de optar por la salud y la vida con ingredientes que vienen directamente de la agricultura campesina y que generan una cadena de beneficio para todos los eslabones del cultivo al consumo.</p>
+                
+                <img src="images/nosotros/agricultura_regenerativa.jpg" 
+                     alt="Técnicas de agricultura regenerativa en suelos ricos en minerales" 
+                     class="section-image">
+                
+                <p>Los alimentos cultivados de manera agroecológica son sinónimo de calidad: crecen en un suelo rico en minerales y nutrientes. Esto les aporta mayores valores nutricionales lo cual es benéfico para la salud, además de que evitan la contaminación de los entornos bioculturales y responden a necesidades actuales para un presente y futuro sostenible.</p>
+            </div>
+        </section>
+        
+        <!-- AGRICULTURA CAMPESINA SECTION -->
+        <section class="section" style="background-color: var(--arcatierra-crema-principal);">
+            <div class="container">
+                <h2>¿Qué es la agricultura campesina?</h2>
+                
+                <img src="images/nosotros/agricultura_campesina_huasca.jpg" 
+                     alt="Agricultores de la Cooperativa de Productores Naturales de Huasca trabajando en cultivos" 
+                     class="section-image">
+                
+                <p>La agroecología es una agricultura basada en los procesos naturales, la sabiduría tradicional de las personas que la llevan a cabo y la incorporación de técnicas que producen alimentos al mismo tiempo que se cuida tanto el entorno biológico como el humano y social.</p>
+                
+                <p>De ahí que nuestro foco sea la agricultura campesina y estos son algunos datos que comparte la iniciativa Valor al Campesino al respecto de estas prácticas:</p>
+                
+                <ul class="datos-list">
+                    <li>La agricultura campesina ocupa el 68 % de las unidades de producción del país y es responsable del 40 % de la producción agropecuaria nacional.</li>
+                    <li>Genera tres de cada cuatro empleos en el campo.</li>
+                    <li>Importamos el 30 % de los alimentos básicos que consumimos.</li>
+                    <li>60% de la población rural vive en situación de pobreza.</li>
+                    <li>La mayor parte de los recursos naturales del planeta son resguardados por comunidades campesinas y pueblos originarios.</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- DIFERENCIADORES SECTION -->
+        <section class="section">
+            <div class="container">
+                <h2>¿Qué hace a arca tierra diferente?</h2>
+                
+                <ul class="diferenciadores-list">
+                    <li>Aseguramos la trazabilidad de los alimentos mexicanos que ofrecemos.</li>
+                    <li>Incentivamos la producción local y los valores de la agricultura campesina.</li>
+                    <li>Promovemos la reactivación de la actividad agrícola y en las chinampas en la CDMX.</li>
+                    <li>Velamos por los intereses de nuestra plantilla laboral y de personas agricultoras, campesinas y productoras.</li>
+                    <li>Difundimos la cultura alimentaria mexicana a través de experiencias gastronómicas con cocineros y cocineras del país comprometidos con valores afines a nuestro proyecto.</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- CONTACTO SECTION -->
+        <section class="section" style="background-color: var(--arcatierra-beige-medio);">
+            <div class="container">
+                <h2>¿Quieres saber más sobre las chinampas y la agricultura campesina? Contáctanos.</h2>
+                
+                <div class="cta-buttons">
+                    <a href="contacto.html" class="btn-primary">Contactar Arca Tierra</a>
+                    <a href="tienda-canastas-con-alimentos-de-temporada-mexico.html" class="btn-secondary">Ver Nuestras Canastas</a>
+                    <a href="experiencias-turismo-rural-y-gastronomico-xochimilco.html" class="btn-secondary">Conocer Experiencias</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- NO HAY FOOTER AQUÍ - SE INSERTA AUTOMÁTICAMENTE -->
+    
+    <!-- SCRIPT UNIFICADO -->
+    <script src="js/header-footer-unified.js"></script>
+</body>
+</html>

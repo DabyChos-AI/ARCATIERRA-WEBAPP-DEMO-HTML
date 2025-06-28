@@ -1,0 +1,263 @@
+/* tienda-styles.css - Estilos específicos para la página de tienda */
+
+/* RESET Y BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--arcatierra-verde-tipografia);
+    background-color: var(--arcatierra-crema-principal);
+}
+
+/* CONTENEDOR PRINCIPAL */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* HERO SECTION */
+.hero-tienda {
+    background-color: var(--arcatierra-beige-medio);
+    padding: 60px 0;
+    text-align: center;
+}
+
+.hero-tienda h1 {
+    font-size: 2.5rem;
+    color: var(--arcatierra-verde-principal);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero-tienda p {
+    font-size: 1.125rem;
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--arcatierra-verde-tipografia);
+}
+
+/* SECCIONES DE CONTENIDO */
+.content-section {
+    padding: 60px 0;
+}
+
+.content-section h2 {
+    font-size: 2rem;
+    color: var(--arcatierra-verde-principal);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.content-section h3 {
+    font-size: 1.5rem;
+    color: var(--arcatierra-terracota-principal);
+    margin: 2rem 0 1rem;
+}
+
+.content-section p {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* IMÁGENES */
+.section-image {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    margin: 2rem auto;
+    display: block;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* VERIFICADOR DE CÓDIGO POSTAL */
+.codigo-postal-section {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin: 3rem 0;
+    text-align: center;
+}
+
+.cp-form {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.cp-input {
+    padding: 12px 20px;
+    border: 2px solid var(--arcatierra-gris-azulado);
+    border-radius: 25px;
+    font-size: 1rem;
+    width: 250px;
+}
+
+.cp-input:focus {
+    outline: none;
+    border-color: var(--arcatierra-terracota-principal);
+}
+
+.cp-button {
+    background-color: var(--arcatierra-terracota-principal);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cp-button:hover {
+    background-color: var(--arcatierra-terracota-medio);
+}
+
+/* GRID DE CANASTAS */
+.canastas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.canasta-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.canasta-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.canasta-card h4 {
+    color: var(--arcatierra-verde-principal);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.canasta-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* BOTONES DE CANASTAS */
+.canasta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.btn-suscripcion {
+    background-color: var(--arcatierra-terracota-principal);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-suscripcion:hover {
+    background-color: var(--arcatierra-terracota-medio);
+    transform: translateY(-2px);
+}
+
+.btn-compra-directa {
+    background-color: transparent;
+    color: var(--arcatierra-verde-principal);
+    padding: 12px 20px;
+    border: 2px solid var(--arcatierra-verde-principal);
+    border-radius: 25px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.btn-compra-directa:hover {
+    background-color: var(--arcatierra-verde-principal);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .hero-tienda h1 {
+        font-size: 2rem;
+    }
+    
+    .content-section h2 {
+        font-size: 1.75rem;
+    }
+    
+    .content-section {
+        padding: 40px 0;
+    }
+    
+    .cp-form {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cp-input {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .canastas-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .codigo-postal-section {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-tienda h1 {
+        font-size: 1.75rem;
+    }
+    
+    .hero-tienda p {
+        font-size: 1rem;
+    }
+    
+    .content-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .content-section h3 {
+        font-size: 1.25rem;
+    }
+    
+    .canasta-card {
+        padding: 1.5rem;
+    }
+}

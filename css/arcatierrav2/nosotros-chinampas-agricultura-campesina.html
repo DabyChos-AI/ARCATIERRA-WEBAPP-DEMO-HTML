@@ -1,0 +1,538 @@
+nosotros.html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- METADATOS ESPECÍFICOS DEL MD -->
+    <title>Arca Tierra, todo comenzó en las chinampas: agricultura campesina</title>
+    <meta name="description" content="Este proyecto comenzó en las chinampas: la agricultura campesina es nuestro interés central. Arca tierra tiene producción propia en Xochimilco, así como parcelas demostrativas, pero también una red de familias productoras.">
+    <link rel="canonical" href="https://www.arcatierra.com/nosotros-chinampas-agricultura-campesina">
+    
+    <!-- PALABRAS CLAVE DEL MD -->
+    <meta name="keywords" content="chinampas agricultura, agricultura campesina, xochimilco, huasca de ocampo, amanalco de becerra, polvillos, cooperativa productores naturales">
+    
+    <!-- SCHEMA.ORG PARA ORGANIZACIÓN -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Arca Tierra",
+      "description": "Proyecto de agricultura campesina que comenzó en las chinampas de Xochimilco",
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Xochimilco, Ciudad de México"
+      },
+      "areaServed": [
+        "Xochimilco, CDMX",
+        "Huasca de Ocampo, Hidalgo", 
+        "Amanalco de Becerra, Estado de México",
+        "Polvillos, Estado de México"
+      ],
+      "knowsAbout": [
+        "Agricultura campesina",
+        "Chinampas",
+        "Agricultura regenerativa",
+        "Trazabilidad de alimentos",
+        "Comercio justo"
+      ]
+    }
+    </script>
+    
+    <style>
+        /* ========= VARIABLES DE COLORES SAGRADOS DEL MANUAL DE IDENTIDAD ========= */
+        :root {
+            /* TERRACOTA (40% - Elementos de Acción) */
+            --terracota-principal: #B15543;
+            --terracota-medio: #BA6440;
+            --terracota-oscuro: #975543;
+            
+            /* VERDE (30% - Información/Educación) */
+            --verde-tipografia: #3A4741;
+            --verde-principal: #33503E;
+            --verde-claro: #475A52;
+            --verde-suave: #748880;
+            
+            /* NEUTROS (30% - Fondos/Base) */
+            --crema-principal: #E3DBCB;
+            --beige-medio: #CCBB9A;
+            --beige-calido: #DCB584;
+            --gris-azulado: #C1CCCE;
+            
+            /* ADICIONALES */
+            --blanco: #FFFFFF;
+            --negro: #000000;
+            --sombra: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* ========= RESET Y BASE ========= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--crema-principal);
+            color: var(--verde-tipografia);
+            line-height: 1.6;
+        }
+        
+        /* ========= HEADER ========= */
+        header {
+            background-color: var(--blanco);
+            box-shadow: 0 2px 8px var(--sombra);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--terracota-principal);
+            text-decoration: none;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        nav a {
+            color: var(--verde-tipografia);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--terracota-principal);
+        }
+        
+        .nav-active {
+            color: var(--terracota-principal) !important;
+            font-weight: 600;
+        }
+        
+        /* ========= MAIN CONTAINER ========= */
+        main {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        /* ========= H1 PRINCIPAL ========= */
+        h1 {
+            font-size: 2.5rem;
+            color: var(--verde-principal);
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+        
+        /* ========= H2 SECTIONS ========= */
+        h2 {
+            font-size: 2rem;
+            color: var(--verde-principal);
+            margin: 3rem 0 1.5rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--beige-medio);
+        }
+        
+        /* ========= H3 SUBSECTIONS ========= */
+        h3 {
+            font-size: 1.5rem;
+            color: var(--terracota-principal);
+            margin: 2rem 0 1rem;
+        }
+        
+        /* ========= PÁRRAFOS ========= */
+        p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            color: var(--verde-tipografia);
+        }
+        
+        /* ========= LISTAS ========= */
+        ul {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+        
+        li {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        
+        /* ========= IMÁGENES ========= */
+        .section-image {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            margin: 2rem auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px var(--sombra);
+        }
+        
+        .image-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--verde-suave);
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+        
+        /* ========= CTA BUTTONS ========= */
+        .cta-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 3rem 0;
+            justify-content: center;
+        }
+        
+        .cta-btn {
+            background: var(--terracota-principal);
+            color: var(--blanco);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-btn:hover {
+            background: var(--terracota-medio);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--sombra);
+        }
+        
+        /* ========= HIGHLIGHT BOX ========= */
+        .highlight-box {
+            background: var(--beige-calido);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            border-left: 4px solid var(--terracota-principal);
+        }
+        
+        .highlight-box h3 {
+            margin-top: 0;
+        }
+        
+        /* ========= STATS GRID ========= */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: var(--blanco);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px var(--sombra);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--terracota-principal);
+            display: block;
+        }
+        
+        .stat-label {
+            color: var(--verde-tipografia);
+            margin-top: 0.5rem;
+        }
+        
+        /* ========= RESPONSIVE ========= */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .cta-container {
+                flex-direction: column;
+            }
+            
+            .cta-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+    <!-- Al final del <head> -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/header-styles.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">🌱 Arca Tierra</a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="2-tienda.html">Tienda</a></li>
+                    <li><a href="3-experiencias.html">Experiencias</a></li>
+                    <li><a href="4-xochimilco.html">Xochimilco</a></li>
+                    <li><a href="5-nosotros.html" class="nav-active">Nosotros</a></li>
+                    <li><a href="6-medios.html">Medios</a></li>
+                    <li><a href="7-recetas.html">Recetas</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- H1 PRINCIPAL EXACTO DEL MD -->
+        <h1>Arca Tierra, todo comenzó en las chinampas: agricultura campesina</h1>
+        
+        <!-- IMAGEN PRINCIPAL -->
+        <img src="images/nosotros/equipo_arca_tierra_chinampas.jpg" 
+             alt="Equipo de Arca Tierra trabajando en las chinampas de Xochimilco" 
+             class="section-image">
+        
+        <!-- PÁRRAFO INTRODUCTORIO EXACTO DEL MD -->
+        <p>Este proyecto comenzó en las chinampas: la agricultura campesina es nuestro interés central. Xochimilco es nuestro corazón y en esta localidad de la Ciudad de México tenemos producción propia, así como parcelas demostrativas.</p>
+        
+        <img src="images/nosotros/chinampas_produccion_propia.jpg" 
+             alt="Vista de las parcelas demostrativas de Arca Tierra en Xochimilco" 
+             class="section-image">
+        
+        <p>En ellas experimentamos con semillas, técnicas y diseños. Tenemos conocimiento de primera mano y conocemos sobre los retos que la agricultura campesina representa. Esto nos permite entender y dialogar mejor con personas que conocen el tema agrícola.</p>
+        
+        <img src="images/nosotros/semillas_conservacion.jpg" 
+             alt="Variedad de semillas criollas conservadas por agricultores campesinos" 
+             class="section-image">
+        
+        <p>Además, nuestra red se extiende a Huasca de Ocampo, Hidalgo donde ayudamos a formar la Cooperativa de Productores Naturales de Huasca. Trabajamos en conjunto con la gente planes de siembra, conservación de semillas, capacitaciones y esquemas de comercio justo.</p>
+        
+        <img src="images/nosotros/cooperativa_huasca.jpg" 
+             alt="Miembros de la Cooperativa de Productores Naturales de Huasca" 
+             class="section-image">
+        
+        <p>También hacemos equipo en Amanalco de Becerra y Polvillos, Estado de México, donde nacen los manantiales del sistema Cutzamala y hacemos promoción de una agricultura regenerativa caracterizada por el uso de policultivos. En este lugar, debido a su clima y el agua en abundancia, hay cosechas todo el año.</p>
+        
+        <img src="images/nosotros/policultivos_amanalco.jpg" 
+             alt="Sistema de policultivos en Amanalco de Becerra, Estado de México" 
+             class="section-image">
+        
+        <!-- H3 CALL TO ACTION EXACTO DEL MD -->
+        <div class="highlight-box">
+            <h3>Puedes hacer tu súper semanal con nuestras canastas de alimentos mexicanos que se cultivan en las chinampas o en otras comunidades campesinas.</h3>
+            
+            <p>También puedes conocer más de Xochimilco en nuestras experiencias de turismo rural y gastronómico.</p>
+            
+            <div class="cta-container">
+                <a href="2-tienda.html" class="cta-btn">Ver Canastas</a>
+                <a href="3-experiencias.html" class="cta-btn">Conocer Experiencias</a>
+            </div>
+        </div>
+        
+        <!-- H2 PROBLEMÁTICAS EXACTO DEL MD -->
+        <h2>Algunas problemáticas que arca tierra busca resolver son:</h2>
+        <ul>
+            <li>Contaminación de agua y suelo.</li>
+            <li>Crecimiento de la mancha urbana en la zona chinampera.</li>
+            <li>Baja productividad agrícola en las chinampas.</li>
+            <li>Falta de acceso a mercados, tecnología y métodos de agricultura sostenible, que a su vez provoca una escasez de oferta de productos agroecológicos.</li>
+            <li>Renovación generacional y abandono de las chinampas y el campo en general.</li>
+        </ul>
+        
+        <!-- H2 TRAZABILIDAD EXACTO DEL MD -->
+        <h2>¿Qué es la trazabilidad?</h2>
+        
+        <img src="images/nosotros/trazabilidad_alimentos.jpg" 
+             alt="Proceso de trazabilidad desde el cultivo hasta el consumidor" 
+             class="section-image">
+        
+        <p>Se define como la capacidad de rastrear los procesos de algún alimento o producto para saber cuándo, dónde, cómo y por quién fue producido.</p>
+        
+        <p>¿Quién produce lo que comemos? ¿Cómo y de dónde proviene? ¿En qué estado se encuentra el suelo que los sustenta? ¿Cuánto ganan las personas que los producen? ¿Cómo viven las plantas y los animales que nos permiten que estos lleguen a nuestros hogares?</p>
+        
+        <p>Podemos alimentarnos regenerando el medio ambiente: en arca tierra brindamos la oportunidad de optar por la salud y la vida con ingredientes que vienen directamente de la agricultura campesina y que generan una cadena de beneficio para todos los eslabones del cultivo al consumo.</p>
+        
+        <img src="images/nosotros/agricultura_regenerativa.jpg" 
+             alt="Técnicas de agricultura regenerativa en suelos ricos en minerales" 
+             class="section-image">
+        
+        <p>Los alimentos cultivados de manera agroecológica son sinónimo de calidad: crecen en un suelo rico en minerales y nutrientes. Esto les aporta mayores valores nutricionales lo cual es benéfico para la salud, además de que evitan la contaminación de los entornos bioculturales y responden a necesidades actuales para un presente y futuro sostenible.</p>
+        
+        <!-- H2 AGRICULTURA CAMPESINA EXACTO DEL MD -->
+        <h2>¿Qué es la agricultura campesina?</h2>
+        
+        <img src="images/nosotros/agricultura_campesina_huasca.jpg" 
+             alt="Agricultores de la Cooperativa de Productores Naturales de Huasca trabajando en cultivos" 
+             class="section-image">
+        
+        <p>La agroecología es una agricultura basada en los procesos naturales, la sabiduría tradicional de las personas que la llevan a cabo y la incorporación de técnicas que producen alimentos al mismo tiempo que se cuida tanto el entorno biológico como el humano y social.</p>
+        
+        <p>De ahí que nuestro foco sea la agricultura campesina y estos son algunos datos que comparte la iniciativa Valor al Campesino al respecto de estas prácticas:</p>
+        
+        <!-- STATS GRID -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">68%</span>
+                <p class="stat-label">de las unidades de producción del país</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">40%</span>
+                <p class="stat-label">de la producción agropecuaria nacional</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">3 de 4</span>
+                <p class="stat-label">empleos en el campo</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">30%</span>
+                <p class="stat-label">de alimentos básicos importados</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">60%</span>
+                <p class="stat-label">de población rural en pobreza</p>
+            </div>
+        </div>
+        
+        <ul>
+            <li>La agricultura campesina ocupa el 68 % de las unidades de producción del país y es responsable del 40 % de la producción agropecuaria nacional.</li>
+            <li>Genera tres de cada cuatro empleos en el campo.</li>
+            <li>Importamos el 30 % de los alimentos básicos que consumimos.</li>
+            <li>60% de la población rural vive en situación de pobreza.</li>
+            <li>La mayor parte de los recursos naturales del planeta son resguardados por comunidades campesinas y pueblos originarios.</li>
+        </ul>
+        
+        <!-- H2 DIFERENCIADORES EXACTO DEL MD -->
+        <h2>¿Qué hace a arca tierra diferente?</h2>
+        
+        <ul>
+            <li>Aseguramos la trazabilidad de los alimentos mexicanos que ofrecemos.</li>
+            <li>Incentivamos la producción local y los valores de la agricultura campesina.</li>
+            <li>Promovemos la reactivación de la actividad agrícola y en las chinampas en la CDMX.</li>
+            <li>Velamos por los intereses de nuestra plantilla laboral y de personas agricultoras, campesinas y productoras.</li>
+            <li>Difundimos la cultura alimentaria mexicana a través de experiencias gastronómicas con cocineros y cocineras del país comprometidos con valores afines a nuestro proyecto.</li>
+        </ul>
+        
+        <!-- H2 CONTACTO EXACTO DEL MD -->
+        <h2>¿Quieres saber más sobre las chinampas y la agricultura campesina? Contáctanos.</h2>
+        
+        <div class="cta-container">
+            <button type="button" class="cta-btn">Contactar Arca Tierra</button>
+            <button type="button" class="cta-btn">Ver Nuestras Canastas</button>
+            <button type="button" class="cta-btn">Conocer Experiencias</button>
+        </div>
+    </main>
+
+    <script>
+        // Smooth scroll para navegación interna
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Animación de entrada para las imágenes
+        const images = document.querySelectorAll('.section-image');
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        entry.target.style.transition = 'all 0.6s ease-out';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                    
+                    imageObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        images.forEach(img => {
+            imageObserver.observe(img);
+        });
+        
+        // Animación para stat cards
+        const statCards = document.querySelectorAll('.stat-card');
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '0';
+                        entry.target.style.transform = 'translateY(30px)';
+                        
+                        setTimeout(() => {
+                            entry.target.style.transition = 'all 0.6s ease-out';
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }, 100);
+                    
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        statCards.forEach(card => {
+            card.style.opacity = '0';
+            statsObserver.observe(card);
+        });
+    </script>
+    <!-- Antes de cerrar </body> -->
+    <script src="js/header-unified.js"></script>
+    </body>
+</html>

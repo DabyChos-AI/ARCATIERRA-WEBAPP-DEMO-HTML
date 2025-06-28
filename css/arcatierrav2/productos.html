@@ -1,0 +1,2414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArcaTierra - Tienda de Productos Orgánicos</title>
+    <style>
+        /* Variables de colores OFICIALES del manual de implementación */
+        :root {
+            /* TERRACOTA (40% - Elementos de Acción) */
+            --arcatierra-terracota-principal: #B15543;
+            --arcatierra-terracota-medio: #BA6440;
+            --arcatierra-terracota-oscuro: #975543;
+            
+            /* VERDE (30% - Información/Educación) */
+            --arcatierra-verde-tipografia: #3A4741;
+            --arcatierra-verde-principal: #33503E;
+            --arcatierra-verde-claro: #475A52;
+            --arcatierra-verde-suave: #748880;
+            
+            /* NEUTROS (30% - Fondos/Base) */
+            --arcatierra-crema-principal: #E3DBCB;
+            --arcatierra-beige-medio: #CCBB9A;
+            --arcatierra-beige-calido: #DCB584;
+            --arcatierra-gris-azulado: #C1CCCE;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--arcatierra-verde-tipografia);
+            background-color: var(--arcatierra-crema-principal);
+        }
+
+        /* Logo placeholder styles */
+        .logo-placeholder {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--arcatierra-verde-tipografia);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .search-icon, .heart-icon, .user-icon {
+            cursor: pointer;
+            color: var(--arcatierra-verde-tipografia);
+            transition: color 0.3s;
+        }
+
+        .search-icon:hover, .heart-icon:hover, .user-icon:hover {
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .cart-button {
+            position: relative;
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .cart-button:hover {
+            background-color: var(--arcatierra-terracota-medio);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(177, 85, 67, 0.3);
+        }
+
+        .cart-count {
+            background-color: white;
+            color: var(--arcatierra-terracota-principal);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: white;
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+            z-index: 10;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.5rem;
+            border-radius: 30px;
+            border: none;
+            font-size: 1rem;
+            color: var(--arcatierra-verde-tipografia);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .search-bar::placeholder {
+            color: var(--arcatierra-verde-suave);
+        }
+
+        .search-button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: var(--arcatierra-terracota-medio);
+        }
+
+        /* Categories Navigation */
+        .categories-nav {
+            background-color: white;
+            padding: 1rem 5%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .categories-scroll {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--arcatierra-beige-medio) transparent;
+        }
+
+        .category-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            background-color: var(--arcatierra-beige-medio);
+            color: var(--arcatierra-verde-tipografia);
+            border-radius: 25px;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .category-pill:hover {
+            background-color: var(--arcatierra-beige-calido);
+            transform: translateY(-2px);
+        }
+
+        .category-pill.active {
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+        }
+
+        /* Main Layout */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Filters Sidebar */
+        .filters-sidebar {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: fit-content;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .filter-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--arcatierra-gris-azulado);
+        }
+
+        .filter-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .filter-title {
+            font-weight: 600;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            color: var(--arcatierra-verde-tipografia);
+            transition: color 0.3s;
+        }
+
+        .filter-option:hover {
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .filter-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--arcatierra-terracota-principal);
+            cursor: pointer;
+        }
+
+        .filter-option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .price-range {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .price-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--arcatierra-gris-azulado);
+            border-radius: 8px;
+            color: var(--arcatierra-verde-tipografia);
+        }
+
+        .price-slider {
+            width: 100%;
+            margin-top: 1rem;
+            accent-color: var(--arcatierra-terracota-principal);
+        }
+
+        /* Products Grid */
+        .products-section {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .results-count {
+            color: var(--arcatierra-verde-suave);
+            font-size: 0.95rem;
+        }
+
+        .sort-options {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-button {
+            background: none;
+            border: 1px solid var(--arcatierra-gris-azulado);
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--arcatierra-verde-suave);
+            transition: all 0.3s;
+        }
+
+        .view-button.active {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            border-color: var(--arcatierra-terracota-principal);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Product Card */
+        .product-card {
+            background-color: var(--arcatierra-beige-medio);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            background-color: var(--arcatierra-beige-calido);
+        }
+
+        .product-badges {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .badge-new {
+            background-color: var(--arcatierra-verde-principal);
+        }
+
+        .badge-discount {
+            background-color: var(--arcatierra-terracota-principal);
+        }
+
+        .badge-organic {
+            background-color: var(--arcatierra-verde-claro);
+        }
+
+        .wishlist-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .wishlist-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .wishlist-button.active {
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .producer-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--arcatierra-verde-suave);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .product-description {
+            color: var(--arcatierra-verde-tipografia);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .product-metrics {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+            color: var(--arcatierra-verde-suave);
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .price-unit {
+            font-size: 0.9rem;
+            color: var(--arcatierra-verde-suave);
+            font-weight: normal;
+        }
+
+        .add-to-cart {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--arcatierra-terracota-medio);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(177, 85, 67, 0.3);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+
+        .pagination button {
+            background-color: white;
+            border: 1px solid var(--arcatierra-gris-azulado);
+            color: var(--arcatierra-verde-tipografia);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination button:hover {
+            background-color: var(--arcatierra-beige-medio);
+            border-color: var(--arcatierra-beige-calido);
+        }
+
+        .pagination button.active {
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            border-color: var(--arcatierra-terracota-principal);
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--arcatierra-gris-azulado);
+        }
+
+        .cart-item-img-placeholder {
+            width: 80px;
+            height: 80px;
+            background-color: var(--arcatierra-beige-medio);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--arcatierra-verde-suave);
+            font-size: 0.8rem;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-producer {
+            font-size: 0.85rem;
+            color: var(--arcatierra-verde-suave);
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .quantity-button {
+            background-color: var(--arcatierra-beige-medio);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .quantity-button:hover {
+            background-color: var(--arcatierra-beige-calido);
+        }
+
+        .cart-item-price {
+            text-align: right;
+        }
+
+        .cart-footer {
+            background-color: var(--arcatierra-beige-medio);
+            padding: 1.5rem;
+        }
+
+        .cart-subtotal {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--arcatierra-verde-tipografia);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--arcatierra-gris-azulado);
+        }
+
+        .cart-impact {
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .impact-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .impact-metrics {
+            display: flex;
+            justify-content: space-around;
+            gap: 1rem;
+        }
+
+        .impact-item {
+            text-align: center;
+        }
+
+        .impact-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .impact-label {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+
+        .checkout-button {
+            width: 100%;
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checkout-button:hover {
+            background-color: var(--arcatierra-terracota-medio);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(177, 85, 67, 0.3);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 3000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+        }
+
+        /* Product Detail Modal */
+        .product-detail-modal .modal-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .product-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 400px;
+            background-color: var(--arcatierra-beige-medio);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--arcatierra-verde-suave);
+            font-size: 1.2rem;
+        }
+
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 80px;
+            background-color: var(--arcatierra-beige-medio);
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--arcatierra-verde-suave);
+            font-size: 0.7rem;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            opacity: 1;
+            border-color: var(--arcatierra-terracota-principal);
+        }
+
+        .product-detail-info {
+            padding: 1rem 0;
+        }
+
+        .product-detail-header {
+            margin-bottom: 2rem;
+        }
+
+        .product-detail-name {
+            font-size: 2rem;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .product-detail-producer {
+            color: var(--arcatierra-verde-suave);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .product-detail-price {
+            font-size: 2.5rem;
+            color: var(--arcatierra-terracota-principal);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .product-tabs {
+            display: flex;
+            gap: 1rem;
+            border-bottom: 2px solid var(--arcatierra-gris-azulado);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 0.75rem 1rem;
+            color: var(--arcatierra-verde-suave);
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .tab-button:hover {
+            color: var(--arcatierra-verde-principal);
+        }
+
+        .tab-button.active {
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--arcatierra-terracota-principal);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .nutrition-table {
+            background-color: var(--arcatierra-beige-medio);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .nutrition-table table {
+            width: 100%;
+        }
+
+        .nutrition-table td {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--arcatierra-gris-azulado);
+        }
+
+        .nutrition-table td:last-child {
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .producer-story {
+            background-color: var(--arcatierra-crema-principal);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .producer-story-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--arcatierra-beige-medio);
+            float: left;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--arcatierra-verde-suave);
+        }
+
+        .add-to-cart-detail {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background-color: var(--arcatierra-beige-medio);
+            border-radius: 25px;
+            padding: 0 1rem;
+        }
+
+        .quantity-selector button {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            color: var(--arcatierra-verde-principal);
+            padding: 0.5rem;
+        }
+
+        .quantity-selector span {
+            font-weight: 600;
+            min-width: 2rem;
+            text-align: center;
+        }
+
+        /* Subscription Modal */
+        .subscription-modal .modal-content {
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .subscription-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .subscription-title {
+            font-size: 2rem;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 0.5rem;
+        }
+
+        .subscription-subtitle {
+            color: var(--arcatierra-verde-suave);
+            font-size: 1.1rem;
+        }
+
+        .subscription-plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .plan-card {
+            background-color: var(--arcatierra-beige-medio);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .plan-card.selected {
+            border-color: var(--arcatierra-terracota-principal);
+            background-color: var(--arcatierra-beige-calido);
+        }
+
+        .plan-card.popular {
+            border-color: var(--arcatierra-verde-principal);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .plan-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .plan-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-description {
+            color: var(--arcatierra-verde-tipografia);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .plan-price {
+            font-size: 2rem;
+            color: var(--arcatierra-terracota-principal);
+            font-weight: 700;
+        }
+
+        .plan-frequency {
+            color: var(--arcatierra-verde-suave);
+            font-size: 0.9rem;
+        }
+
+        .subscription-features {
+            background-color: var(--arcatierra-crema-principal);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .features-title {
+            font-weight: 600;
+            color: var(--arcatierra-verde-principal);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--arcatierra-verde-tipografia);
+        }
+
+        .feature-icon {
+            color: var(--arcatierra-verde-principal);
+            font-weight: bold;
+        }
+
+        .delivery-options {
+            margin-bottom: 2rem;
+        }
+
+        .delivery-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: white;
+            border: 2px solid var(--arcatierra-gris-azulado);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .delivery-option:hover {
+            border-color: var(--arcatierra-beige-calido);
+        }
+
+        .delivery-option.selected {
+            border-color: var(--arcatierra-terracota-principal);
+            background-color: rgba(177, 85, 67, 0.05);
+        }
+
+        .subscribe-button {
+            width: 100%;
+            background-color: var(--arcatierra-terracota-principal);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .subscribe-button:hover {
+            background-color: var(--arcatierra-terracota-medio);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(177, 85, 67, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--arcatierra-verde-principal);
+            color: white;
+            padding: 3rem 5%;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            color: var(--arcatierra-terracota-principal);
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--arcatierra-beige-calido);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-section a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+
+            .product-detail-modal .modal-content {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 1rem;
+            }
+        }
+
+        /* User cart section y cart icon styles */
+        .user-cart-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cart-icon {
+            position: relative;
+        }
+
+        .cart-icon a {
+            color: var(--arcatierra-verde-tipografia);
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .cart-icon:hover a {
+            color: var(--arcatierra-terracota-principal);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--arcatierra-terracota-principal);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 0.5rem;
+            }
+
+            .menu-toggle span {
+                display: block;
+                width: 25px;
+                height: 3px;
+                background: var(--arcatierra-verde-tipografia);
+                margin: 5px 0;
+                transition: 0.3s;
+            }
+        }
+
+        /* Overlay para cerrar el carrito */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1999;
+            display: none;
+        }
+
+        .cart-sidebar.open ~ .cart-overlay {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="mainHeader">
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logos/logo-arcatierra.png" alt="Arca Tierra - Agricultura regenerativa" style="max-width: 150px; height: auto;">
+                </a>
+            </div>
+            
+            <button class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="tienda.html">Tienda</a></li>
+                <li><a href="experiencias.html">Experiencias</a></li>
+                <li><a href="xochimilco.html">Xochimilco</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="medios-prensa.html">Medios</a></li>
+                <li><a href="recetas.html">Recetas</a></li>
+            </ul>
+            
+            <div class="user-cart-section">
+                <div id="userSection">
+                    <!-- Se llena dinámicamente -->
+                </div>
+                <div class="cart-icon">
+                    <a href="#" onclick="toggleCart(); return false;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 2L3 6v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-6-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M12 2v20"></path>
+                        </svg>
+                        <span id="cartBadge" class="cart-badge">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Tienda de Productos Orgánicos</h1>
+        <p>Directo de las chinampas a tu mesa. Productos 100% orgánicos cultivados<br>con amor y respeto por la tierra.</p>
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Busca productos frescos, productores..." id="searchInput">
+            <button class="search-button" onclick="searchProducts()">🔍</button>
+        </div>
+    </section>
+
+    <!-- Categories Navigation -->
+    <div class="categories-nav">
+        <div class="categories-scroll">
+            <a href="#" class="category-pill active">Todos</a>
+            <a href="#" class="category-pill">🥬 Verduras</a>
+            <a href="#" class="category-pill">🍓 Frutas</a>
+            <a href="#" class="category-pill">🌾 Despensa</a>
+            <a href="#" class="category-pill">🥛 Lácteos</a>
+            <a href="#" class="category-pill">🥚 Proteínas</a>
+            <a href="#" class="category-pill">🥤 Bebidas</a>
+            <a href="#" class="category-pill">🍬 Dulces</a>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Filters Sidebar -->
+        <aside class="filters-sidebar">
+            <div class="filter-section">
+                <h3 class="filter-title">
+                    Categorías
+                    <span>⌄</span>
+                </h3>
+                <div class="filter-option">
+                    <input type="checkbox" id="cat-verduras">
+                    <label for="cat-verduras">🥬 Verduras</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="cat-frutas">
+                    <label for="cat-frutas">🍓 Frutas</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="cat-despensa">
+                    <label for="cat-despensa">🌾 Despensa</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="cat-lacteos">
+                    <label for="cat-lacteos">🥛 Lácteos</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="cat-proteinas">
+                    <label for="cat-proteinas">🥚 Proteínas</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="cat-bebidas">
+                    <label for="cat-bebidas">🥤 Bebidas</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="cat-dulces">
+                    <label for="cat-dulces">🍬 Dulces</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="cat-otros">
+                    <label for="cat-otros">📦 Otros</label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3 class="filter-title">
+                    Precio
+                    <span>⌄</span>
+                </h3>
+                <div class="price-range">
+                    <input type="number" class="price-input" placeholder="0" id="minPrice">
+                    <span>-</span>
+                    <input type="number" class="price-input" placeholder="500" id="maxPrice">
+                </div>
+                <input type="range" class="price-slider" min="0" max="500" value="250">
+            </div>
+
+            <div class="filter-section">
+                <h3 class="filter-title">
+                    Productores
+                    <span>⌄</span>
+                </h3>
+                <div class="filter-option">
+                    <input type="checkbox" id="prod-roberto">
+                    <label for="prod-roberto">Don Roberto Hernández</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="prod-garcia">
+                    <label for="prod-garcia">Familia García</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="prod-flores">
+                    <label for="prod-flores">Cooperativa Las Flores</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="prod-abejas">
+                    <label for="prod-abejas">Apiario Las Abejas Felices</label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3 class="filter-title">
+                    Certificaciones
+                    <span>⌄</span>
+                </h3>
+                <div class="filter-option">
+                    <input type="checkbox" id="cert-organico">
+                    <label for="cert-organico">Orgánico certificado</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="cert-justo">
+                    <label for="cert-justo">Comercio justo</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="cert-gluten">
+                    <label for="cert-gluten">Sin gluten</label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Products Section -->
+        <section class="products-section">
+            <div class="products-header">
+                <span class="results-count">665 productos encontrados</span>
+                <div class="sort-options">
+                    <select style="padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--arcatierra-gris-azulado);">
+                        <option>Más relevantes</option>
+                        <option>Precio: menor a mayor</option>
+                        <option>Precio: mayor a menor</option>
+                        <option>Más nuevos</option>
+                    </select>
+                    <div class="view-toggle">
+                        <button class="view-button active">⚏</button>
+                        <button class="view-button">☰</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Productos dinámicos aquí -->
+            </div>
+
+            <div class="pagination">
+                <button>←</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>...</button>
+                <button>67</button>
+                <button>→</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Mi Carrito (<span id="cartItemsCount">0</span> productos)</h2>
+            <button class="cart-close" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Items del carrito dinámicos -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-subtotal">
+                <span>Subtotal</span>
+                <span>$<span id="cartSubtotal">0.00</span></span>
+            </div>
+            <div class="cart-subtotal">
+                <span>Envío</span>
+                <span id="cartShipping">Gratis</span>
+            </div>
+            <div class="cart-total">
+                <span>Total</span>
+                <span>$<span id="cartTotal">0.00</span> MXN</span>
+            </div>
+            <div class="cart-impact">
+                <p class="impact-title">🌍 Tu impacto positivo</p>
+                <div class="impact-metrics">
+                    <div class="impact-item">
+                        <span class="impact-value" id="co2Saved">0</span>
+                        <span class="impact-label">kg CO₂ ahorrados</span>
+                    </div>
+                    <div class="impact-item">
+                        <span class="impact-value" id="waterSaved">0</span>
+                        <span class="impact-label">litros de agua</span>
+                    </div>
+                    <div class="impact-item">
+                        <span class="impact-value" id="plasticSaved">0</span>
+                        <span class="impact-label">g plástico evitado</span>
+                    </div>
+                </div>
+            </div>
+            <button class="checkout-button" onclick="proceedToCheckout()">
+                Proceder al pago
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal product-detail-modal" id="productModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('productModal')">×</button>
+            <div class="product-gallery">
+                <div class="main-image" id="modalMainImage">Imagen Principal</div>
+                <div class="thumbnail-grid" id="thumbnailGrid">
+                    <!-- Thumbnails dinámicos -->
+                </div>
+            </div>
+            <div class="product-detail-info">
+                <div class="product-detail-header">
+                    <h2 class="product-detail-name" id="modalProductName"></h2>
+                    <div class="product-detail-producer" id="modalProducer">
+                        📍 <span></span>
+                    </div>
+                    <div class="product-detail-price">
+                        $<span id="modalPrice"></span> <span style="font-size: 0.9rem; font-weight: normal;"><span id="modalUnit"></span></span>
+                    </div>
+                    <div class="product-metrics">
+                        <span class="metric">🌿 <span id="modalCO2"></span> kg CO₂</span>
+                        <span class="metric">💧 <span id="modalWater"></span>L agua</span>
+                        <span class="metric">♻️ <span id="modalPlastic"></span>g plástico evitado</span>
+                    </div>
+                </div>
+
+                <div class="product-tabs">
+                    <button class="tab-button active" onclick="switchTab('description')">Descripción</button>
+                    <button class="tab-button" onclick="switchTab('nutrition')">Información Nutricional</button>
+                    <button class="tab-button" onclick="switchTab('producer')">El Productor</button>
+                </div>
+
+                <div class="tab-content active" id="descriptionTab">
+                    <p id="modalDescription"></p>
+                    <h4 style="margin-top: 1.5rem; margin-bottom: 1rem;">Beneficios</h4>
+                    <ul style="color: var(--arcatierra-verde-tipografia); line-height: 1.8;">
+                        <li>100% orgánico certificado</li>
+                        <li>Cultivado sin pesticidas ni químicos</li>
+                        <li>Cosechado en su punto óptimo de maduración</li>
+                        <li>Directo del productor a tu mesa</li>
+                    </ul>
+                </div>
+
+                <div class="tab-content" id="nutritionTab">
+                    <div class="nutrition-table">
+                        <h4 style="margin-bottom: 1rem;">Información Nutricional</h4>
+                        <p style="font-size: 0.9rem; color: var(--arcatierra-verde-suave); margin-bottom: 1rem;">Por 100g</p>
+                        <table>
+                            <tr>
+                                <td>Calorías</td>
+                                <td><span id="modalCalories">45</span> kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Proteínas</td>
+                                <td><span id="modalProtein">2.5</span>g</td>
+                            </tr>
+                            <tr>
+                                <td>Carbohidratos</td>
+                                <td><span id="modalCarbs">8.2</span>g</td>
+                            </tr>
+                            <tr>
+                                <td>Fibra</td>
+                                <td><span id="modalFiber">3.1</span>g</td>
+                            </tr>
+                            <tr>
+                                <td>Vitamina C</td>
+                                <td><span id="modalVitaminC">85</span>% VD</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="producerTab">
+                    <div class="producer-story">
+                        <div class="producer-story-img">Foto</div>
+                        <h4 id="modalProducerName"></h4>
+                        <p id="modalProducerStory">
+                            Tercera generación de agricultores en Xochimilco. 
+                            La familia ha cultivado estas tierras por más de 80 años, 
+                            preservando las técnicas ancestrales de las chinampas mientras 
+                            integran prácticas modernas de agricultura orgánica.
+                        </p>
+                        <p style="margin-top: 1rem; clear: both;">
+                            <strong>Certificaciones:</strong> Orgánico México, Comercio Justo
+                        </p>
+                    </div>
+                </div>
+
+                <div class="add-to-cart-detail">
+                    <div class="quantity-selector">
+                        <button onclick="updateModalQuantity(-1)">-</button>
+                        <span id="modalQuantity">1</span>
+                        <button onclick="updateModalQuantity(1)">+</button>
+                    </div>
+                    <button class="add-to-cart" style="flex: 1;" onclick="addToCartFromModal()">
+                        🛒 Agregar al carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscription Modal -->
+    <div class="modal subscription-modal" id="subscriptionModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('subscriptionModal')">×</button>
+            <div class="subscription-header">
+                <h2 class="subscription-title">🌱 Suscríbete a Canastas Semanales</h2>
+                <p class="subscription-subtitle">Recibe productos frescos y orgánicos cada semana</p>
+            </div>
+
+            <div class="subscription-plans">
+                <div class="plan-card" onclick="selectPlan(this, 'individual')">
+                    <div class="plan-icon">👤</div>
+                    <h3 class="plan-name">Individual</h3>
+                    <p class="plan-description">Perfecto para 1 persona</p>
+                    <div class="plan-price">$350</div>
+                    <div class="plan-frequency">por semana</div>
+                </div>
+
+                <div class="plan-card popular" onclick="selectPlan(this, 'pareja')">
+                    <span class="popular-badge">MÁS POPULAR</span>
+                    <div class="plan-icon">👫</div>
+                    <h3 class="plan-name">Pareja</h3>
+                    <p class="plan-description">Ideal para 2 personas</p>
+                    <div class="plan-price">$650</div>
+                    <div class="plan-frequency">por semana</div>
+                </div>
+
+                <div class="plan-card" onclick="selectPlan(this, 'familiar')">
+                    <div class="plan-icon">👨‍👩‍👧‍👦</div>
+                    <h3 class="plan-name">Familiar</h3>
+                    <p class="plan-description">Para 3-4 personas</p>
+                    <div class="plan-price">$950</div>
+                    <div class="plan-frequency">por semana</div>
+                </div>
+
+                <div class="plan-card" onclick="selectPlan(this, 'premium')">
+                    <div class="plan-icon">⭐</div>
+                    <h3 class="plan-name">Premium</h3>
+                    <p class="plan-description">Productos gourmet incluidos</p>
+                    <div class="plan-price">$1,350</div>
+                    <div class="plan-frequency">por semana</div>
+                </div>
+            </div>
+
+            <div class="subscription-features">
+                <h4 class="features-title">✨ Incluye en todas las suscripciones</h4>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <span>Productos 100% orgánicos</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <span>Entrega gratis a domicilio</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <span>Cancela o pausa cuando quieras</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <span>Recetas semanales incluidas</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <span>Productos de temporada</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <span>Apoyas a productores locales</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="delivery-options">
+                <h4 style="margin-bottom: 1rem;">📅 Frecuencia de entrega</h4>
+                <div class="delivery-option selected" onclick="selectDelivery(this, 'weekly')">
+                    <input type="radio" name="frequency" value="weekly" checked>
+                    <label>Semanal (todos los martes)</label>
+                </div>
+                <div class="delivery-option" onclick="selectDelivery(this, 'biweekly')">
+                    <input type="radio" name="frequency" value="biweekly">
+                    <label>Quincenal (cada 2 semanas)</label>
+                </div>
+                <div class="delivery-option" onclick="selectDelivery(this, 'monthly')">
+                    <input type="radio" name="frequency" value="monthly">
+                    <label>Mensual (primer martes del mes)</label>
+                </div>
+            </div>
+
+            <button class="subscribe-button" onclick="processSubscription()">
+                Comenzar suscripción
+            </button>
+
+            <p style="text-align: center; margin-top: 1rem; color: var(--arcatierra-verde-suave); font-size: 0.9rem;">
+                Sin compromisos • Cancela cuando quieras • Primera entrega con 10% de descuento
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <img src="images/logos/logo-arcatierra-white.png" alt="ArcaTierra" class="footer-logo" style="max-width: 150px;">
+                <p>Conectando las chinampas de Xochimilco con tu mesa.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">📘</a>
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="WhatsApp">💬</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="tienda.html">Tienda</a></li>
+                    <li><a href="experiencias.html">Experiencias</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Productos</h3>
+                <ul>
+                    <li><a href="#canastas">Canastas Semanales</a></li>
+                    <li><a href="#vegetales">Vegetales Frescos</a></li>
+                    <li><a href="#frutas">Frutas de Temporada</a></li>
+                    <li><a href="#hierbas">Hierbas Aromáticas</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul>
+                    <li>📧 info@arcatierra.com</li>
+                    <li>📱 +52 55 1234 5678</li>
+                    <li>📍 Xochimilco, CDMX</li>
+                    <li>🕒 Lun-Vie: 9:00-18:00</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 ArcaTierra. Todos los derechos reservados.</p>
+            <p>Hecho con 💚 en las chinampas de Xochimilco</p>
+        </div>
+    </footer>
+
+    <!-- Overlay para el carrito -->
+    <div class="cart-overlay" onclick="toggleCart()"></div>
+
+    <script>
+        // Función para generar placeholders de imágenes
+        function generatePlaceholder(text, width = 200, height = 200) {
+            const colors = ['#B15543', '#33503E', '#CCBB9A', '#748880'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}'%3E%3Crect width='${width}' height='${height}' fill='${encodeURIComponent(color)}'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-family='Arial' font-size='14'%3E${text}%3C/text%3E%3C/svg%3E`;
+        }
+
+        // Datos de productos con placeholders
+        const products = [
+            {
+                id: 1,
+                name: "Fresas Orgánicas",
+                producer: "Familia García, Milpa Alta, CDMX",
+                price: 85.00,
+                unit: "kg",
+                description: "Fresas dulces y aromáticas, cultivadas sin químicos. Perfectas para postres o disfrutar solas.",
+                image: generatePlaceholder("Fresas", 280, 200),
+                badges: ["Nuevo", "100% Orgánico"],
+                discount: true,
+                co2: 3.5,
+                water: 70,
+                plastic: 25,
+                available: true
+            },
+            {
+                id: 2,
+                name: "Espinacas Baby Orgánicas",
+                producer: "Cooperativa Las Flores, Tlalpan, CDMX",
+                price: 40.00,
+                unit: "manojo",
+                description: "Espinacas baby tiernas, perfectas para ensaladas y smoothies verdes.",
+                image: generatePlaceholder("Espinacas", 280, 200),
+                badges: ["Nuevo", "100% Orgánico"],
+                discount: false,
+                co2: 2,
+                water: 35,
+                plastic: 0,
+                available: true
+            },
+            {
+                id: 3,
+                name: "Jitomate Cherry Orgánico",
+                producer: "Don Roberto Hernández, Xochimilco, CDMX",
+                price: 45.00,
+                unit: "kg",
+                description: "Jitomates cherry dulces y jugosos, cultivados sin pesticidas en las chinampas.",
+                image: generatePlaceholder("Jitomate", 280, 200),
+                badges: ["Nuevo", "100% Orgánico"],
+                discount: true,
+                co2: 2.5,
+                water: 50,
+                plastic: 0,
+                available: true
+            },
+            {
+                id: 4,
+                name: "Lechuga Romana Hidropónica",
+                producer: "Familia García, Milpa Alta, CDMX",
+                price: 35.00,
+                unit: "pieza",
+                description: "Lechuga romana crujiente y fresca, cultivada en sistemas hidropónicos.",
+                image: generatePlaceholder("Lechuga", 280, 200),
+                badges: ["100% Orgánico"],
+                discount: false,
+                co2: 1.5,
+                water: 25,
+                plastic: 0,
+                available: true
+            },
+            {
+                id: 5,
+                name: "Zanahoria Orgánica",
+                producer: "Don Roberto Hernández, Xochimilco, CDMX",
+                price: 30.00,
+                unit: "kg",
+                description: "Zanahorias dulces y crujientes, cultivadas en suelo rico en nutrientes.",
+                image: generatePlaceholder("Zanahoria", 280, 200),
+                badges: ["100% Orgánico"],
+                discount: false,
+                co2: 1.5,
+                water: 25,
+                plastic: 0,
+                available: true
+            },
+            {
+                id: 6,
+                name: "Miel de Abeja Multiflora",
+                producer: "Apiario Las Abejas Felices, Xochimilco, CDMX",
+                price: 180.00,
+                unit: "500g",
+                description: "Miel 100% pura de abejas libres en las chinampas de Xochimilco.",
+                image: generatePlaceholder("Miel", 280, 200),
+                badges: ["Destacado", "100% Orgánico"],
+                discount: false,
+                co2: 5,
+                water: 100,
+                plastic: 0,
+                available: true
+            },
+            {
+                id: 7,
+                name: "Quelites Mixtos",
+                producer: "Cooperativa Las Flores, Tlalpan, CDMX",
+                price: 25.00,
+                unit: "manojo",
+                description: "Mezcla de quelites tradicionales: quintonil, verdolaga y romeritos.",
+                image: generatePlaceholder("Quelites", 280, 200),
+                badges: ["100% Orgánico"],
+                discount: false,
+                co2: 1,
+                water: 15,
+                plastic: 0,
+                available: true
+            },
+            {
+                id: 8,
+                name: "Cilantro Orgánico",
+                producer: "Don Roberto Hernández, Xochimilco, CDMX",
+                price: 15.00,
+                unit: "manojo",
+                description: "Cilantro fresco y aromático, esencial en la cocina mexicana.",
+                image: generatePlaceholder("Cilantro", 280, 200),
+                badges: ["100% Orgánico"],
+                discount: false,
+                co2: 0.5,
+                water: 10,
+                plastic: 0,
+                available: true
+            },
+            {
+                id: 9,
+                name: "Calabaza Italiana",
+                producer: "Familia García, Milpa Alta, CDMX",
+                price: 28.00,
+                unit: "kg",
+                description: "Calabazas italianas tiernas, perfectas para sopas y guisados.",
+                image: generatePlaceholder("Calabaza", 280, 200),
+                badges: ["100% Orgánico"],
+                discount: false,
+                co2: 2,
+                water: 40,
+                plastic: 0,
+                available: true
+            }
+        ];
+
+        // Carrito
+        let cart = JSON.parse(localStorage.getItem('arcaTierraCart')) || [];
+
+        // Inicializar productos
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = products.map(product => `
+                <div class="product-card" onclick="openProductModal(${product.id})">
+                    <div class="product-badges">
+                        ${product.badges.map(badge => `
+                            <span class="badge ${badge === 'Nuevo' ? 'badge-new' : badge === 'Destacado' ? 'badge-discount' : 'badge-organic'}">${badge}</span>
+                        `).join('')}
+                    </div>
+                    <button class="wishlist-button" onclick="toggleWishlist(${product.id}, event)">
+                        ❤️
+                    </button>
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <div class="producer-info">
+                            📍 ${product.producer}
+                        </div>
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-metrics">
+                            <span class="metric">🌿 ${product.co2} kg CO₂</span>
+                            <span class="metric">💧 ${product.water}L agua</span>
+                        </div>
+                        <div class="product-footer">
+                            <div>
+                                <span class="product-price">$${product.price.toFixed(2)}</span>
+                                <span class="price-unit">/ ${product.unit}</span>
+                            </div>
+                            <button class="add-to-cart" onclick="addToCart(${product.id}, event)">
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Funciones del carrito
+        function addToCart(productId, event) {
+            if (event) event.stopPropagation();
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+
+            updateCart();
+            showToast(`${product.name} agregado al carrito`);
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCart();
+                }
+            }
+        }
+
+        function updateCart() {
+            localStorage.setItem('arcaTierraCart', JSON.stringify(cart));
+            
+            // Actualizar contador
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartBadge').textContent = totalItems;
+            document.getElementById('cartItemsCount').textContent = totalItems;
+
+            // Actualizar items del carrito
+            const cartItemsContainer = document.getElementById('cartItems');
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p style="text-align: center; color: var(--arcatierra-verde-suave);">Tu carrito está vacío</p>';
+            } else {
+                cartItemsContainer.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div class="cart-item-img-placeholder">${item.name.substring(0, 3)}</div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-producer">Por ${item.producer.split(',')[0]}</div>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-button" onclick="updateQuantity(${item.id}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button class="quantity-button" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="cart-item-price">
+                            <div>$${(item.price * item.quantity).toFixed(2)}</div>
+                            <button onclick="removeFromCart(${item.id})" style="background: none; border: none; color: var(--arcatierra-terracota-principal); cursor: pointer; margin-top: 0.5rem;">🗑️</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Actualizar totales
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal >= 250 ? 0 : 69;
+            const total = subtotal + shipping;
+
+            document.getElementById('cartSubtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('cartShipping').textContent = shipping === 0 ? 'Gratis' : `$${shipping.toFixed(2)}`;
+            document.getElementById('cartTotal').textContent = total.toFixed(2);
+
+            // Actualizar métricas de impacto
+            const totalCO2 = cart.reduce((sum, item) => sum + (item.co2 * item.quantity), 0);
+            const totalWater = cart.reduce((sum, item) => sum + (item.water * item.quantity), 0);
+            const totalPlastic = cart.reduce((sum, item) => sum + (item.plastic * item.quantity), 0);
+
+            document.getElementById('co2Saved').textContent = totalCO2.toFixed(1);
+            document.getElementById('waterSaved').textContent = totalWater;
+            document.getElementById('plasticSaved').textContent = totalPlastic;
+        }
+
+        function toggleCart() {
+            const cartSidebar = document.getElementById('cartSidebar');
+            cartSidebar.classList.toggle('open');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function toggleWishlist(productId, event) {
+            if (event) event.stopPropagation();
+            showToast('Agregado a favoritos');
+        }
+
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm) ||
+                product.producer.toLowerCase().includes(searchTerm)
+            );
+            
+            // Aquí renderizarías los productos filtrados
+            showToast(`${filtered.length} productos encontrados`);
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                showToast('Tu carrito está vacío');
+                return;
+            }
+            // Aquí redirigirías al checkout
+            window.location.href = 'checkout.html';
+        }
+
+        // Funciones de Modal
+        let currentProduct = null;
+        let modalQuantity = 1;
+
+        function openProductModal(productId) {
+            currentProduct = products.find(p => p.id === productId);
+            if (!currentProduct) return;
+
+            // Llenar información del modal
+            document.getElementById('modalMainImage').textContent = currentProduct.name;
+            document.getElementById('modalProductName').textContent = currentProduct.name;
+            document.getElementById('modalProducer').querySelector('span').textContent = currentProduct.producer;
+            document.getElementById('modalPrice').textContent = currentProduct.price.toFixed(2);
+            document.getElementById('modalUnit').textContent = `/ ${currentProduct.unit}`;
+            document.getElementById('modalDescription').textContent = currentProduct.description;
+            document.getElementById('modalCO2').textContent = currentProduct.co2;
+            document.getElementById('modalWater').textContent = currentProduct.water;
+            document.getElementById('modalPlastic').textContent = currentProduct.plastic;
+            document.getElementById('modalProducerName').textContent = currentProduct.producer.split(',')[0];
+
+            // Generar thumbnails (simulación)
+            const thumbnailGrid = document.getElementById('thumbnailGrid');
+            thumbnailGrid.innerHTML = `
+                <div class="thumbnail active" onclick="changeMainImage(this)">Vista 1</div>
+                <div class="thumbnail" onclick="changeMainImage(this)">Vista 2</div>
+                <div class="thumbnail" onclick="changeMainImage(this)">Vista 3</div>
+                <div class="thumbnail" onclick="changeMainImage(this)">Vista 4</div>
+            `;
+
+            // Reset quantity
+            modalQuantity = 1;
+            document.getElementById('modalQuantity').textContent = modalQuantity;
+
+            // Mostrar modal
+            const modal = document.getElementById('productModal');
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('show');
+            setTimeout(() => {
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        function changeMainImage(thumb) {
+            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+            document.getElementById('modalMainImage').textContent = thumb.textContent;
+        }
+
+        function switchTab(tabName) {
+            // Cambiar botones activos
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Cambiar contenido activo
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tabName}Tab`).classList.add('active');
+        }
+
+        function updateModalQuantity(change) {
+            modalQuantity += change;
+            if (modalQuantity < 1) modalQuantity = 1;
+            document.getElementById('modalQuantity').textContent = modalQuantity;
+        }
+
+        function addToCartFromModal() {
+            if (!currentProduct) return;
+
+            const existingItem = cart.find(item => item.id === currentProduct.id);
+            if (existingItem) {
+                existingItem.quantity += modalQuantity;
+            } else {
+                cart.push({
+                    ...currentProduct,
+                    quantity: modalQuantity
+                });
+            }
+
+            updateCart();
+            showToast(`${modalQuantity} ${currentProduct.name} agregado(s) al carrito`);
+            closeModal('productModal');
+        }
+
+        // Funciones de Suscripción
+        let selectedPlan = null;
+        let selectedFrequency = 'weekly';
+
+        function openSubscriptionModal() {
+            const modal = document.getElementById('subscriptionModal');
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function selectPlan(element, plan) {
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedPlan = plan;
+        }
+
+        function selectDelivery(element, frequency) {
+            document.querySelectorAll('.delivery-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+            selectedFrequency = frequency;
+        }
+
+        function processSubscription() {
+            if (!selectedPlan) {
+                showToast('Por favor selecciona un plan');
+                return;
+            }
+
+            showToast(`¡Suscripción ${selectedPlan} activada! Frecuencia: ${selectedFrequency}`);
+            closeModal('subscriptionModal');
+            
+            // Aquí procesarías la suscripción
+            setTimeout(() => {
+                window.location.href = 'checkout.html';
+            }, 1500);
+        }
+
+        // Cerrar modales con click fuera
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Inicializar
+        renderProducts();
+        updateCart();
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchProducts();
+            }
+        });
+
+        // Agregar botón de suscripción al header (después de cargar la página)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Agregar botón de suscripción en el nav
+            const navActions = document.querySelector('.nav-actions');
+            const subscriptionButton = document.createElement('button');
+            subscriptionButton.innerHTML = '🌱 Suscripciones';
+            subscriptionButton.style.cssText = `
+                background-color: var(--arcatierra-verde-principal);
+                color: white;
+                border: none;
+                padding: 0.5rem 1rem;
+                border-radius: 20px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s;
+                margin-right: 1rem;
+            `;
+            subscriptionButton.onmouseover = function() {
+                this.style.backgroundColor = 'var(--arcatierra-verde-claro)';
+                this.style.transform = 'translateY(-2px)';
+            };
+            subscriptionButton.onmouseout = function() {
+                this.style.backgroundColor = 'var(--arcatierra-verde-principal)';
+                this.style.transform = 'translateY(0)';
+            };
+            subscriptionButton.onclick = openSubscriptionModal;
+            navActions.insertBefore(subscriptionButton, navActions.firstChild);
+        });
+    </script>
+</body>
+</html>
